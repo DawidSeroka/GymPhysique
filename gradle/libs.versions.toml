@@ -6,7 +6,7 @@ androidxActivity = "1.6.1" # https://developer.android.com/jetpack/androidx/rele
 androidxAppCompat = "1.6.1" # https://developer.android.com/jetpack/androidx/releases/appcompat
 androidxBrowser = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/browser
 androidxComposeBom = "2023.01.00" # https://maven.google.com/web/index.html?q=compose-bom#androidx.compose:compose-bom
-androidxComposeCompiler = "1.4.3" # https://developer.android.com/jetpack/androidx/releases/compose
+androidxComposeCompiler = "1.4.1" # https://developer.android.com/jetpack/androidx/releases/compose
 androidxComposeRuntimeTracing = "1.0.0-alpha03" # https://developer.android.com/jetpack/androidx/releases/compose-runtime
 androidxCore = "1.9.0" # https://developer.android.com/jetpack/androidx/releases/core
 androidxCoreSplashscreen = "1.0.0" # https://developer.android.com/jetpack/androidx/releases/core
@@ -32,11 +32,11 @@ androidxHiltNavigationCompose = "1.0.0" # https://developer.android.com/jetpack/
 hiltExt = "1.0.0" # https://developer.android.com/jetpack/androidx/releases/hilt
 jacoco = "0.8.8" # https://github.com/jacoco/jacoco/releases
 junit4 = "4.13.2"
-kotlin = "1.8.10" # https://github.com/JetBrains/kotlin/releases
+kotlin = "1.8.0" # https://github.com/JetBrains/kotlin/releases
 kotlinxCoroutines = "1.6.4" # https://github.com/Kotlin/kotlinx.coroutines/releases
 kotlinxDatetime = "0.4.0" # https://github.com/Kotlin/kotlinx-datetime/releases
 kotlinxSerializationJson = "1.5.0" # https://github.com/Kotlin/kotlinx.serialization/releases
-ksp = "1.8.20-RC-1.0.9" # https://github.com/google/ksp/releases
+ksp = "1.8.0-1.0.9" # https://github.com/google/ksp/releases
 lint = "30.3.1" # https://maven.google.com/web/index.html?q=com.android.tools.lint#com.android.tools.lint:lint-api
 room = "2.5.0" # https://developer.android.com/jetpack/androidx/releases/room
 secrets = "2.0.1" # https://github.com/google/secrets-gradle-plugin/releases
@@ -45,6 +45,9 @@ junit5 = "5.9.2" # https://github.com/junit-team/junit5/releases
 junit5-plugin = "1.8.2.1" # https://github.com/mannodermaus/android-junit5/releases
 timber = "5.0.1" # https://github.com/JakeWharton/timber/releases
 ktlint = "11.3.1" # https://github.com/JLLeitschuh/ktlint-gradle/releases
+protobuf = "3.21.12"
+protobufPlugin = "0.8.19"
+
 
 [libraries]
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
@@ -115,10 +118,15 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
+protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
@@ -131,3 +139,4 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
