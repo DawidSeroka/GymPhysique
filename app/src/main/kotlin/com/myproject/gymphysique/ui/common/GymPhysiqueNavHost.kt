@@ -5,20 +5,25 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.myproject.gymphysique.ui.greeting.greetingGraph
-import com.myproject.gymphysique.ui.greeting.greetingRoute
+import com.myproject.gymphysique.feature.home.homeNavigationRoute
+import com.myproject.gymphysique.feature.home.homeScreen
+import com.myproject.gymphysique.feature.home.navigateToHome
+import com.myproject.gymphysique.feature.settings.navigation.navigateToSettings
+import com.myproject.gymphysique.feature.settings.navigation.settingsScreen
 
 @Composable
 fun GymPhysiqueNavHost(
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    startDestination: String = homeNavigationRoute
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = greetingRoute,
+        startDestination = startDestination,
     ) {
-        greetingGraph()
+        homeScreen(onButtonClick = {navController.navigateToSettings()})
+        settingsScreen(onButtonClick = { navController.navigateToHome() })
     }
 }
 
