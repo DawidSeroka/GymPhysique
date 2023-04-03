@@ -1,4 +1,4 @@
-package com.myproject.gymphysique.ui
+package com.myproject.gymphysique.navigation
 
 import com.myproject.gymphysique.core.designsystem.icon.GPIcons
 import com.myproject.gymphysique.core.designsystem.icon.Icon
@@ -16,13 +16,14 @@ enum class TopLevelDestination(
         selectedIcon = DrawableResourceIcon(
             GPIcons.Home
         ),
-        iconTextId = homeR.string.Home,
-        titleTextId = homeR.string.Home
+        iconTextId = homeR.string.home,
+        titleTextId = homeR.string.home
     ),
     SETTINGS(
         selectedIcon = DrawableResourceIcon(
             GPIcons.Settings
         ),
-        iconTextId = settingsR.string.
+        iconTextId = settingsR.string.settings,
+        titleTextId = settingsR.string.settings
     )
 }

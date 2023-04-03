@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Home" translatable="false">Home</string>
+    <string name="home" translatable="false">Home</string>
 </resources>

@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.view.WindowCompat
-import com.myproject.gymphysique.ui.common.GymPhysiqueNavHost
-import com.myproject.gymphysique.ui.common.theme.GymPhysiqueTheme
+import com.example.compose.AppTheme
+import com.myproject.gymphysique.ui.GPApp
+import com.myproject.gymphysique.ui.common.GPNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -14,6 +15,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
-        setContent { GymPhysiqueTheme { GymPhysiqueNavHost() } }
+        setContent {
+            AppTheme {
+                GPApp()
+            }
+        }
     }
 }

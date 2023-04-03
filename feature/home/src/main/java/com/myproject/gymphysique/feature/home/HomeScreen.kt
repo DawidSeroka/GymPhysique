@@ -28,7 +28,7 @@ fun HomeScreen(onClick: () -> Unit) {
     ){
         Text(text = "HomeScreen")
         Button(onClick = onClick) {
-            Text(stringResource(id = R.string.Home))
+            Text(stringResource(id = R.string.home))
         }
     }
 }

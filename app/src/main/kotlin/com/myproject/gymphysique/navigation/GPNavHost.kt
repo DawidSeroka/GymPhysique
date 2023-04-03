@@ -12,9 +12,9 @@ import com.myproject.gymphysique.feature.settings.navigation.navigateToSettings
 import com.myproject.gymphysique.feature.settings.navigation.settingsScreen
 
 @Composable
-fun GymPhysiqueNavHost(
+fun GPNavHost(
+    navController: NavHostController,
     modifier: Modifier = Modifier,
-    navController: NavHostController = rememberNavController(),
     startDestination: String = homeNavigationRoute
 ) {
     NavHost(
@@ -22,8 +22,9 @@ fun GymPhysiqueNavHost(
         navController = navController,
         startDestination = startDestination,
     ) {
-        homeScreen(onButtonClick = {navController.navigateToSettings()})
+        homeScreen(onButtonClick = { navController.navigateToSettings() })
         settingsScreen(onButtonClick = { navController.navigateToHome() })
     }
 }
+
 

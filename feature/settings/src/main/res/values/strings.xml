@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Home">Home</string>
-    <string name="Hdome">Home</string>
+    <string name="settings">Settings</string>
 </resources>
