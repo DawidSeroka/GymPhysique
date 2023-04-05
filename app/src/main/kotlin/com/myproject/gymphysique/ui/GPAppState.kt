@@ -12,6 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
+import com.myproject.gymphysique.feature.charts.navigation.navigateToCharts
 import com.myproject.gymphysique.feature.home.homeNavigationRoute
 import com.myproject.gymphysique.feature.home.navigateToHome
 import com.myproject.gymphysique.feature.settings.navigation.navigateToSettings
@@ -64,6 +65,7 @@ class GPAppState(
             when (topLevelDestination) {
                 TopLevelDestination.HOME -> navController.navigateToHome(topLevelNavOptions)
                 TopLevelDestination.SETTINGS -> navController.navigateToSettings(topLevelNavOptions)
+                TopLevelDestination.CHARTS -> navController.navigateToCharts(topLevelNavOptions)
             }
         }
     }

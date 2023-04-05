@@ -44,6 +44,7 @@ android {
 dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:settings"))
+    implementation(project(":feature:charts"))
 
     implementation(project(":core:designsystem"))
 

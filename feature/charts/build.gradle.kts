@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.myproject.gymphysique.feature.measurements"
+    namespace = "com.myproject.gymphysique.feature.charts"
 }
 
 dependencies {

@@ -1,10 +1,10 @@
 package com.myproject.gymphysique.ui
 
-import androidx.compose.foundation.layout.Row
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -12,18 +12,21 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import com.myproject.gymphysique.core.designsystem.component.GPNavigationBar
 import com.myproject.gymphysique.core.designsystem.component.GpNavigationBarItem
 import com.myproject.gymphysique.core.designsystem.icon.Icon.DrawableResourceIcon
 import com.myproject.gymphysique.core.designsystem.icon.Icon.ImageVectorIcon
+import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.navigation.TopLevelDestination
-import com.myproject.gymphysique.ui.common.GPNavHost
+import com.myproject.gymphysique.navigation.GPNavHost
+import timber.log.Timber
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,12 +42,15 @@ fun GPApp(
                 destinations = appState.topLevelDestinations,
                 onNavigateToDestination = appState::navigateToTopLevelDestination,
                 currentDestination = appState.currentDestination,
-                modifier = Modifier.testTag("GPBottomBar")
             )
         }
-    ) { padding ->
-        Row(Modifier.padding(padding)) {
-            GPNavHost(appState.navController)
+    ) { innerPadding ->
+        Box {
+            //TODO() Temporary workAround for wrong paddingValues
+            GPNavHost(
+                modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding() - 48.dp),
+                navController = appState.navController
+            )
         }
     }
 }
@@ -65,8 +71,7 @@ private fun GPBottomBar(
                 selected = selected,
                 onClick = { onNavigateToDestination(destination) },
                 icon = {
-                    val icon = destination.selectedIcon
-                    when (icon) {
+                    when (val icon = destination.selectedIcon) {
                         is DrawableResourceIcon -> Icon(
                             painter = painterResource(id = icon.id),
                             contentDescription = null
@@ -87,3 +92,12 @@ private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: TopLev
     this?.hierarchy?.any {
         it.route?.contains(destination.name, true) ?: false
     } ?: false
+
+@Preview(name = "Light mode")
+@Preview(name = "Dark mode",uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
+@Composable
+private fun GPAppPreview(){
+    GymPhysiqueTheme {
+        GPApp()
+    }
+}
