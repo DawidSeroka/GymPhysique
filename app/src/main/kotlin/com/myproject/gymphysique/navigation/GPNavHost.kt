@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 import com.myproject.gymphysique.feature.home.homeNavigationRoute
 import com.myproject.gymphysique.feature.home.homeScreen
 import com.myproject.gymphysique.feature.home.navigateToHome
