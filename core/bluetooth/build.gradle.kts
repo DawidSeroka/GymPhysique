@@ -34,6 +34,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kable.android.ble)
