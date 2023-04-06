@@ -4,7 +4,7 @@ import com.myproject.gymphysique.core.designsystem.icon.GPIcons
 import com.myproject.gymphysique.core.designsystem.icon.Icon
 import com.myproject.gymphysique.core.designsystem.icon.Icon.DrawableResourceIcon
 import com.myproject.gymphysique.core.designsystem.icon.Icon.ImageVectorIcon
-import com.myproject.gymphysique.feature.measurements.R as homeR
+import com.myproject.gymphysique.feature.measurements.R as measureR
 import com.myproject.gymphysique.feature.settings.R as settingsR
 import com.myproject.gymphysique.feature.charts.R as chartsR
 
@@ -13,12 +13,12 @@ enum class TopLevelDestination(
     val iconTextId: Int,
     val titleTextId: Int
 ) {
-    HOME(
-        selectedIcon = DrawableResourceIcon(
-            GPIcons.Home
+    MEASURE(
+        selectedIcon = ImageVectorIcon(
+            GPIcons.Measure
         ),
-        iconTextId = homeR.string.home,
-        titleTextId = homeR.string.home
+        iconTextId = measureR.string.measure,
+        titleTextId = measureR.string.measure
     ),
     CHARTS(
         selectedIcon = ImageVectorIcon(

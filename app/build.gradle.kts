@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:home"))
+    implementation(project(":feature:measure"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:charts"))
 
