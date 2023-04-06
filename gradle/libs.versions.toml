@@ -47,6 +47,7 @@ timber = "5.0.1" # https://github.com/JakeWharton/timber/releases
 ktlint = "11.3.1" # https://github.com/JLLeitschuh/ktlint-gradle/releases
 protobuf = "3.21.12"
 protobufPlugin = "0.8.19"
+kable = "0.22.0"
 
 
 [libraries]
@@ -110,6 +111,7 @@ junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 lint-api = { group = "com.android.tools.lint", name = "lint-api", version.ref = "lint" }
@@ -120,6 +122,7 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
+kable-android-ble = { group = "com.juul.kable", name = "core", version.ref = "kable"}
 
 
 # Dependencies of the included build-logic
