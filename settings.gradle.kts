@@ -12,11 +12,11 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven("https://jitpack.io")
     }
 }
 rootProject.name = "GymPhysique"
 include(":app")
-include(":core:domain")
 include(":core:data")
 include(":core:database")
 include(":core:datastore")
@@ -30,3 +30,4 @@ include(":feature:devices")
 include(":core:designsystem")
 include(":feature:charts")
 include(":core:bluetooth")
+include(":core:domain")

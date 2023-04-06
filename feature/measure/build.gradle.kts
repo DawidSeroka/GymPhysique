@@ -1,7 +1,7 @@
 plugins {
     id("android.feature")
+    id("android.library")
     id("android.library.compose")
-    id("android.library.jacoco")
 }
 
 android {
@@ -9,6 +9,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:bluetooth"))
     implementation(project(":core:designsystem"))
     implementation(libs.timber)
+    implementation(libs.kable.android.ble)
+    implementation(libs.composePermissionHandler.core)
+    implementation(libs.composePermissionHandler.utils)
 }

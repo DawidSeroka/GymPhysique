@@ -48,9 +48,12 @@ ktlint = "11.3.1" # https://github.com/JLLeitschuh/ktlint-gradle/releases
 protobuf = "3.21.12"
 protobufPlugin = "0.8.19"
 kable = "0.22.0"
+composePermissionHandler = "1.5.0-beta" # https://github.com/dawidraszka/compose-permission-handler
 
 
 [libraries]
+composePermissionHandler-core = { group = "com.github.dawidraszka.compose-permission-handler", name = "core", version.ref = "composePermissionHandler" }
+composePermissionHandler-utils = { group = "com.github.dawidraszka.compose-permission-handler", name = "utils", version.ref = "composePermissionHandler" }
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanist" }
 accompanist-testharness = { group = "com.google.accompanist", name = "accompanist-testharness", version.ref = "accompanist" }

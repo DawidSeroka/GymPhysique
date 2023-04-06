@@ -1,20 +1,15 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     id("android.library")
-    id("android.library.jacoco")
     id("android.hilt")
-    kotlin("kapt")
 }
 
 android {
-    namespace = "com.myproject.gymphysique.core.domain"
+    namespace = "com.myproject.gymphysqiue.core.domain"
 }
 
 dependencies {
-
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.datetime)
-
-    implementation(libs.hilt.android)
+    implementation(project(":core:bluetooth"))
+    implementation(project(":core:data"))
+    implementation(project(":core:model"))
+    implementation(project(":core:common"))
 }

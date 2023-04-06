@@ -1,4 +1,4 @@
-package com.myproject.gymphysique.core.domain
+package com.myproject.gymphysqiue.core.domain
 
 import org.junit.Test
 
