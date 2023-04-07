@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -32,27 +34,26 @@ import com.myproject.gymphysique.core.common.bluetoothPermissionList
 import com.myproject.gymphysique.core.designsystem.component.PermissionRationaleDialog
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
+import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
 import com.myproject.gymphysique.feature.measure.components.Devices
 import com.myproject.gymphysique.feature.measure.components.Measurement
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureScreenActions
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 internal fun MeasureRoute(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
     viewModel: MeasureViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
 
     MeasureScreen(
         uiState = uiState,
-        onClick = viewModel::onSearchDevicesClick,
         screenActions = MeasureScreenActions(
-            onSearchDevicesClick = viewModel::onSearchDevicesClick
+            onSearchDevicesClick = viewModel::onSearchDevicesClick,
+            onConnectDeviceClick = viewModel::onConnectDeviceClick
         )
     )
 }
@@ -62,13 +63,12 @@ internal fun MeasureRoute(
 private fun MeasureScreen(
     uiState: MeasureState,
     screenActions: MeasureScreenActions,
-    onClick: () -> Unit
 ) {
     val permissionHandlerHostState =
         PermissionHandlerHostState(permissionList = bluetoothPermissionList)
     PermissionHandlerHost(
         hostState = permissionHandlerHostState,
-        rationale ={ permissionRequest, dismissRequest ->
+        rationale = { permissionRequest, dismissRequest ->
             PermissionRationaleDialog(
                 onDialogClose = dismissRequest,
                 permissionRequest = permissionRequest
@@ -85,7 +85,9 @@ private fun MeasureScreen(
         }
     }
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) { Snackbar(it) }}
+    ) { paddingValues ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -94,8 +96,9 @@ private fun MeasureScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Devices(
-                advertisingStatus = uiState.advertisementStatus,
+                advertisingStatus = uiState.advertisingStatus,
                 advertisements = uiState.advertisements,
+                scanTime = uiState.scanTime,
                 onSearchDeviceClick = {
                     coroutineScope.launch {
                         snackbarHostState.currentSnackbarData?.dismiss()
@@ -121,9 +124,18 @@ private fun MeasureScreen(
                         }
                     }
 
+                },
+                onConnectDeviceClick = {
+                    if (uiState.advertisingStatus == AdvertisingStatus.STOPPED)
+                        screenActions.onConnectDeviceClick(it)
+                    else
+                        coroutineScope.launch {
+                            snackbarHostState.currentSnackbarData?.dismiss()
+                            snackbarHostState.showSnackbar("Wait until device scan is completed")
+                        }
                 })
             Spacer(modifier = Modifier.padding(Dimens.margin))
-            Measurement(uiState.advertisements)
+            Measurement()
         }
 
 
@@ -143,9 +155,8 @@ private fun HomePreview() {
     GymPhysiqueTheme() {
         MeasureScreen(
             uiState = MeasureState(),
-            onClick = {},
             screenActions = MeasureScreenActions(
-                {}
+                {}, {}
             )
         )
     }

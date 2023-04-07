@@ -25,7 +25,6 @@ import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 
 @Composable
 internal fun Measurement(
-    advertisements: List<Advertisement>
 ) {
 
     Column(
@@ -55,7 +54,7 @@ internal fun Measurement(
                                 Alignment.Center
                             )
                         ) {
-                            Text(text = "Add measurement")
+                            Text(text = "Save")
                         }
                     }
                 }
@@ -69,7 +68,6 @@ internal fun Measurement(
 private fun MeasurementPreview() {
     GymPhysiqueTheme {
         Measurement(
-            advertisements = emptyList()
         )
     }
 }

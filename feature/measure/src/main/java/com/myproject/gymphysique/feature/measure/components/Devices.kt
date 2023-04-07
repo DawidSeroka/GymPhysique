@@ -5,9 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
@@ -24,17 +27,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.juul.kable.Advertisement
+import com.myproject.gymphysique.core.common.animations.bounceClick
 import com.myproject.gymphysique.core.designsystem.icon.GPIcons
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
-import com.myproject.gymphysique.feature.measure.AdvertisementStatus
-import timber.log.Timber
+import com.myproject.gymphysique.core.utils.adaptiveHeight
+import com.myproject.gymphysique.feature.measure.AdvertisingStatus
+import com.myproject.gymphysique.feature.measure.PeripheralState
 
 @Composable
 internal fun Devices(
-    advertisingStatus: AdvertisementStatus,
-    advertisements: List<Advertisement>,
-    onSearchDeviceClick: () -> Unit
+    advertisingStatus: AdvertisingStatus,
+    advertisements: List<Pair<PeripheralState, Advertisement>>,
+    scanTime: Int?,
+    onSearchDeviceClick: () -> Unit,
+    onConnectDeviceClick: (Advertisement) -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -47,10 +54,14 @@ internal fun Devices(
         ) {
             Text(text = "Devices", style = MaterialTheme.typography.titleLarge)
             when (advertisingStatus) {
-                AdvertisementStatus.ADVERTISING -> CircularProgressIndicator()
-                AdvertisementStatus.CONNECTING -> TODO()
-                AdvertisementStatus.CONNECTED -> TODO()
-                AdvertisementStatus.STOPPED -> Icon(
+                AdvertisingStatus.ADVERTISING -> {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(text = "$scanTime")
+                        Spacer(modifier = Modifier.width(2.dp))
+                        CircularProgressIndicator(modifier = Modifier.size(20.dp))
+                    }
+                }
+                AdvertisingStatus.STOPPED -> Icon(
                     modifier = Modifier.clickable {
                         onSearchDeviceClick()
                     },
@@ -59,11 +70,11 @@ internal fun Devices(
             }
 
         }
+        Spacer(modifier = Modifier.height(Dimens.halfMargin))
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
-                .padding(top = Dimens.halfMargin),
+                .adaptiveHeight(advertisements.size),
             border = BorderStroke(width = 1.dp, color = Color.Black)
         ) {
             LazyColumn {
@@ -80,12 +91,18 @@ internal fun Devices(
                     }
                 else
                     items(advertisements) { advertisement ->
-                        AdvertisementItem(advertisement = advertisement)
-                        Divider(
-                            modifier = Modifier
-                                .height(1.dp)
-                                .padding(horizontal = Dimens.halfMargin)
+                        val isLastAdvertisement =
+                            advertisements.indexOf(advertisement) == advertisements.lastIndex
+                        AdvertisementItem(
+                            modifier = Modifier.bounceClick(),
+                            advertisement = advertisement,
+                            onConnectDeviceClick = onConnectDeviceClick
                         )
+                        if (!isLastAdvertisement)
+                            Divider(
+                                modifier = Modifier
+                                    .height(1.dp)
+                                    .padding(horizontal = Dimens.halfMargin))
                     }
             }
         }
@@ -97,9 +114,11 @@ internal fun Devices(
 private fun DevicesPreview() {
     GymPhysiqueTheme {
         Devices(
-            advertisingStatus = AdvertisementStatus.ADVERTISING,
+            advertisingStatus = AdvertisingStatus.ADVERTISING,
             advertisements = emptyList(),
-            onSearchDeviceClick = {}
+            scanTime = null,
+            onSearchDeviceClick = {},
+            onConnectDeviceClick = {}
         )
     }
 }

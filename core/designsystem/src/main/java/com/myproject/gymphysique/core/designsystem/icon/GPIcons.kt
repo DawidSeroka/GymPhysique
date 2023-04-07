@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddChart
 import androidx.compose.material.icons.rounded.BarChart
+import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.LinearScale
 import androidx.compose.material.icons.rounded.MultilineChart
@@ -20,6 +21,7 @@ object GPIcons {
     val Measure = Theme.AddChart
     val Settings = R.drawable.ic_settings
     val Search = Theme.Search
+    val Circle = Theme.Circle
 }
 /**
  * A sealed class to make dealing with [ImageVector] and [DrawableRes] icons easier.
