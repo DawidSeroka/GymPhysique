@@ -14,6 +14,6 @@ fun NavController.navigateToMeasure(navOptions: NavOptions? = null){
 
 fun NavGraphBuilder.measureGraph(onButtonClick: () -> Unit){
     composable(route = measureNavigationRoute){
-        MeasureRoute(onClick = onButtonClick)
+        MeasureRoute()
     }
 }

@@ -32,6 +32,7 @@ import com.dawidraszka.composepermissionhandler.utils.showAppSettingsSnackbar
 import com.myproject.gymphysique.core.common.RequestBluetoothEnable
 import com.myproject.gymphysique.core.common.bluetoothPermissionList
 import com.myproject.gymphysique.core.designsystem.component.PermissionRationaleDialog
+import com.myproject.gymphysique.core.designsystem.component.snackbar.SnackbarRounded
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
@@ -86,7 +87,11 @@ private fun MeasureScreen(
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) { Snackbar(it) }}
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState) { snackbarData ->
+                SnackbarRounded(snackbarData.visuals.message, onClick = { snackbarData.dismiss() })
+            }
+        }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -143,12 +148,8 @@ private fun MeasureScreen(
 
 }
 
-@Preview(name = "Light mode", showBackground = true, showSystemUi = true)
 @Preview(
-    name = "Dark mode",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    showBackground = true,
-    showSystemUi = true
+    name = "Dark mode"
 )
 @Composable
 private fun HomePreview() {
