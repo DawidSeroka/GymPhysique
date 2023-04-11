@@ -16,9 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.juul.kable.Advertisement
-import com.juul.kable.State
-import com.myproject.gymphysique.core.common.SupportedServices.SupportedService
-import com.myproject.gymphysique.core.common.toUUID
+import com.myproject.gymphysique.core.common.supportedServices.SupportedService
 import com.myproject.gymphysique.core.designsystem.icon.GPIcons
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.feature.measure.PeripheralState

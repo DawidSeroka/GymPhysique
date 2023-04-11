@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +34,8 @@ import com.myproject.gymphysique.core.model.Measurement
 internal fun Measurement(
     measurements: List<Measurement>,
     measureState: Boolean,
-    onStartMeasureClick: () -> Unit,
+    onSearchMeasurementsClick: () -> Unit,
+    onStopMeasureClick: () -> Unit,
     onSaveClick: () -> Unit
 ) {
 
@@ -50,8 +54,8 @@ internal fun Measurement(
             border = BorderStroke(width = 1.dp, color = Color.Black)
         ) {
             LazyColumn {
-                items(measurements){
-
+                items(measurements) { measurement ->
+                    MeasurementItem(measurement = measurement)
                 }
                 item {
                     Row(
@@ -61,11 +65,20 @@ internal fun Measurement(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Button(
-                            onClick = onStartMeasureClick,
+                            onClick = if (!measureState)
+                                onSearchMeasurementsClick
+                            else
+                                onStopMeasureClick,
                         ) {
-                            Text(text = "Start measure")
+                            if (!measureState)
+                                Text(text = "Start measure")
+                            else
+                                Text(text = "Stop measure")
                         }
-                        Button(onClick = onSaveClick) {
+                        Button(
+                            enabled = !measureState,
+                            onClick = onSaveClick
+                        ) {
                             Text(text = "Save")
                         }
                     }
@@ -76,10 +89,21 @@ internal fun Measurement(
 }
 
 @Composable
+fun MeasurementItem(measurement: Measurement) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = measurement.measurementType.fullName)
+        Text(text = "${measurement.measurementResult}")
+    }
+}
+
+@Composable
 @Preview
 private fun MeasurementPreview() {
     GymPhysiqueTheme {
         Measurement(
+            emptyList(), false, {}, {},{}
         )
     }
 }

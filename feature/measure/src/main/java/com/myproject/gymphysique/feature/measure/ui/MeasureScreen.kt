@@ -54,7 +54,10 @@ internal fun MeasureRoute(
         uiState = uiState,
         screenActions = MeasureScreenActions(
             onSearchDevicesClick = viewModel::onSearchDevicesClick,
-            onConnectDeviceClick = viewModel::onConnectDeviceClick
+            onConnectDeviceClick = viewModel::onConnectDeviceClick,
+            onSaveMeasurementsClick = viewModel::onSaveMeasurementClick,
+            onSearchMeasurementsClick = viewModel::onSearchMeasurementsClick,
+            onStopMeasureClick = viewModel::onStopMeasureClick
         )
     )
 }
@@ -140,7 +143,13 @@ private fun MeasureScreen(
                         }
                 })
             Spacer(modifier = Modifier.padding(Dimens.margin))
-            Measurement()
+            Measurement(
+                measurements = uiState.measurements,
+                measureState = uiState.measureState,
+                onSearchMeasurementsClick = { screenActions.onSearchMeasurementsClick() },
+                onStopMeasureClick = { screenActions.onStopMeasureClick() },
+                onSaveClick = { screenActions.onSaveMeasurementsClick() }
+            )
         }
 
 
@@ -157,7 +166,7 @@ private fun HomePreview() {
         MeasureScreen(
             uiState = MeasureState(),
             screenActions = MeasureScreenActions(
-                {}, {}
+                {}, {}, {}, {},{}
             )
         )
     }
