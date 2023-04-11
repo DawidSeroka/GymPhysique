@@ -4,8 +4,11 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -22,9 +25,14 @@ import androidx.compose.ui.unit.dp
 import com.juul.kable.Advertisement
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
+import com.myproject.gymphysique.core.model.Measurement
 
 @Composable
 internal fun Measurement(
+    measurements: List<Measurement>,
+    measureState: Boolean,
+    onStartMeasureClick: () -> Unit,
+    onSaveClick: () -> Unit
 ) {
 
     Column(
@@ -42,18 +50,22 @@ internal fun Measurement(
             border = BorderStroke(width = 1.dp, color = Color.Black)
         ) {
             LazyColumn {
+                items(measurements){
+
+                }
                 item {
-                    Box(
+                    Row(
                         modifier = Modifier
-                            .padding(bottom = Dimens.halfMargin)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Button(
-                            onClick = {},
-                            modifier = Modifier.align(
-                                Alignment.Center
-                            )
+                            onClick = onStartMeasureClick,
                         ) {
+                            Text(text = "Start measure")
+                        }
+                        Button(onClick = onSaveClick) {
                             Text(text = "Save")
                         }
                     }
