@@ -12,9 +12,8 @@ class BodyCompositionResponseDecode @Inject constructor(
     private val decodeImpedance: DecodeImpedance
 ) {
     private var lbmCoefficient: Double? = null
-    private var bmr: Double? = null
 
-    internal fun decodeBodyComposition(
+    fun decodeBodyComposition(
         byteArray: ByteArray,
         sex: String,
         height: Int,
@@ -66,7 +65,7 @@ class BodyCompositionResponseDecode @Inject constructor(
                         height = height,
                         )
                 )
-            } ?: Result.error(Exception(message = "ff"))
+            } ?: Result.error(Exception())
         } else {
             Result.loading(
                 ResponseData.BodyCompositionResponseData(
@@ -180,7 +179,7 @@ class BodyCompositionResponseDecode @Inject constructor(
     }
 
     // Get muscle mass
-    fun decodeMuscleMass(sex: String, weight: Double, fatPercentage: Double, boneMass: Double): Double {
+    private fun decodeMuscleMass(sex: String, weight: Double, fatPercentage: Double, boneMass: Double): Double {
         var muscleMass = weight - ((fatPercentage * 0.01) * weight) - boneMass
 
         // Capping muscle mass
@@ -194,7 +193,7 @@ class BodyCompositionResponseDecode @Inject constructor(
     }
 
     // Get Visceral Fat
-    fun decodeVisceralFat(sex: String, weight: Double, height: Int, age: Int): Double {
+    private fun decodeVisceralFat(sex: String, weight: Double, height: Int, age: Int): Double {
         val vfal: Double
         if (sex == "female") {
             if (weight > (13 - (height * 0.5)) * -1) {
@@ -219,14 +218,14 @@ class BodyCompositionResponseDecode @Inject constructor(
     }
 
     // Get BMI
-    fun decodeBMI(height: Int, weight: Double): Double {
+    private fun decodeBMI(height: Int, weight: Double): Double {
         val heightInMeter = height / 100 // converting height to meters
         val bmi = weight / (heightInMeter * heightInMeter)
         return decodeImpedance.checkValueOverflow(bmi, 10.0, 90.0)
     }
 
     // Get ideal weight
-    fun decodeIdealWeight(orig: Boolean = true, sex: String, height: Int): Double {
+    private fun decodeIdealWeight(orig: Boolean = true, sex: String, height: Int): Double {
         // Using mi fit algorithm (or holtek's one)
         if (orig && sex == "female") {
             return (height - 70) * 0.6

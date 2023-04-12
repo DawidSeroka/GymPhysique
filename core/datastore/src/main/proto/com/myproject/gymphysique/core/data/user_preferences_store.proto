@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "com.myproject.gymphysique.core.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+  optional string firstName = 1;
+  optional string surname = 2;
+  optional int32 age = 3;
+  optional int32 height = 4;
+  optional bool isMale = 5;
+}

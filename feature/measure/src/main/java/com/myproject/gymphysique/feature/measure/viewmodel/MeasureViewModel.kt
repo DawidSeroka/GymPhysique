@@ -13,12 +13,15 @@ import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.common.supportedServices.SupportedService
 import com.myproject.gymphysique.core.common.toHexString
+import com.myproject.gymphysique.core.decoder.ResponseData
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
 import com.myproject.gymphysique.feature.measure.PeripheralState
+import com.myproject.gymphysqiue.core.domain.DecodeDataUseCase
 import com.myproject.gymphysqiue.core.domain.ProvideAdvertisementsUseCase
 import com.myproject.gymphysqiue.core.domain.TimerUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,6 +29,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
@@ -34,7 +39,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class MeasureViewModel @Inject constructor(
     private val provideAdvertisementsUseCase: ProvideAdvertisementsUseCase,
-    private val timerUseCase: TimerUseCase
+    private val timerUseCase: TimerUseCase,
+    private val decodeDataUseCase: DecodeDataUseCase
 ) : ViewModel() {
     private lateinit var peripheral: Peripheral
     private lateinit var indicateJob: Job
@@ -117,7 +123,25 @@ internal class MeasureViewModel @Inject constructor(
                 indicateJob = viewModelScope.launch {
                     byteArray.collect {
                         val hex = it.toHexString()
-                        Timber.d("ByteArray = $hex")
+                        Timber.d("0 ByteArray = $hex")
+                        withContext(Dispatchers.IO) {
+                            val result = decodeDataUseCase(it)
+                            if (result.isLoading()) {
+                                val bd = result.value() as ResponseData.BodyCompositionResponseData
+                                Timber.d("1 Result =$bd")
+
+                                //TODO() //update ui
+                            } else if (result.isSuccess()) {
+                                val bd = result.value() as ResponseData.BodyCompositionResponseData
+                                Timber.d("2 Result =${bd.bmi} ${bd.bodyFatPercentage}")
+
+                                //TODO() //update ui and cancel job
+                            } else {
+                                val bd = result.value() as ResponseData.BodyCompositionResponseData
+                                Timber.d("3 Result =$bd")
+                                onStopMeasureClick()
+                            }
+                        }
                     }
                 }
             }
