@@ -39,6 +39,7 @@
             <option value="$PROJECT_DIR$/core/testing" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/accountSetup" />
             <option value="$PROJECT_DIR$/feature/charts" />
             <option value="$PROJECT_DIR$/feature/devices" />
             <option value="$PROJECT_DIR$/feature/measure" />

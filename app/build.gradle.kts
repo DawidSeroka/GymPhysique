@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("android.application")
     id("android.application.compose")
