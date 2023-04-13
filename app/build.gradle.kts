@@ -61,6 +61,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.timber)
+    implementation(libs.androidx.core.splashscreen)
 
     testImplementation(libs.junit5.api)
     testRuntimeOnly(libs.junit5.engine)

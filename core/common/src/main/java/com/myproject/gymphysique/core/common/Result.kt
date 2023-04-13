@@ -20,7 +20,7 @@ class Result<T> private constructor(
     fun isLoading(): Boolean = isLoading
 
     fun value(): T {
-        if (isSuccess()) return value!!
+        if (isSuccess() || isLoading()) return value!!
         else throw IllegalArgumentException("Data is null!")
     }
 

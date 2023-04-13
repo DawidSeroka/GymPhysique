@@ -53,7 +53,7 @@ internal class MeasureViewModel @Inject constructor(
     val state: StateFlow<MeasureState> = _state
 
     internal fun onSearchDevicesClick() {
-        val scanTime = 3L
+        val scanTime = 10L
         val scanInMillis = TimeUnit.SECONDS.toMillis(scanTime)
         viewModelScope.launch {
             _state.update { it.copy(advertisingStatus = AdvertisingStatus.ADVERTISING) }
@@ -177,14 +177,17 @@ internal class MeasureViewModel @Inject constructor(
                             )
                         )
                     )
-                    is State.Disconnected -> currentState.copy(
-                        advertisements = listOf(
-                            Pair(
-                                PeripheralState.DISCONNECTED,
-                                advertisement
+                    is State.Disconnected -> {
+                        onStopMeasureClick()
+                        currentState.copy(
+                            advertisements = listOf(
+                                Pair(
+                                    PeripheralState.DISCONNECTED,
+                                    advertisement
+                                )
                             )
                         )
-                    )
+                    }
                     else -> currentState.copy(
                         advertisements = listOf(
                             Pair(
