@@ -43,9 +43,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
+    implementation(project(":core:common"))
     implementation(project(":feature:measure"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:charts"))
+    implementation(project(":feature:accountSetup"))
 
     implementation(project(":core:designsystem"))
 
