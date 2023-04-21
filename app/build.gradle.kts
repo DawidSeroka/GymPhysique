@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("android.application")
     id("android.application.compose")
@@ -42,9 +43,13 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
+    implementation(project(":core:common"))
     implementation(project(":feature:measure"))
     implementation(project(":feature:settings"))
     implementation(project(":feature:charts"))
+    implementation(project(":feature:accountSetup"))
 
     implementation(project(":core:designsystem"))
 
@@ -61,6 +66,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.timber)
+    implementation(libs.androidx.core.splashscreen)
 
     testImplementation(libs.junit5.api)
     testRuntimeOnly(libs.junit5.engine)

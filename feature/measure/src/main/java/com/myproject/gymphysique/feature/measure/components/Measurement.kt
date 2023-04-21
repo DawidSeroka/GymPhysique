@@ -4,12 +4,18 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +28,15 @@ import androidx.compose.ui.unit.dp
 import com.juul.kable.Advertisement
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
+import com.myproject.gymphysique.core.model.Measurement
 
 @Composable
 internal fun Measurement(
-    advertisements: List<Advertisement>
+    measurements: List<Measurement>,
+    measureState: Boolean,
+    onSearchMeasurementsClick: () -> Unit,
+    onStopMeasureClick: () -> Unit,
+    onSaveClick: () -> Unit
 ) {
 
     Column(
@@ -43,19 +54,32 @@ internal fun Measurement(
             border = BorderStroke(width = 1.dp, color = Color.Black)
         ) {
             LazyColumn {
+                items(measurements) { measurement ->
+                    MeasurementItem(measurement = measurement)
+                }
                 item {
-                    Box(
+                    Row(
                         modifier = Modifier
-                            .padding(bottom = Dimens.halfMargin)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Button(
-                            onClick = {},
-                            modifier = Modifier.align(
-                                Alignment.Center
-                            )
+                            onClick = if (!measureState)
+                                onSearchMeasurementsClick
+                            else
+                                onStopMeasureClick,
                         ) {
-                            Text(text = "Add measurement")
+                            if (!measureState)
+                                Text(text = "Start measure")
+                            else
+                                Text(text = "Stop measure")
+                        }
+                        Button(
+                            enabled = !measureState,
+                            onClick = onSaveClick
+                        ) {
+                            Text(text = "Save")
                         }
                     }
                 }
@@ -65,11 +89,21 @@ internal fun Measurement(
 }
 
 @Composable
+fun MeasurementItem(measurement: Measurement) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = measurement.measurementType.fullName)
+        Text(text = "${measurement.measurementResult}")
+    }
+}
+
+@Composable
 @Preview
 private fun MeasurementPreview() {
     GymPhysiqueTheme {
         Measurement(
-            advertisements = emptyList()
+            emptyList(), false, {}, {},{}
         )
     }
 }

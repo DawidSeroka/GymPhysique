@@ -3,6 +3,7 @@ import com.google.protobuf.gradle.generateProtoTasks
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("android.library")
     id("android.library.jacoco")
@@ -36,6 +37,8 @@ protobuf {
 }
 
 dependencies {
+    implementation(project(":core:common"))
+    implementation(project(":core:model"))
 
     implementation(libs.kotlinx.coroutines.android)
 

@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(project(":core:bluetooth"))
+    implementation(project(":core:decoder"))
     implementation(project(":core:designsystem"))
     implementation(libs.timber)
     implementation(libs.kable.android.ble)
