@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,6 +46,14 @@ internal fun AccountSetupRoute(
     onNavigateToGpApp: () -> Unit
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
+    val navigateToGpApp = uiState.navigateToGpApp
+
+    LaunchedEffect(key1 = navigateToGpApp){
+        if (navigateToGpApp){
+            onNavigateToGpApp()
+            viewModel.resetNavigateToGpApp()
+        }
+    }
 
     AccountScreen(
         uiState = uiState,

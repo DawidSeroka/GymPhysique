@@ -9,5 +9,6 @@ internal data class AccountSetupState(
     val gender: Gender? = null,
     val height: TextFieldValue = TextFieldValue(),
     val age: TextFieldValue = TextFieldValue(),
-    val expanded: Boolean = false
+    val expanded: Boolean = false,
+    val navigateToGpApp: Boolean = false
 )

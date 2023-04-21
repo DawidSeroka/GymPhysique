@@ -35,7 +35,7 @@ internal class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState())
-        var startDestination by mutableStateOf(accountSetupNavigationRoute)
+
 
         //Update uiState
         lifecycleScope.launch {
@@ -52,24 +52,21 @@ internal class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition {
             when (uiState.downloadState) {
                 DownloadState.Loading -> true
-                is DownloadState.Success -> {
-                    val userData = (uiState.downloadState as DownloadState.Success).userData
-                    if (userData.firstName.isNotBlank()) {
-                        startDestination = gpAppNavigationRoute
-                    }
-                    false
-                }
+                DownloadState.Success -> false
             }
         }
 
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            GymPhysiqueTheme() {
-                GymPhysiqueNavHost(
-                    navController = rememberNavController(),
-                    startDestination = startDestination
-                )
+            uiState.startDestination?.let { startDestination ->
+                GymPhysiqueTheme() {
+                    GymPhysiqueNavHost(
+                        navController = rememberNavController(),
+                        startDestination = startDestination
+                    )
+                }
             }
         }
+
     }
 }
