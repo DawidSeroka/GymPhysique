@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import com.myproject.gymphysique.accountsetup.navigation.accountSetupGraph
 import com.myproject.gymphysique.feature.measure.measureNavigationRoute
 import com.myproject.gymphysique.ui.gpAppGraph
+import com.myproject.gymphysique.ui.navigateToGp
 
 @Composable
 fun GymPhysiqueNavHost(
@@ -20,6 +21,6 @@ fun GymPhysiqueNavHost(
         modifier = modifier
     ) {
         gpAppGraph()
-        accountSetupGraph()
+        accountSetupGraph(onNavigateToGpApp = { navController.navigateToGp() })
     }
 }

@@ -31,7 +31,7 @@ class UserRepository @Inject constructor(
     suspend fun setUserHeight(height: Int) {
         userPreferencesDataSource.setHeight(height)
     }
-    suspend fun setUserSex(isMale: Boolean) {
-        userPreferencesDataSource.setSex(isMale)
+    suspend fun setUserGender(gender: String) {
+        userPreferencesDataSource.setGender(gender)
     }
 }

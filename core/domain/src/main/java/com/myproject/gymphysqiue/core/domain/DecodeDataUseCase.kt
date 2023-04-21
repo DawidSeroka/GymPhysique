@@ -15,7 +15,6 @@ class DecodeDataUseCase @Inject constructor(
     override suspend fun invoke(byteArray: ByteArray): Result<ResponseData> {
         val user = userRepository.getUser()
         Timber.d("user = $user")
-        val sex = if(user.isMale) " male" else "female"
-        return bodyCompositionResponseDecode.decodeBodyComposition(byteArray,sex,user.height,user.age)
+        return bodyCompositionResponseDecode.decodeBodyComposition(byteArray,user.gender,user.height,user.age)
     }
 }

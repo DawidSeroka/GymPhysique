@@ -1,10 +1,14 @@
 package com.myproject.gymphysique.accountsetup.viewModel
 
+import androidx.compose.ui.text.input.TextFieldValue
+import com.myproject.gymphysique.core.common.Gender
+
 internal data class AccountSetupActions(
-    val onFirstNameChange: (String) -> Unit,
-    val onSurnameChange: (String) -> Unit,
-    val onSexChange: (Boolean) -> Unit,
-    val onHeightChange: (Int) -> Unit,
-    val onAgeChange: (Int) -> Unit,
+    val onFirstNameChange: (TextFieldValue) -> Unit,
+    val onSurnameChange: (TextFieldValue) -> Unit,
+    val onGenderSelected: (Gender) -> Unit,
+    val onHeightChange: (TextFieldValue) -> Unit,
+    val onAgeChange: (TextFieldValue) -> Unit,
+    val onDropdownSelected: () -> Unit,
     val onSaveUserClick: () -> Unit
 )

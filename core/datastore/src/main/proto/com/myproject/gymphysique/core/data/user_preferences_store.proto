@@ -8,5 +8,5 @@ message UserPreferences {
   optional string surname = 2;
   optional int32 age = 3;
   optional int32 height = 4;
-  optional bool isMale = 5;
+  optional string gender = 5;
 }

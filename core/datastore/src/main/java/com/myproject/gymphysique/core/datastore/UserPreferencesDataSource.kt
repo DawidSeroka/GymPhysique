@@ -2,6 +2,7 @@ package com.myproject.gymphysique.core.datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore
+import com.myproject.gymphysique.core.common.Gender
 import com.myproject.gymphysique.core.model.UserData
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -18,12 +19,12 @@ class UserPreferencesDataSource @Inject constructor(
                 surname = it.surname,
                 age = it.age,
                 height = it.height,
-                isMale = it.isMale
+                gender = it.gender
             )
         }
 
     suspend fun getUser(): UserData =
-        userData.firstOrNull() ?: UserData("Test", "Test", 18, 180, true)
+        userData.firstOrNull() ?: UserData("", "", 0, 0, "")
 
 
     suspend fun setUser(userData: UserData) {
@@ -34,7 +35,7 @@ class UserPreferencesDataSource @Inject constructor(
                     surname = userData.surname
                     age = userData.age
                     height = userData.height
-                    isMale = userData.isMale
+                    gender = userData.gender
                 }
             }
         } catch (ioException: IOException) {
@@ -90,11 +91,11 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun setSex(isMaleParam: Boolean) {
+    suspend fun setGender(genderParam: String) {
         try {
             userPreferences.updateData {
                 it.copy {
-                    isMale = isMaleParam
+                    gender = genderParam
                 }
             }
         } catch (ioException: IOException) {

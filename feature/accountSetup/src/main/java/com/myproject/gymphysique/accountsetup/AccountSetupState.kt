@@ -1,9 +1,13 @@
 package com.myproject.gymphysique.accountsetup
 
+import androidx.compose.ui.text.input.TextFieldValue
+import com.myproject.gymphysique.core.common.Gender
+
 internal data class AccountSetupState(
-    val firstName: String = "",
-    val surname: String = "",
-    val isMale: Boolean? = null,
-    val height: Int? = null,
-    val age: Int? = null
+    val firstName: TextFieldValue = TextFieldValue(),
+    val surname: TextFieldValue = TextFieldValue(),
+    val gender: Gender? = null,
+    val height: TextFieldValue = TextFieldValue(),
+    val age: TextFieldValue = TextFieldValue(),
+    val expanded: Boolean = false
 )

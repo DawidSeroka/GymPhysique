@@ -5,5 +5,5 @@ data class UserData(
     val surname: String,
     val age: Int,
     val height: Int,
-    val isMale: Boolean
+    val gender: String
 )
