@@ -17,8 +17,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
+import androidx.navigation.compose.composable
 import com.myproject.gymphysique.core.designsystem.component.GPNavigationBar
 import com.myproject.gymphysique.core.designsystem.component.GpNavigationBarItem
 import com.myproject.gymphysique.core.designsystem.icon.Icon.DrawableResourceIcon
@@ -28,6 +32,18 @@ import com.myproject.gymphysique.navigation.TopLevelDestination
 import com.myproject.gymphysique.navigation.GPNavHost
 import timber.log.Timber
 
+
+const val gpAppNavigationRoute = "gp_app_route"
+
+fun NavController.navigateToGp(navOptions: NavOptions? = null){
+    this.navigate(gpAppNavigationRoute, navOptions)
+}
+
+fun NavGraphBuilder.gpAppGraph(){
+    composable(route = gpAppNavigationRoute){
+        GPApp()
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

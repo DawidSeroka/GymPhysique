@@ -12,7 +12,7 @@ fun NavController.navigateToAccountSetup(navOptions: NavOptions? = null){
     this.navigate(accountSetupNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.measureGraph(){
+fun NavGraphBuilder.accountSetupGraph(){
     composable(route = accountSetupNavigationRoute){
         AccountSetupRoute()
     }

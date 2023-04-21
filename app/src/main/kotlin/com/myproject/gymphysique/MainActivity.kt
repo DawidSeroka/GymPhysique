@@ -13,10 +13,13 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.compose.rememberNavController
 import com.myproject.gymphysique.accountsetup.navigation.accountSetupNavigationRoute
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.feature.measure.measureNavigationRoute
+import com.myproject.gymphysique.navigation.nestedNavigation.GymPhysiqueNavHost
 import com.myproject.gymphysique.ui.GPApp
+import com.myproject.gymphysique.ui.gpAppNavigationRoute
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -51,8 +54,8 @@ internal class MainActivity : ComponentActivity() {
                 DownloadState.Loading -> true
                 is DownloadState.Success -> {
                     val userData = (uiState.downloadState as DownloadState.Success).userData
-                    if (userData.firstName.isNotBlank()){
-                        startDestination = measureNavigationRoute
+                    if (userData.firstName.isNotBlank()) {
+                        startDestination = gpAppNavigationRoute
                     }
                     false
                 }
@@ -62,7 +65,10 @@ internal class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             GymPhysiqueTheme() {
-                GPApp()
+                GymPhysiqueNavHost(
+                    navController = rememberNavController(),
+                    startDestination = startDestination
+                )
             }
         }
     }
