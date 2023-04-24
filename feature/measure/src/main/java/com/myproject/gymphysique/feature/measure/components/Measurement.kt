@@ -91,10 +91,14 @@ internal fun Measurement(
 @Composable
 fun MeasurementItem(measurement: Measurement) {
     Row(
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = measurement.measurementType.fullName)
-        Text(text = "${measurement.measurementResult}")
+        Row {
+            Text(text = "${measurement.measurementResult} ")
+            Text(text = measurement.measurementType.unit.unit)
+        }
     }
 }
 

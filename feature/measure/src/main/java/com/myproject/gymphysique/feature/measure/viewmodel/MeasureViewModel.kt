@@ -12,8 +12,9 @@ import com.juul.kable.peripheral
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.common.supportedServices.SupportedService
-import com.myproject.gymphysique.core.common.toHexString
 import com.myproject.gymphysique.core.decoder.ResponseData
+import com.myproject.gymphysique.core.model.Measurement
+import com.myproject.gymphysique.core.model.MeasurementType
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
 import com.myproject.gymphysique.feature.measure.PeripheralState
@@ -29,7 +30,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import timber.log.Timber
@@ -42,7 +42,7 @@ internal class MeasureViewModel @Inject constructor(
     private val timerUseCase: TimerUseCase,
     private val decodeDataUseCase: DecodeDataUseCase
 ) : ViewModel() {
-    private lateinit var peripheral: Peripheral
+    private var _peripheral: Peripheral? = null
     private lateinit var indicateJob: Job
 
     private val _state: MutableStateFlow<MeasureState> = MutableStateFlow(MeasureState())
@@ -92,7 +92,7 @@ internal class MeasureViewModel @Inject constructor(
     }
 
     internal fun onConnectDeviceClick(advertisement: Advertisement) {
-        peripheral = viewModelScope.peripheral(advertisement) {
+        _peripheral = viewModelScope.peripheral(advertisement) {
             logging {
                 level = Logging.Level.Events
                 data = Hex {
@@ -102,50 +102,130 @@ internal class MeasureViewModel @Inject constructor(
             }
         }
         viewModelScope.launch {
-            peripheral.connect()
-            observeConnectState(peripheral, advertisement)
+            _peripheral?.let {
+                it.connect()
+                observeConnectState(it, advertisement)
+            }
         }
     }
 
     internal fun onSearchMeasurementsClick() {
         val indicationCharacteristic =
             SupportedService.BODY_COMPOSITION.characteristics.characteristics.indication?.uuid
-        indicationCharacteristic?.let { characteristic ->
-            viewModelScope.launch {
-                _state.update { it.copy(measureState = true) }
-                val bleCharacteristicObject = characteristicOf(
-                    service = SupportedService.BODY_COMPOSITION.uuid,
-                    characteristic = characteristic
-                )
-                val byteArray = peripheral.observe(
-                    characteristic = bleCharacteristicObject
-                ).cancellable()
-                indicateJob = viewModelScope.launch {
-                    byteArray.collect {
-                        val hex = it.toHexString()
-                        Timber.d("0 ByteArray = $hex")
-                        withContext(Dispatchers.IO) {
-                            val result = decodeDataUseCase(it)
-                            if (result.isLoading()) {
-                                val bd = result.value() as ResponseData.BodyCompositionResponseData
-                                Timber.d("1 Result =$bd")
+        _peripheral?.let { peripheral ->
+            indicationCharacteristic?.let { characteristic ->
+                viewModelScope.launch {
+                    _state.update { it.copy(measureState = true) }
+                    val bleCharacteristicObject = characteristicOf(
+                        service = SupportedService.BODY_COMPOSITION.uuid,
+                        characteristic = characteristic
+                    )
+                    val byteArray = peripheral.observe(
+                        characteristic = bleCharacteristicObject
+                    ).cancellable()
+                    indicateJob = viewModelScope.launch {
+                        byteArray.collect {
+                            withContext(Dispatchers.IO) {
+                                val result = decodeDataUseCase(it)
+                                if (result.isLoading()) {
+                                    val bd =
+                                        result.value() as ResponseData.BodyCompositionResponseData
+                                    Timber.d("Result1 =$bd")
+                                    val measurement = Measurement(
+                                        measurementResult = bd.weight ?: 0.0,
+                                        timestamp = bd.timestamp,
+                                        measurementType = MeasurementType.WEIGHT
+                                    )
+                                    _state.update { it.copy(measurements = listOf(measurement)) }
+                                    //TODO() //update ui
+                                } else if (result.isSuccess()) {
+                                    val measurementResponse =
+                                        result.value() as ResponseData.BodyCompositionResponseData
+                                    Timber.d("Result2 =${measurementResponse.bmi} ${measurementResponse.bodyFatPercentage}")
+                                    val measurementWeight = Measurement(
+                                        measurementResult = measurementResponse.weight ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.WEIGHT
+                                    )
+                                    val measurementFatPercentage = Measurement(
+                                        measurementResult = measurementResponse.bodyFatPercentage
+                                            ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.BODY_FAT
+                                    )
+                                    val measurementBmr = Measurement(
+                                        measurementResult = measurementResponse.basalMetabolism
+                                            ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.BASAL_METABOLISM
+                                    )
+                                    val measurementBoneMass = Measurement(
+                                        measurementResult = measurementResponse.boneMass ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.BONE_MASS
+                                    )
+                                    val measurementMuscleMass = Measurement(
+                                        measurementResult = measurementResponse.muscleMass ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.MUSCLE_MASS
+                                    )
+                                    val measurementMusclePercentage = Measurement(
+                                        measurementResult = measurementResponse.musclePercentage
+                                            ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.MUSCLE_PERCENTAGE
+                                    )
+                                    val measurementWaterPercentage = Measurement(
+                                        measurementResult = measurementResponse.bodyWaterPercentage
+                                            ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.BODY_WATER_MASS
+                                    )
+                                    val measurementVisceralFat = Measurement(
+                                        measurementResult = measurementResponse.visceralFat ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.VISCERAL_FAT
+                                    )
+                                    val measurementIdealWeight = Measurement(
+                                        measurementResult = measurementResponse.idealWeight ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.IDEAL_WEIGHT
+                                    )
+                                    val measurementBmi = Measurement(
+                                        measurementResult = measurementResponse.bmi ?: 0.0,
+                                        timestamp = measurementResponse.timestamp,
+                                        measurementType = MeasurementType.BMI
+                                    )
+                                    _state.update {
+                                        it.copy(
+                                            measurements = listOf(
+                                                measurementWeight,
+                                                measurementBmi,
+                                                measurementBmr,
+                                                measurementBoneMass,
+                                                measurementMuscleMass,
+                                                measurementFatPercentage,
+                                                measurementVisceralFat,
+                                                measurementIdealWeight,
+                                                measurementWaterPercentage,
+                                                measurementMusclePercentage
+                                            )
+                                        )
+                                    }
+                                    //TODO() //update ui and cancel job
+                                } else {
+                                    val measurementResponse =
+                                        result.value() as ResponseData.BodyCompositionResponseData
+                                    Timber.d("Result3=$measurementResponse")
 
-                                //TODO() //update ui
-                            } else if (result.isSuccess()) {
-                                val bd = result.value() as ResponseData.BodyCompositionResponseData
-                                Timber.d("2 Result =${bd.bmi} ${bd.bodyFatPercentage}")
-
-                                //TODO() //update ui and cancel job
-                            } else {
-                                val bd = result.value() as ResponseData.BodyCompositionResponseData
-                                Timber.d("3 Result =$bd")
-                                onStopMeasureClick()
+                                    onStopMeasureClick()
+                                }
                             }
                         }
                     }
                 }
-            }
-        } ?: Timber.e("Characteristic is null!")
+            } ?: Timber.e("Characteristic is null!")
+        }
     }
 
     internal fun onSaveMeasurementClick() {

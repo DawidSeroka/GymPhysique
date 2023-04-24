@@ -45,6 +45,26 @@ enum class MeasurementType(
         fullName = "Weight",
         unit = MeasurementUnit.KG
     ),
+    BONE_MASS(
+        "Bone mass",
+        "Bone Mass",
+        MeasurementUnit.PERCENTAGE
+    ),
+    VISCERAL_FAT(
+        "Visceral fat",
+        "Visceral Fat",
+        MeasurementUnit.PERCENTAGE
+    ),
+    IDEAL_WEIGHT(
+        "Ideal weight",
+        "Ideal weight",
+        MeasurementUnit.KG
+    ),
+    BMI(
+    "Bmi",
+    "Bmi",
+    MeasurementUnit.UNKNOWN
+    ),
     UNKNOWN(
         "",
         "",
