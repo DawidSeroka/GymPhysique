@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dawidraszka.composepermissionhandler.core.ExperimentalPermissionHandlerApi
@@ -42,6 +43,7 @@ import com.myproject.gymphysique.feature.measure.components.Measurement
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureScreenActions
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 internal fun MeasureRoute(
@@ -99,7 +101,9 @@ private fun MeasureScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues).also {
+                    Timber.d("Padding values measure = $paddingValues")
+                }
                 .padding(Dimens.screenPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -166,7 +170,7 @@ private fun HomePreview() {
         MeasureScreen(
             uiState = MeasureState(),
             screenActions = MeasureScreenActions(
-                {}, {}, {}, {},{}
+                {}, {}, {}, {}, {}
             )
         )
     }

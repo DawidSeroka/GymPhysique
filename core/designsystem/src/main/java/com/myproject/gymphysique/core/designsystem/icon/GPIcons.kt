@@ -3,6 +3,7 @@ package com.myproject.gymphysique.core.designsystem.icon
 import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddChart
+import androidx.compose.material.icons.rounded.AddTask
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Circle
 import androidx.compose.material.icons.rounded.Home

@@ -39,11 +39,9 @@ fun RowScope.GpNavigationBarItem(
 
 @Composable
 fun GPNavigationBar(
-    modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit
 ){
     NavigationBar(
-        modifier = modifier,
         contentColor = GPNavigationDefaults.navigationContentColor(),
         tonalElevation = 0.dp,
         content = content

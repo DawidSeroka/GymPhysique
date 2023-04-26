@@ -2,20 +2,23 @@ package com.myproject.gymphysique.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -35,24 +38,25 @@ import timber.log.Timber
 
 const val gpAppNavigationRoute = "gp_app_route"
 
-fun NavController.navigateToGp(navOptions: NavOptions? = null){
+fun NavController.navigateToGp(navOptions: NavOptions? = null) {
     this.navigate(gpAppNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.gpAppGraph(){
-    composable(route = gpAppNavigationRoute){
+fun NavGraphBuilder.gpAppGraph() {
+    composable(route = gpAppNavigationRoute) {
         GPApp()
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun GPApp(
     appState: GPAppState = rememberGpAppState()
 ) {
-    val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val view = LocalView.current
+    val bottomWindowsInsets = WindowInsets.systemBars.getBottom(Density(context))
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         bottomBar = {
             GPBottomBar(
                 destinations = appState.topLevelDestinations,
@@ -61,10 +65,24 @@ fun GPApp(
             )
         }
     ) { innerPadding ->
-        Box {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                    //WorkAround for issue related with system paddings
+                .padding(
+                    bottom = if (bottomWindowsInsets > 0) innerPadding.calculateBottomPadding() - (bottomWindowsInsets / 2).dp
+                    else
+                        innerPadding.calculateBottomPadding()
+                ).also {
+                    Timber.d(
+                        "Padding values gpApp = $innerPadding," +
+                                "WindowsInsets = ${bottomWindowsInsets}"
+                    )
+                }
+        ) {
             //TODO() Temporary workAround for wrong paddingValues
             GPNavHost(
-                modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding() - 48.dp),
+                modifier = Modifier,
                 navController = appState.navController
             )
         }
@@ -75,12 +93,9 @@ fun GPApp(
 private fun GPBottomBar(
     destinations: List<TopLevelDestination>,
     onNavigateToDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?,
-    modifier: Modifier = Modifier
+    currentDestination: NavDestination?
 ) {
-    GPNavigationBar(
-        modifier = modifier
-    ) {
+    GPNavigationBar {
         destinations.forEach { destination ->
             val selected = currentDestination.isTopLevelDestinationInHierarchy(destination)
             GpNavigationBarItem(
@@ -110,9 +125,14 @@ private fun NavDestination?.isTopLevelDestinationInHierarchy(destination: TopLev
     } ?: false
 
 @Preview(name = "Light mode")
-@Preview(name = "Dark mode",uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
+@Preview(
+    name = "Dark mode",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    showSystemUi = true
+)
 @Composable
-private fun GPAppPreview(){
+private fun GPAppPreview() {
     GymPhysiqueTheme {
         GPApp()
     }
