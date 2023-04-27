@@ -32,14 +32,14 @@ import com.myproject.gymphysique.core.common.animations.bounceClick
 import com.myproject.gymphysique.core.designsystem.icon.GPIcons
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
-import com.myproject.gymphysique.core.utils.adaptiveHeight
+import com.myproject.gymphysique.core.model.ConnectionState
+import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
-import com.myproject.gymphysique.feature.measure.PeripheralState
 
 @Composable
 internal fun Devices(
     advertisingStatus: AdvertisingStatus,
-    advertisements: List<Pair<PeripheralState, Advertisement>>,
+    advertisements: List<AdvertisementWrapper>,
     scanTime: Int?,
     onSearchDeviceClick: () -> Unit,
     onConnectDeviceClick: (Advertisement) -> Unit,
@@ -98,7 +98,7 @@ internal fun Devices(
                             advertisements.indexOf(advertisement) == advertisements.lastIndex
                         AdvertisementItem(
                             modifier = Modifier.bounceClick(),
-                            advertisement = advertisement,
+                            advertisementWrapper = advertisement,
                             onConnectDeviceClick = onConnectDeviceClick
                         )
                         if (!isLastAdvertisement)
@@ -109,7 +109,7 @@ internal fun Devices(
                             )
                     }
                     item {
-                        if (advertisements.any { it.first == PeripheralState.CONNECTED })
+                        if (advertisements.any { it.connectionState == ConnectionState.CONNECTED })
                             Button(onClick = onDisconnectClick) {
                                 Text(text = "Disconnect")
                             }

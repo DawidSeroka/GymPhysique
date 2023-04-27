@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.juul.kable.Advertisement
 import com.juul.kable.Peripheral
-import com.juul.kable.State
 import com.juul.kable.characteristicOf
 import com.juul.kable.logs.Hex
 import com.juul.kable.logs.Logging
@@ -13,15 +12,15 @@ import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.common.supportedServices.SupportedService
 import com.myproject.gymphysique.core.common.toMillis
-import com.myproject.gymphysique.core.decoder.ResponseData
-import com.myproject.gymphysique.core.model.Measurement
-import com.myproject.gymphysique.core.model.MeasurementType
+import com.myproject.gymphysique.core.model.ConnectionState
+import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
-import com.myproject.gymphysique.feature.measure.PeripheralState
-import com.myproject.gymphysqiue.core.domain.DecodeDataUseCase
+import com.myproject.gymphysqiue.core.domain.decode.DecodeDataUseCase
 import com.myproject.gymphysqiue.core.domain.ProvideAdvertisementsUseCase
 import com.myproject.gymphysqiue.core.domain.TimerUseCase
+import com.myproject.gymphysqiue.core.domain.measure.ObserveConnectStateUseCase
+import com.myproject.gymphysqiue.core.domain.measure.ValidateCurrentAdvertisementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,6 +38,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class MeasureViewModel @Inject constructor(
     private val provideAdvertisementsUseCase: ProvideAdvertisementsUseCase,
+    private val observeConnectStateUseCase: ObserveConnectStateUseCase,
+    private val validateCurrentAdvertisementsUseCase: ValidateCurrentAdvertisementsUseCase,
     private val timerUseCase: TimerUseCase,
     private val decodeDataUseCase: DecodeDataUseCase
 ) : ViewModel() {
@@ -78,19 +79,13 @@ internal class MeasureViewModel @Inject constructor(
                     provideAdvertisementsUseCase()
                         .collect { advertisement ->
                             _state.update { currentState ->
-                                val advExists =
-                                    currentState.advertisements
-                                        .any { it.second.peripheralName == advertisement.peripheralName }
-                                if (!advExists) {
-                                    currentState.copy(
-                                        advertisements = currentState.advertisements + Pair(
-                                            PeripheralState.DISCONNECTED,
-                                            advertisement
-                                        )
-                                    )
-                                } else {
-                                    currentState
-                                }
+                                val newAdvertisementList = validateCurrentAdvertisementsUseCase(
+                                    advertisement,
+                                    currentState.advertisements.map { it.advertisement })
+                                    .map { AdvertisementWrapper(ConnectionState.DISCONNECTED,advertisement) }
+                                currentState.copy(
+                                    advertisements = newAdvertisementList
+                                )
                             }
                         }
                 }
@@ -98,10 +93,7 @@ internal class MeasureViewModel @Inject constructor(
                 advertisementsAsync.await()
             }
             _state.update {
-                it.copy(
-                    advertisingStatus = AdvertisingStatus.STOPPED,
-                    scanTime = null
-                )
+                it.copy(advertisingStatus = AdvertisingStatus.STOPPED, scanTime = null)
             }
         }
     }
@@ -111,11 +103,7 @@ internal class MeasureViewModel @Inject constructor(
             async { observeJob?.cancel() }.await()
             async { _peripheral?.disconnect() }.await()
             _peripheral = null
-            _state.update {
-                it.copy(
-                    measureState = false
-                )
-            }
+            _state.update { it.copy(measureState = false) }
         }
     }
 
@@ -154,100 +142,8 @@ internal class MeasureViewModel @Inject constructor(
                     observeJob = viewModelScope.launch {
                         byteArray.collect {
                             withContext(Dispatchers.IO) {
-                                val result = decodeDataUseCase(it)
-                                if (result.isLoading()) {
-                                    val bd =
-                                        result.value() as ResponseData.BodyCompositionResponseData
-                                    Timber.d("Result1 =$bd")
-                                    val measurement = Measurement(
-                                        measurementResult = bd.weight ?: 0.0,
-                                        timestamp = bd.timestamp,
-                                        measurementType = MeasurementType.WEIGHT
-                                    )
-                                    _state.update { it.copy(measurements = listOf(measurement)) }
-                                    //TODO() //update ui
-                                } else if (result.isSuccess()) {
-                                    val measurementResponse =
-                                        result.value() as ResponseData.BodyCompositionResponseData
-                                    Timber.d("Result2 =${measurementResponse.bmi} ${measurementResponse.bodyFatPercentage}")
-                                    val measurementWeight = Measurement(
-                                        measurementResult = measurementResponse.weight ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.WEIGHT
-                                    )
-                                    val measurementFatPercentage = Measurement(
-                                        measurementResult = measurementResponse.bodyFatPercentage
-                                            ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.BODY_FAT
-                                    )
-                                    val measurementBmr = Measurement(
-                                        measurementResult = measurementResponse.basalMetabolism
-                                            ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.BASAL_METABOLISM
-                                    )
-                                    val measurementBoneMass = Measurement(
-                                        measurementResult = measurementResponse.boneMass ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.BONE_MASS
-                                    )
-                                    val measurementMuscleMass = Measurement(
-                                        measurementResult = measurementResponse.muscleMass ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.MUSCLE_MASS
-                                    )
-                                    val measurementMusclePercentage = Measurement(
-                                        measurementResult = measurementResponse.musclePercentage
-                                            ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.MUSCLE_PERCENTAGE
-                                    )
-                                    val measurementWaterPercentage = Measurement(
-                                        measurementResult = measurementResponse.bodyWaterPercentage
-                                            ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.BODY_WATER_MASS
-                                    )
-                                    val measurementVisceralFat = Measurement(
-                                        measurementResult = measurementResponse.visceralFat ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.VISCERAL_FAT
-                                    )
-                                    val measurementIdealWeight = Measurement(
-                                        measurementResult = measurementResponse.idealWeight ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.IDEAL_WEIGHT
-                                    )
-                                    val measurementBmi = Measurement(
-                                        measurementResult = measurementResponse.bmi ?: 0.0,
-                                        timestamp = measurementResponse.timestamp,
-                                        measurementType = MeasurementType.BMI
-                                    )
-                                    _state.update {
-                                        it.copy(
-                                            measurements = listOf(
-                                                measurementWeight,
-                                                measurementBmi,
-                                                measurementBmr,
-                                                measurementBoneMass,
-                                                measurementMuscleMass,
-                                                measurementFatPercentage,
-                                                measurementVisceralFat,
-                                                measurementIdealWeight,
-                                                measurementWaterPercentage,
-                                                measurementMusclePercentage
-                                            )
-                                        )
-                                    }
-                                    //TODO() //update ui and cancel job
-                                } else {
-                                    val measurementResponse =
-                                        result.value() as ResponseData.BodyCompositionResponseData
-                                    Timber.d("Result3=$measurementResponse")
-
-                                    onStopMeasureClick()
-                                }
+                                val measurements = decodeDataUseCase(it)
+                                _state.update { it.copy(measurements = measurements) }
                             }
                         }
                     }
@@ -257,7 +153,7 @@ internal class MeasureViewModel @Inject constructor(
     }
 
     internal fun onSaveMeasurementClick() {
-
+        //TODO()
     }
 
     internal fun onStopMeasureClick() {
@@ -267,45 +163,19 @@ internal class MeasureViewModel @Inject constructor(
 
     private suspend fun observeConnectState(peripheral: Peripheral, advertisement: Advertisement) {
         peripheral.state.collect { connectState ->
-            _state.update { currentState ->
-                when (connectState) {
-                    State.Connected -> currentState.copy(
-                        advertisements = listOf(
-                            Pair(
-                                PeripheralState.CONNECTED,
-                                advertisement
-                            )
+            val connectionState = observeConnectStateUseCase(connectState).also {
+                if (it == ConnectionState.DISCONNECTED)
+                    onStopMeasureClick()
+            }
+            _state.update {
+                it.copy(
+                    advertisements = listOf(
+                        AdvertisementWrapper(
+                            connectionState,
+                            advertisement
                         )
                     )
-                    is State.Connecting -> currentState.copy(
-                        advertisements = listOf(
-                            Pair(
-                                PeripheralState.CONNECTING,
-                                advertisement
-                            )
-                        )
-                    )
-                    is State.Disconnected -> {
-                        onStopMeasureClick()
-                        currentState.copy(
-                            advertisements = listOf(
-                                Pair(
-                                    PeripheralState.DISCONNECTED,
-                                    advertisement
-                                )
-                            )
-                        )
-                    }
-                    else -> currentState.copy(
-                        advertisements = listOf(
-                            Pair(
-                                PeripheralState.CONNECTING,
-                                advertisement
-                            )
-                        )
-                    )
-                }
-
+                )
             }
         }
     }

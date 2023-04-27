@@ -19,17 +19,18 @@ import com.juul.kable.Advertisement
 import com.myproject.gymphysique.core.common.supportedServices.SupportedService
 import com.myproject.gymphysique.core.designsystem.icon.GPIcons
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
-import com.myproject.gymphysique.feature.measure.PeripheralState
+import com.myproject.gymphysique.core.model.ConnectionState
+import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 
 @Composable
 internal fun AdvertisementItem(
     modifier: Modifier = Modifier,
-    advertisement: Pair<PeripheralState, Advertisement>,
+    advertisementWrapper: AdvertisementWrapper,
     onConnectDeviceClick: (Advertisement) -> Unit
 ) {
-    val deviceName = advertisement.second.peripheralName ?: (advertisement.second.name ?: "Unnamed")
+    val deviceName = advertisementWrapper.advertisement.peripheralName ?: (advertisementWrapper.advertisement.name ?: "Unnamed")
     val deviceType = SupportedService.values().first { supportedService ->
-        advertisement.second.uuids.any { serviceUuid ->
+        advertisementWrapper.advertisement.uuids.any { serviceUuid ->
             supportedService.uuid == serviceUuid.toString()
         }
     }
@@ -37,7 +38,7 @@ internal fun AdvertisementItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(Dimens.margin)
-            .clickable { onConnectDeviceClick(advertisement.second) },
+            .clickable { onConnectDeviceClick(advertisementWrapper.advertisement) },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -55,12 +56,12 @@ internal fun AdvertisementItem(
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray
             )
-            when(advertisement.first){
-                PeripheralState.CONNECTED -> Icon(
+            when(advertisementWrapper.connectionState){
+                ConnectionState.CONNECTED -> Icon(
                     imageVector = GPIcons.Circle, contentDescription = GPIcons.Circle.name,
                     tint = Color.Green
                 )
-                PeripheralState.DISCONNECTED -> Icon(
+                ConnectionState.DISCONNECTED -> Icon(
                     imageVector = GPIcons.Circle, contentDescription = GPIcons.Circle.name,
                     tint = Color.Red
                 )
