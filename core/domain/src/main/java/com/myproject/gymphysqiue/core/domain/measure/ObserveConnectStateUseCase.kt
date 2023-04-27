@@ -15,7 +15,7 @@ class ObserveConnectStateUseCase @Inject constructor() :
             is State.Connecting ->
                 ConnectionState.CONNECTING
             is State.Disconnected ->
-                //onStopMeasureClick()
+                // onStopMeasureClick()
                 ConnectionState.DISCONNECTED
             else ->
                 ConnectionState.CONNECTING

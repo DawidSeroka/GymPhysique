@@ -65,7 +65,7 @@ internal fun MeasureRoute(
 @Composable
 private fun MeasureScreen(
     uiState: MeasureState,
-    screenActions: MeasureScreenActions,
+    screenActions: MeasureScreenActions
 ) {
     val permissionHandlerHostState =
         PermissionHandlerHostState(permissionList = bluetoothPermissionList)
@@ -131,17 +131,18 @@ private fun MeasureScreen(
                             PermissionHandlerResult.DENIED_NEXT_RATIONALE -> {}
                         }
                     }
-
                 },
                 onConnectDeviceClick = {
-                    if (uiState.advertisingStatus == AdvertisingStatus.STOPPED)
+                    if (uiState.advertisingStatus == AdvertisingStatus.STOPPED) {
                         screenActions.onConnectDeviceClick(it)
-                    else
+                    } else {
                         coroutineScope.launch {
                             snackbarHostState.currentSnackbarData?.dismiss()
                             snackbarHostState.showSnackbar("Wait until device scan is completed")
                         }
-                })
+                    }
+                }
+            )
             Spacer(modifier = Modifier.padding(Dimens.margin))
             Measurement(
                 measurements = uiState.measurements,
@@ -151,22 +152,22 @@ private fun MeasureScreen(
                 onSaveClick = { screenActions.onSaveMeasurementsClick() }
             )
         }
-
-
     }
-
 }
 
-@Preview(
-    name = "Dark mode"
-)
+@Preview(name = "Dark mode")
 @Composable
 private fun HomePreview() {
     GymPhysiqueTheme() {
         MeasureScreen(
             uiState = MeasureState(),
             screenActions = MeasureScreenActions(
-                {}, {}, {}, {}, {}, {}
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
             )
         )
     }

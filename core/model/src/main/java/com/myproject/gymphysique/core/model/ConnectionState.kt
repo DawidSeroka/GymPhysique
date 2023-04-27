@@ -1,6 +1,6 @@
 package com.myproject.gymphysique.core.model
 
-enum class ConnectionState{
+enum class ConnectionState {
     CONNECTED,
     DISCONNECTED,
     CONNECTING

@@ -48,8 +48,8 @@ internal fun AccountSetupRoute(
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val navigateToGpApp = uiState.navigateToGpApp
 
-    LaunchedEffect(key1 = navigateToGpApp){
-        if (navigateToGpApp){
+    LaunchedEffect(key1 = navigateToGpApp) {
+        if (navigateToGpApp) {
             onNavigateToGpApp()
             viewModel.resetNavigateToGpApp()
         }
@@ -87,7 +87,8 @@ private fun AccountScreen(
         Text(text = "Looks like you're new here", style = MaterialTheme.typography.labelLarge)
         Spacer(modifier = Modifier.height(Dimens.quarterMargin))
         Text(
-            text = "Create account now", style = MaterialTheme.typography.headlineMedium,
+            text = "Create account now",
+            style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.onPrimaryContainer
         )
         Spacer(modifier = Modifier.height(Dimens.dialogMargin))
@@ -181,7 +182,7 @@ private fun SelectSexComponent(
             value = selectedGender?.name ?: "",
             onValueChange = {},
             readOnly = true,
-            label = { Text("Gender")},
+            label = { Text("Gender") },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -193,7 +194,8 @@ private fun SelectSexComponent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable { onGenderSelected(it) }
-                        .padding(Dimens.halfMargin), text = it.name
+                        .padding(Dimens.halfMargin),
+                    text = it.name
                 )
                 if (genders.last() != it) Divider()
             }
@@ -210,7 +212,14 @@ private fun AccountScreenPreview() {
                 firstName = TextFieldValue("Dawid")
             ),
             screenActions = AccountSetupActions(
-                {}, {}, {}, {}, {}, {}, {}
-            ))
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
+            )
+        )
     }
 }

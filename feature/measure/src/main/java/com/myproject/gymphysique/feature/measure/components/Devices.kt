@@ -67,10 +67,10 @@ internal fun Devices(
                     modifier = Modifier.clickable {
                         onSearchDeviceClick()
                     },
-                    imageVector = GPIcons.Search, contentDescription = GPIcons.Search.name
+                    imageVector = GPIcons.Search,
+                    contentDescription = GPIcons.Search.name
                 )
             }
-
         }
         Spacer(modifier = Modifier.height(Dimens.halfMargin))
         Card(
@@ -81,7 +81,7 @@ internal fun Devices(
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                if (advertisements.isEmpty())
+                if (advertisements.isEmpty()) {
                     item {
                         Text(
                             modifier = Modifier
@@ -92,7 +92,7 @@ internal fun Devices(
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                else {
+                } else {
                     items(advertisements) { advertisement ->
                         val isLastAdvertisement =
                             advertisements.indexOf(advertisement) == advertisements.lastIndex
@@ -101,18 +101,20 @@ internal fun Devices(
                             advertisementWrapper = advertisement,
                             onConnectDeviceClick = onConnectDeviceClick
                         )
-                        if (!isLastAdvertisement)
+                        if (!isLastAdvertisement) {
                             Divider(
                                 modifier = Modifier
                                     .height(1.dp)
                                     .padding(horizontal = Dimens.halfMargin)
                             )
+                        }
                     }
                     item {
-                        if (advertisements.any { it.connectionState == ConnectionState.CONNECTED })
+                        if (advertisements.any { it.connectionState == ConnectionState.CONNECTED }) {
                             Button(onClick = onDisconnectClick) {
                                 Text(text = "Disconnect")
                             }
+                        }
                     }
                 }
             }

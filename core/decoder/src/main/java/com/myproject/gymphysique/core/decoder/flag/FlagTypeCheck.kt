@@ -1,7 +1,7 @@
 package com.myproject.gymphysique.core.decoder.flag
 
-sealed interface FlagTypeCheck{
-    interface BodyCompositionFlagTypeCheck: FlagTypeCheck {
+sealed interface FlagTypeCheck {
+    interface BodyCompositionFlagTypeCheck : FlagTypeCheck {
         fun checkBodyCompositionFlagUnit(flags: Int): Boolean
         fun checkBodyCompositionFlagTimestamp(flags: Int): Boolean
         fun checkBodyCompositionFlagUserId(flags: Int): Boolean

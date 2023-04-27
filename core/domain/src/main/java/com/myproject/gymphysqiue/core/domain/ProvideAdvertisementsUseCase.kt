@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class ProvideAdvertisementsUseCase @Inject constructor(
     private val deviceScanner: DeviceScanner
-): () -> Flow<Advertisement> {
+) : () -> Flow<Advertisement> {
     override fun invoke(): Flow<Advertisement> = deviceScanner.provideAdvertisements().distinctUntilChanged { old, new ->
         old.address == new.address
     }

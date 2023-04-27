@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class CreateUserUseCase @Inject constructor(
     private val userRepository: UserRepository
-): suspend (String,String,String,Int,Int) -> Unit{
+) : suspend (String, String, String, Int, Int) -> Unit {
     override suspend fun invoke(firstName: String, surname: String, gender: String, height: Int, age: Int) {
-        userRepository.saveUser(UserData(firstName,surname,age,height,gender))
+        userRepository.saveUser(UserData(firstName, surname, age, height, gender))
     }
 }

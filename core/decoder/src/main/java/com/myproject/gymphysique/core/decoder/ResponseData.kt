@@ -1,6 +1,6 @@
 package com.myproject.gymphysique.core.decoder
 
-sealed interface ResponseData{
+sealed interface ResponseData {
     data class BodyCompositionResponseData(
         val weight: Double?,
         val unit: String = "kg",

@@ -3,7 +3,6 @@
 plugins {
     id("kotlin")
 }
-dependencies{
+dependencies {
     implementation(libs.kotlinx.datetime)
-
 }

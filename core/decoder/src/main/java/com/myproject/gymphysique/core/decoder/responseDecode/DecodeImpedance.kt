@@ -12,9 +12,9 @@ class DecodeImpedance @Inject constructor() {
         }
     }
 
-    internal fun getLBMCoefficient(weight: Double, height: Int, impedance: Int, age: Int): Double{
+    internal fun getLBMCoefficient(weight: Double, height: Int, impedance: Int, age: Int): Double {
         var lbm = (height * 9.058 / 100) * (height / 100)
-        lbm+= weight * 0.32 + 12.226
+        lbm += weight * 0.32 + 12.226
         lbm -= impedance * 0.0068
         lbm -= age * 0.0542
         return lbm

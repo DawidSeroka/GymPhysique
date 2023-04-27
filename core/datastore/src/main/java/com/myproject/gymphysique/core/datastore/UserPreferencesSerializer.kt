@@ -7,7 +7,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import javax.inject.Inject
 
-class UserPreferencesSerializer @Inject constructor(): Serializer<UserPreferences> {
+class UserPreferencesSerializer @Inject constructor() : Serializer<UserPreferences> {
     override val defaultValue: UserPreferences
         get() = UserPreferences.getDefaultInstance()
 
@@ -16,10 +16,9 @@ class UserPreferencesSerializer @Inject constructor(): Serializer<UserPreference
             // readFrom is already called on the data store background thread
             @Suppress("BlockingMethodInNonBlockingContext")
             UserPreferences.parseFrom(input)
-        } catch (exception: InvalidProtocolBufferException){
+        } catch (exception: InvalidProtocolBufferException) {
             throw CorruptionException("Cannot read proto.", exception)
         }
-
 
     override suspend fun writeTo(t: UserPreferences, output: OutputStream) {
         // writeTo is already called on the data store background thread

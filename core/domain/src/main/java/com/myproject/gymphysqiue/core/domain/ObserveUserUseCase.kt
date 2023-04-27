@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class ObserveUserUseCase @Inject constructor(
     private val userRepository: UserRepository
-): () -> Flow<UserData>{
+) : () -> Flow<UserData> {
     override fun invoke(): Flow<UserData> {
         return userRepository.observeUser()
     }

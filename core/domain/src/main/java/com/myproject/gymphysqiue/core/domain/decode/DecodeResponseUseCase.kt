@@ -1,10 +1,9 @@
 package com.myproject.gymphysqiue.core.domain.decode
 
-import com.myproject.gymphysique.core.decoder.ResponseData
 import com.myproject.gymphysique.core.common.Result
+import com.myproject.gymphysique.core.decoder.ResponseData
 import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.MeasurementType
-import kotlinx.coroutines.flow.update
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -97,7 +96,7 @@ class DecodeResponseUseCase @Inject constructor() : (Result<ResponseData>) -> Li
             Timber.d("Result3=$measurementResponse")
 
             emptyList()
-            //onStopMeasureClick()
+            // onStopMeasureClick()
         }
     }
 }

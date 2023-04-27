@@ -14,7 +14,10 @@ class BodyCompositionResponseDecode @Inject constructor(
     private var lbmCoefficient: Double? = null
 
     fun decodeBodyComposition(
-        byteArray: ByteArray, sex: String, height: Int, age: Int
+        byteArray: ByteArray,
+        sex: String,
+        height: Int,
+        age: Int
     ): Result<ResponseData> {
         val flags = signedBytesToInt(byteArray[0], byteArray[1])
         val sizeOfList = byteArray.size
@@ -25,12 +28,17 @@ class BodyCompositionResponseDecode @Inject constructor(
         val impedancePresent = flagTypeCheck.checkBodyCompositionFlagImpedance(flags)
         return if (impedancePresent) {
             var impedance: Int? = null
-            impedance = if (flagTypeCheck.checkBodyCompositionFlagHeight(flags)) signedBytesToInt(
-                byteArray[sizeOfList - 6], byteArray[sizeOfList - 5]
-            )
-            else signedBytesToInt(
-                byteArray[sizeOfList - 4], byteArray[sizeOfList - 3]
-            )
+            impedance = if (flagTypeCheck.checkBodyCompositionFlagHeight(flags)) {
+                signedBytesToInt(
+                    byteArray[sizeOfList - 6],
+                    byteArray[sizeOfList - 5]
+                )
+            } else {
+                signedBytesToInt(
+                    byteArray[sizeOfList - 4],
+                    byteArray[sizeOfList - 3]
+                )
+            }
             weight?.let {
                 lbmCoefficient = decodeImpedance.getLBMCoefficient(it, height, impedance, age)
                 val fatPercentage = decodeFatPercentage(sex, age, weight, height)
@@ -56,39 +64,52 @@ class BodyCompositionResponseDecode @Inject constructor(
                         boneMass = boneMass,
                         idealWeight = idealWeight,
                         bmi = bmi,
-                        height = height,
+                        height = height
                     )
                 )
             } ?: Result.error(Exception())
         } else {
             Result.loading(
                 ResponseData.BodyCompositionResponseData(
-                    weight = weight, timestamp = timestamp
+                    weight = weight,
+                    timestamp = timestamp
                 )
             )
         }
     }
 
     private fun decodeWeight(
-        flags: Int, byteArray: ByteArray, sizeOfList: Int, metricUnit: Boolean
+        flags: Int,
+        byteArray: ByteArray,
+        sizeOfList: Int,
+        metricUnit: Boolean
     ): Double? {
         return if (flagTypeCheck.checkBodyCompositionFlagWeightPresent(flags)) {
             val rawWeight = signedBytesToInt(
-                byteArray[sizeOfList - 2], byteArray[sizeOfList - 1]
+                byteArray[sizeOfList - 2],
+                byteArray[sizeOfList - 1]
             )
-            return if (metricUnit) (rawWeight / 200.0).roundTo2Places()
-            else (rawWeight * 0.45359237).roundTo2Places()
-        } else null
+            return if (metricUnit) {
+                (rawWeight / 200.0).roundTo2Places()
+            } else {
+                (rawWeight * 0.45359237).roundTo2Places()
+            }
+        } else {
+            null
+        }
     }
 
     private fun decodeTimestamp(flags: Int, byteArray: ByteArray) =
-        if (flagTypeCheck.checkBodyCompositionFlagTimestamp(flags)) dateToTimestamp(
-            byteArray.copyOfRange(
-                2,
-                byteArray.size - 4
+        if (flagTypeCheck.checkBodyCompositionFlagTimestamp(flags)) {
+            dateToTimestamp(
+                byteArray.copyOfRange(
+                    2,
+                    byteArray.size - 4
+                )
             )
-        )
-        else System.currentTimeMillis()
+        } else {
+            System.currentTimeMillis()
+        }
 
     private fun decodeFatPercentage(sex: String, age: Int, weight: Double, height: Int): Double {
         // Set a constant to remove from LBM
@@ -174,7 +195,10 @@ class BodyCompositionResponseDecode @Inject constructor(
 
     // Get muscle mass
     private fun decodeMuscleMass(
-        sex: String, weight: Double, fatPercentage: Double, boneMass: Double
+        sex: String,
+        weight: Double,
+        fatPercentage: Double,
+        boneMass: Double
     ): Double {
         var muscleMass = weight - ((fatPercentage * 0.01) * weight) - boneMass
 
@@ -233,9 +257,7 @@ class BodyCompositionResponseDecode @Inject constructor(
         }
     }
 
-
     private fun decodeBMR(sex: String, weight: Double, height: Int, age: Int): Double {
-
         var bmr: Double
         if (sex == "female") {
             bmr = 864.6 + weight * 10.2036

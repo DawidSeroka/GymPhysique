@@ -27,7 +27,7 @@ fun Modifier.bounceClick() = composed {
         .clickable(
             interactionSource = remember { MutableInteractionSource() },
             indication = null,
-            onClick = {  }
+            onClick = { }
         )
         .pointerInput(buttonState) {
             awaitPointerEventScope {

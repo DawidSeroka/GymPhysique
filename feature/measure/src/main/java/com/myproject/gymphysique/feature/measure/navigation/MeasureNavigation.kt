@@ -8,12 +8,12 @@ import com.myproject.gymphysique.feature.measure.ui.MeasureRoute
 
 const val measureNavigationRoute = "measure_route"
 
-fun NavController.navigateToMeasure(navOptions: NavOptions? = null){
+fun NavController.navigateToMeasure(navOptions: NavOptions? = null) {
     this.navigate(measureNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.measureGraph(onButtonClick: () -> Unit){
-    composable(route = measureNavigationRoute){
+fun NavGraphBuilder.measureGraph(onButtonClick: () -> Unit) {
+    composable(route = measureNavigationRoute) {
         MeasureRoute()
     }
 }

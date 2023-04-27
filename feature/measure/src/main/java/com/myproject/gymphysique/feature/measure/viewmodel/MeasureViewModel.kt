@@ -16,9 +16,9 @@ import com.myproject.gymphysique.core.model.ConnectionState
 import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
-import com.myproject.gymphysqiue.core.domain.decode.DecodeDataUseCase
 import com.myproject.gymphysqiue.core.domain.ProvideAdvertisementsUseCase
 import com.myproject.gymphysqiue.core.domain.TimerUseCase
+import com.myproject.gymphysqiue.core.domain.decode.DecodeDataUseCase
 import com.myproject.gymphysqiue.core.domain.measure.ObserveConnectStateUseCase
 import com.myproject.gymphysqiue.core.domain.measure.ValidateCurrentAdvertisementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -81,8 +81,9 @@ internal class MeasureViewModel @Inject constructor(
                             _state.update { currentState ->
                                 val newAdvertisementList = validateCurrentAdvertisementsUseCase(
                                     advertisement,
-                                    currentState.advertisements.map { it.advertisement })
-                                    .map { AdvertisementWrapper(ConnectionState.DISCONNECTED,advertisement) }
+                                    currentState.advertisements.map { it.advertisement }
+                                )
+                                    .map { AdvertisementWrapper(ConnectionState.DISCONNECTED, advertisement) }
                                 currentState.copy(
                                     advertisements = newAdvertisementList
                                 )
@@ -153,7 +154,7 @@ internal class MeasureViewModel @Inject constructor(
     }
 
     internal fun onSaveMeasurementClick() {
-        //TODO()
+        // TODO()
     }
 
     internal fun onStopMeasureClick() {
@@ -164,8 +165,9 @@ internal class MeasureViewModel @Inject constructor(
     private suspend fun observeConnectState(peripheral: Peripheral, advertisement: Advertisement) {
         peripheral.state.collect { connectState ->
             val connectionState = observeConnectStateUseCase(connectState).also {
-                if (it == ConnectionState.DISCONNECTED)
+                if (it == ConnectionState.DISCONNECTED) {
                     onStopMeasureClick()
+                }
             }
             _state.update {
                 it.copy(
@@ -179,7 +181,6 @@ internal class MeasureViewModel @Inject constructor(
             }
         }
     }
-
 }
 
 const val SCAN_TIME = 10L

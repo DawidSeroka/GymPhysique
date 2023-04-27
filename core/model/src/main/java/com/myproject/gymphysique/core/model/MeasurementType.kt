@@ -61,9 +61,9 @@ enum class MeasurementType(
         MeasurementUnit.KG
     ),
     BMI(
-    "Bmi",
-    "Bmi",
-    MeasurementUnit.UNKNOWN
+        "Bmi",
+        "Bmi",
+        MeasurementUnit.UNKNOWN
     ),
     UNKNOWN(
         "",
@@ -72,8 +72,8 @@ enum class MeasurementType(
     )
 }
 
-fun String?.asMeasurementType() = when(this){
+fun String?.asMeasurementType() = when (this) {
     null -> MeasurementType.UNKNOWN
     else -> MeasurementType.values()
-        .firstOrNull { type -> type.serializedName == this  } ?: MeasurementType.UNKNOWN
+        .firstOrNull { type -> type.serializedName == this } ?: MeasurementType.UNKNOWN
 }

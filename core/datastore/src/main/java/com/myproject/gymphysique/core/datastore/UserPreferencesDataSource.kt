@@ -2,7 +2,6 @@ package com.myproject.gymphysique.core.datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import com.myproject.gymphysique.core.common.Gender
 import com.myproject.gymphysique.core.model.UserData
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -25,7 +24,6 @@ class UserPreferencesDataSource @Inject constructor(
 
     suspend fun getUser(): UserData =
         userData.firstOrNull() ?: UserData("", "", 0, 0, "")
-
 
     suspend fun setUser(userData: UserData) {
         try {

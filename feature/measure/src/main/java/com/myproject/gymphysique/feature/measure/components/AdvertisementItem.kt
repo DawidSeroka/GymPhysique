@@ -56,18 +56,19 @@ internal fun AdvertisementItem(
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.Gray
             )
-            when(advertisementWrapper.connectionState){
+            when (advertisementWrapper.connectionState) {
                 ConnectionState.CONNECTED -> Icon(
-                    imageVector = GPIcons.Circle, contentDescription = GPIcons.Circle.name,
+                    imageVector = GPIcons.Circle,
+                    contentDescription = GPIcons.Circle.name,
                     tint = Color.Green
                 )
                 ConnectionState.DISCONNECTED -> Icon(
-                    imageVector = GPIcons.Circle, contentDescription = GPIcons.Circle.name,
+                    imageVector = GPIcons.Circle,
+                    contentDescription = GPIcons.Circle.name,
                     tint = Color.Red
                 )
                 else -> CircularProgressIndicator()
             }
-
         }
     }
 }

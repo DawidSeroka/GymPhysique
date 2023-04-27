@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.catch
 import timber.log.Timber
 import javax.inject.Inject
 
-class DeviceScanner @Inject constructor(): AdvertisementProvider {
+class DeviceScanner @Inject constructor() : AdvertisementProvider {
     private val scanFilters = SupportedService.values().map {
         Filter.Service(it.uuid.toUUID())
     }

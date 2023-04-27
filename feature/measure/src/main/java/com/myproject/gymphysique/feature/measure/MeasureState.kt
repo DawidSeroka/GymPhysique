@@ -1,8 +1,8 @@
 package com.myproject.gymphysique.feature.measure
 
 import com.juul.kable.Advertisement
-import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.ConnectionState
+import com.myproject.gymphysique.core.model.Measurement
 
 internal data class MeasureState(
     val scanTime: Int? = null,
@@ -17,7 +17,7 @@ internal data class AdvertisementWrapper(
     val advertisement: Advertisement
 )
 
-internal enum class AdvertisingStatus(val text: String){
+internal enum class AdvertisingStatus(val text: String) {
     ADVERTISING("Advertising"),
-    STOPPED("Stopped"),
+    STOPPED("Stopped")
 }

@@ -6,4 +6,3 @@ data class Measurement(
     val timestamp: Long = 0,
     val measurementType: MeasurementType
 )
-
