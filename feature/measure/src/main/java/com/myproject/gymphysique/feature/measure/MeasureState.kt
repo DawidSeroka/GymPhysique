@@ -19,6 +19,5 @@ internal enum class AdvertisingStatus(val text: String){
 internal enum class PeripheralState{
     CONNECTED,
     DISCONNECTED,
-    CONNECTING,
-    DISCONNECTING
+    CONNECTING
 }

@@ -54,7 +54,6 @@ fun GPApp(
     appState: GPAppState = rememberGpAppState()
 ) {
     val context = LocalContext.current
-    val view = LocalView.current
     val bottomWindowsInsets = WindowInsets.systemBars.getBottom(Density(context))
     Scaffold(
         bottomBar = {

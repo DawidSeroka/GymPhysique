@@ -12,6 +12,7 @@ import com.juul.kable.peripheral
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.common.supportedServices.SupportedService
+import com.myproject.gymphysique.core.common.toMillis
 import com.myproject.gymphysique.core.decoder.ResponseData
 import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.MeasurementType
@@ -33,7 +34,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,7 +43,7 @@ internal class MeasureViewModel @Inject constructor(
     private val decodeDataUseCase: DecodeDataUseCase
 ) : ViewModel() {
     private var _peripheral: Peripheral? = null
-    private lateinit var indicateJob: Job
+    private var observeJob: Job? = null
 
     private val _state: MutableStateFlow<MeasureState> = MutableStateFlow(MeasureState())
         .stateInMerge(
@@ -53,14 +53,24 @@ internal class MeasureViewModel @Inject constructor(
     val state: StateFlow<MeasureState> = _state
 
     internal fun onSearchDevicesClick() {
-        val scanTime = 10L
-        val scanInMillis = TimeUnit.SECONDS.toMillis(scanTime)
+        _peripheral?.let {
+            onDisconnectClick()
+        }
+        scanAdvertisements()
+    }
+
+    private fun scanAdvertisements() {
         viewModelScope.launch {
-            _state.update { it.copy(advertisingStatus = AdvertisingStatus.ADVERTISING) }
-            _state.update { it.copy(advertisements = emptyList()) }
-            withTimeoutOrNull(scanInMillis) {
+            _state.update {
+                it.copy(
+                    advertisements = emptyList(),
+                    advertisingStatus = AdvertisingStatus.ADVERTISING,
+                    measurements = emptyList()
+                )
+            }
+            withTimeoutOrNull(SCAN_TIME.toMillis()) {
                 val timerAsync = async {
-                    timerUseCase(scanTime.toInt()).collect { scanTime ->
+                    timerUseCase(SCAN_TIME.toInt()).collect { scanTime ->
                         _state.update { it.copy(scanTime = scanTime) }
                     }
                 }
@@ -69,7 +79,8 @@ internal class MeasureViewModel @Inject constructor(
                         .collect { advertisement ->
                             _state.update { currentState ->
                                 val advExists =
-                                    currentState.advertisements.any { it.second.peripheralName == advertisement.peripheralName }
+                                    currentState.advertisements
+                                        .any { it.second.peripheralName == advertisement.peripheralName }
                                 if (!advExists) {
                                     currentState.copy(
                                         advertisements = currentState.advertisements + Pair(
@@ -86,8 +97,25 @@ internal class MeasureViewModel @Inject constructor(
                 timerAsync.await()
                 advertisementsAsync.await()
             }
-            _state.update { it.copy(advertisingStatus = AdvertisingStatus.STOPPED) }
-            _state.update { it.copy(scanTime = null) }
+            _state.update {
+                it.copy(
+                    advertisingStatus = AdvertisingStatus.STOPPED,
+                    scanTime = null
+                )
+            }
+        }
+    }
+
+    internal fun onDisconnectClick() {
+        viewModelScope.launch {
+            async { observeJob?.cancel() }.await()
+            async { _peripheral?.disconnect() }.await()
+            _peripheral = null
+            _state.update {
+                it.copy(
+                    measureState = false
+                )
+            }
         }
     }
 
@@ -123,7 +151,7 @@ internal class MeasureViewModel @Inject constructor(
                     val byteArray = peripheral.observe(
                         characteristic = bleCharacteristicObject
                     ).cancellable()
-                    indicateJob = viewModelScope.launch {
+                    observeJob = viewModelScope.launch {
                         byteArray.collect {
                             withContext(Dispatchers.IO) {
                                 val result = decodeDataUseCase(it)
@@ -233,7 +261,7 @@ internal class MeasureViewModel @Inject constructor(
     }
 
     internal fun onStopMeasureClick() {
-        indicateJob.cancel()
+        observeJob?.cancel()
         _state.update { it.copy(measureState = false) }
     }
 
@@ -283,3 +311,5 @@ internal class MeasureViewModel @Inject constructor(
     }
 
 }
+
+const val SCAN_TIME = 10L

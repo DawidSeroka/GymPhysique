@@ -4,10 +4,13 @@ import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.UUID
+import java.util.concurrent.TimeUnit
 
 fun String.toUUID(): UUID =
     UUID.fromString(this)
-fun ByteArray.toHexString(): String = joinToString(separator = " ") { byte -> "0x%02x".format(byte) }
+
+fun ByteArray.toHexString(): String =
+    joinToString(separator = " ") { byte -> "0x%02x".format(byte) }
 
 fun signedByteToInt(b: Byte): Int = b.toInt() and 255
 fun signedBytesToInt(b0: Byte, b1: Byte): Int =
@@ -31,3 +34,7 @@ fun dateToTimestamp(byteArray: ByteArray): Long {
     val date = byteArrayToDate(byteArray)
     return date.time
 }
+
+fun Long.toMillis(): Long =
+    TimeUnit.SECONDS.toMillis(this)
+

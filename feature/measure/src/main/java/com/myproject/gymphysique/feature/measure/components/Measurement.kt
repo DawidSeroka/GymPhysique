@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -56,6 +57,8 @@ internal fun Measurement(
             LazyColumn {
                 items(measurements) { measurement ->
                     MeasurementItem(measurement = measurement)
+                    if(measurements.last() != measurement)
+                        Divider(modifier = Modifier.padding(horizontal = Dimens.halfMargin))
                 }
                 item {
                     Row(
@@ -91,13 +94,21 @@ internal fun Measurement(
 @Composable
 fun MeasurementItem(measurement: Measurement) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(Dimens.screenPadding),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = measurement.measurementType.fullName)
-        Row {
+        Text(
+            text = measurement.measurementType.fullName,
+            style = MaterialTheme.typography.titleMedium
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Text(text = "${measurement.measurementResult} ")
-            Text(text = measurement.measurementType.unit.unit)
+            Text(
+                text = measurement.measurementType.unit.unit,
+                style = MaterialTheme.typography.labelLarge.copy(color = Color.Gray)
+            )
         }
     }
 }
@@ -107,7 +118,7 @@ fun MeasurementItem(measurement: Measurement) {
 private fun MeasurementPreview() {
     GymPhysiqueTheme {
         Measurement(
-            emptyList(), false, {}, {},{}
+            emptyList(), false, {}, {}, {}
         )
     }
 }

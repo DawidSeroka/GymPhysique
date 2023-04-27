@@ -7,5 +7,6 @@ internal data class MeasureScreenActions(
     val onConnectDeviceClick: (Advertisement) -> Unit,
     val onSearchMeasurementsClick: () -> Unit,
     val onSaveMeasurementsClick: () -> Unit,
-    val onStopMeasureClick: () -> Unit
+    val onStopMeasureClick: () -> Unit,
+    val onDisconnectClick: () -> Unit
 )

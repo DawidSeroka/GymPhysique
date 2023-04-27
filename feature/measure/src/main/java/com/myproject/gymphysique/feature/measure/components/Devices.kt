@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
@@ -41,7 +42,8 @@ internal fun Devices(
     advertisements: List<Pair<PeripheralState, Advertisement>>,
     scanTime: Int?,
     onSearchDeviceClick: () -> Unit,
-    onConnectDeviceClick: (Advertisement) -> Unit
+    onConnectDeviceClick: (Advertisement) -> Unit,
+    onDisconnectClick: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
@@ -73,11 +75,12 @@ internal fun Devices(
         Spacer(modifier = Modifier.height(Dimens.halfMargin))
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .adaptiveHeight(advertisements.size),
+                .fillMaxWidth(),
             border = BorderStroke(width = 1.dp, color = Color.Black)
         ) {
-            LazyColumn {
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 if (advertisements.isEmpty())
                     item {
                         Text(
@@ -89,7 +92,7 @@ internal fun Devices(
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                else
+                else {
                     items(advertisements) { advertisement ->
                         val isLastAdvertisement =
                             advertisements.indexOf(advertisement) == advertisements.lastIndex
@@ -102,8 +105,16 @@ internal fun Devices(
                             Divider(
                                 modifier = Modifier
                                     .height(1.dp)
-                                    .padding(horizontal = Dimens.halfMargin))
+                                    .padding(horizontal = Dimens.halfMargin)
+                            )
                     }
+                    item {
+                        if (advertisements.any { it.first == PeripheralState.CONNECTED })
+                            Button(onClick = onDisconnectClick) {
+                                Text(text = "Disconnect")
+                            }
+                    }
+                }
             }
         }
     }
@@ -118,7 +129,8 @@ private fun DevicesPreview() {
             advertisements = emptyList(),
             scanTime = null,
             onSearchDeviceClick = {},
-            onConnectDeviceClick = {}
+            onConnectDeviceClick = {},
+            onDisconnectClick = {}
         )
     }
 }

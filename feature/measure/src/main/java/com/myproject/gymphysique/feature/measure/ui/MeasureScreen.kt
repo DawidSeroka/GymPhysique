@@ -2,7 +2,6 @@ package com.myproject.gymphysique.feature.measure.ui
 
 import android.bluetooth.BluetoothManager
 import android.content.Context
-import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.launch
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -22,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.dawidraszka.composepermissionhandler.core.ExperimentalPermissionHandlerApi
@@ -43,7 +40,6 @@ import com.myproject.gymphysique.feature.measure.components.Measurement
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureScreenActions
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 internal fun MeasureRoute(
@@ -59,7 +55,8 @@ internal fun MeasureRoute(
             onConnectDeviceClick = viewModel::onConnectDeviceClick,
             onSaveMeasurementsClick = viewModel::onSaveMeasurementClick,
             onSearchMeasurementsClick = viewModel::onSearchMeasurementsClick,
-            onStopMeasureClick = viewModel::onStopMeasureClick
+            onStopMeasureClick = viewModel::onStopMeasureClick,
+            onDisconnectClick = viewModel::onDisconnectClick
         )
     )
 }
@@ -101,9 +98,7 @@ private fun MeasureScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues).also {
-                    Timber.d("Padding values measure = $paddingValues")
-                }
+                .padding(paddingValues)
                 .padding(Dimens.screenPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -111,6 +106,7 @@ private fun MeasureScreen(
                 advertisingStatus = uiState.advertisingStatus,
                 advertisements = uiState.advertisements,
                 scanTime = uiState.scanTime,
+                onDisconnectClick = { screenActions.onDisconnectClick() },
                 onSearchDeviceClick = {
                     coroutineScope.launch {
                         snackbarHostState.currentSnackbarData?.dismiss()
@@ -170,7 +166,7 @@ private fun HomePreview() {
         MeasureScreen(
             uiState = MeasureState(),
             screenActions = MeasureScreenActions(
-                {}, {}, {}, {}, {}
+                {}, {}, {}, {}, {}, {}
             )
         )
     }
