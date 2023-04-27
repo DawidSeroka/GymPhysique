@@ -18,7 +18,6 @@ dependencyResolutionManagement {
 rootProject.name = "GymPhysique"
 include(":app")
 include(":core:data")
-include(":core:database")
 include(":core:common")
 include(":core:model")
 include(":core:ui")
@@ -33,3 +32,4 @@ include(":core:domain")
 include(":core:decoder")
 include(":core:datastore")
 include(":feature:accountSetup")
+include(":core:database")
