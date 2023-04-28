@@ -16,9 +16,10 @@ import com.myproject.gymphysique.core.model.ConnectionState
 import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
-import com.myproject.gymphysqiue.core.domain.ProvideAdvertisementsUseCase
-import com.myproject.gymphysqiue.core.domain.TimerUseCase
+import com.myproject.gymphysqiue.core.domain.measure.ProvideAdvertisementsUseCase
+import com.myproject.gymphysqiue.core.domain.measure.TimerUseCase
 import com.myproject.gymphysqiue.core.domain.decode.DecodeDataUseCase
+import com.myproject.gymphysqiue.core.domain.measure.AddMeasurementUseCase
 import com.myproject.gymphysqiue.core.domain.measure.ObserveConnectStateUseCase
 import com.myproject.gymphysqiue.core.domain.measure.ValidateCurrentAdvertisementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -41,7 +42,8 @@ internal class MeasureViewModel @Inject constructor(
     private val observeConnectStateUseCase: ObserveConnectStateUseCase,
     private val validateCurrentAdvertisementsUseCase: ValidateCurrentAdvertisementsUseCase,
     private val timerUseCase: TimerUseCase,
-    private val decodeDataUseCase: DecodeDataUseCase
+    private val decodeDataUseCase: DecodeDataUseCase,
+    private val addMeasurementUseCase: AddMeasurementUseCase
 ) : ViewModel() {
     private var _peripheral: Peripheral? = null
     private var observeJob: Job? = null
@@ -154,7 +156,12 @@ internal class MeasureViewModel @Inject constructor(
     }
 
     internal fun onSaveMeasurementClick() {
-        // TODO()
+        val measurements = _state.value.measurements
+        measurements.forEach {measurement ->
+            viewModelScope.launch {
+                addMeasurementUseCase(measurement)
+            }
+        }
     }
 
     internal fun onStopMeasureClick() {

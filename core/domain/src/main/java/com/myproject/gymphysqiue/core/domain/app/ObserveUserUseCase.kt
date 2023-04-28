@@ -1,4 +1,4 @@
-package com.myproject.gymphysqiue.core.domain
+package com.myproject.gymphysqiue.core.domain.app
 
 import com.myproject.gymphysique.core.data.UserRepository
 import com.myproject.gymphysique.core.model.UserData

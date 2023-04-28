@@ -1,4 +1,4 @@
-package com.myproject.gymphysqiue.core.domain
+package com.myproject.gymphysqiue.core.domain.measure
 
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow

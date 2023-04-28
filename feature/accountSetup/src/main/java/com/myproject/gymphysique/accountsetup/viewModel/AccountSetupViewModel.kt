@@ -7,8 +7,8 @@ import com.myproject.gymphysique.accountsetup.AccountSetupState
 import com.myproject.gymphysique.core.common.Gender
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
-import com.myproject.gymphysqiue.core.domain.CreateUserUseCase
-import com.myproject.gymphysqiue.core.domain.ObserveIfUserExistsUseCase
+import com.myproject.gymphysqiue.core.domain.app.CreateUserUseCase
+import com.myproject.gymphysqiue.core.domain.app.ObserveIfUserExistsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

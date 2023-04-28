@@ -5,10 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.myproject.gymphysique.accountsetup.navigation.accountSetupNavigationRoute
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
-import com.myproject.gymphysique.core.model.UserData
 import com.myproject.gymphysique.ui.gpAppNavigationRoute
-import com.myproject.gymphysqiue.core.domain.ObserveIfUserExistsUseCase
-import com.myproject.gymphysqiue.core.domain.ObserveUserUseCase
+import com.myproject.gymphysqiue.core.domain.app.ObserveIfUserExistsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

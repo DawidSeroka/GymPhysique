@@ -1,4 +1,4 @@
-package com.myproject.gymphysqiue.core.domain
+package com.myproject.gymphysqiue.core.domain.measure
 
 import com.juul.kable.Advertisement
 import com.myproject.gymphysique.core.bluetooth.DeviceScanner
