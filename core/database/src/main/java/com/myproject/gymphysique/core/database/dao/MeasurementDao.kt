@@ -13,6 +13,10 @@ interface MeasurementDao {
     @Query("SELECT * FROM $TABLE_MEASUREMENT")
     fun getAllMeasurements(): Flow<List<MeasurementEntity>>
 
+    @Query("SELECT * FROM $TABLE_MEASUREMENT WHERE strftime('%Y-%m', date) = :dateParam")
+    fun getMeasurementsWithDate(dateParam: String): Flow<List<MeasurementEntity>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeasurement(measurementEntity: MeasurementEntity)
+
 }

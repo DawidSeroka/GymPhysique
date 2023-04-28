@@ -7,6 +7,6 @@ internal fun Measurement.toEntity(): MeasurementEntity =
     MeasurementEntity(
         id = id,
         measurementResult = measurementResult,
-        timestamp = timestamp,
+        date = date,
         measurementType = measurementType
     )

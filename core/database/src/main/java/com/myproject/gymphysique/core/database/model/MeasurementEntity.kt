@@ -10,6 +10,6 @@ data class MeasurementEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val measurementResult: Double,
-    val timestamp: Long,
+    val date: String,
     val measurementType: MeasurementType
 )

@@ -85,7 +85,12 @@ internal class MeasureViewModel @Inject constructor(
                                     advertisement,
                                     currentState.advertisements.map { it.advertisement }
                                 )
-                                    .map { AdvertisementWrapper(ConnectionState.DISCONNECTED, advertisement) }
+                                    .map {
+                                        AdvertisementWrapper(
+                                            ConnectionState.DISCONNECTED,
+                                            advertisement
+                                        )
+                                    }
                                 currentState.copy(
                                     advertisements = newAdvertisementList
                                 )
@@ -157,7 +162,7 @@ internal class MeasureViewModel @Inject constructor(
 
     internal fun onSaveMeasurementClick() {
         val measurements = _state.value.measurements
-        measurements.forEach {measurement ->
+        measurements.forEach { measurement ->
             viewModelScope.launch {
                 addMeasurementUseCase(measurement)
             }

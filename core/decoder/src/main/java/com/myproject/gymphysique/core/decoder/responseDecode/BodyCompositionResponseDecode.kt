@@ -5,6 +5,8 @@ import com.myproject.gymphysique.core.common.dateToTimestamp
 import com.myproject.gymphysique.core.common.signedBytesToInt
 import com.myproject.gymphysique.core.decoder.ResponseData
 import com.myproject.gymphysique.core.decoder.flag.FlagTypeCheck
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class BodyCompositionResponseDecode @Inject constructor(
@@ -24,7 +26,7 @@ class BodyCompositionResponseDecode @Inject constructor(
         val metricUnit = !flagTypeCheck.checkBodyCompositionFlagUnit(flags)
 
         val weight = decodeWeight(flags, byteArray, sizeOfList, metricUnit)
-        val timestamp = decodeTimestamp(flags, byteArray)
+        val date = getCurrentDate()
         val impedancePresent = flagTypeCheck.checkBodyCompositionFlagImpedance(flags)
         return if (impedancePresent) {
             var impedance: Int? = null
@@ -54,7 +56,7 @@ class BodyCompositionResponseDecode @Inject constructor(
                 Result.success(
                     ResponseData.BodyCompositionResponseData(
                         weight = it,
-                        timestamp = timestamp,
+                        date = date,
                         bodyFatPercentage = fatPercentage,
                         basalMetabolism = bmr,
                         musclePercentage = musclePercentage,
@@ -72,7 +74,7 @@ class BodyCompositionResponseDecode @Inject constructor(
             Result.loading(
                 ResponseData.BodyCompositionResponseData(
                     weight = weight,
-                    timestamp = timestamp
+                    date = date
                 )
             )
         }
@@ -99,17 +101,11 @@ class BodyCompositionResponseDecode @Inject constructor(
         }
     }
 
-    private fun decodeTimestamp(flags: Int, byteArray: ByteArray) =
-        if (flagTypeCheck.checkBodyCompositionFlagTimestamp(flags)) {
-            dateToTimestamp(
-                byteArray.copyOfRange(
-                    2,
-                    byteArray.size - 4
-                )
-            )
-        } else {
-            System.currentTimeMillis()
-        }
+    private fun getCurrentDate(): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        return LocalDate.now().format(formatter)
+    }
+
 
     private fun decodeFatPercentage(sex: String, age: Int, weight: Double, height: Int): Double {
         // Set a constant to remove from LBM

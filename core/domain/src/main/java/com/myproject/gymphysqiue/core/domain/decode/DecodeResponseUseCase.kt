@@ -16,7 +16,7 @@ class DecodeResponseUseCase @Inject constructor() : (Result<ResponseData>) -> Li
             listOf(
                 Measurement(
                     measurementResult = loadingMeasurement.weight ?: 0.0,
-                    timestamp = loadingMeasurement.timestamp,
+                    date = loadingMeasurement.date,
                     measurementType = MeasurementType.WEIGHT
                 )
             )
@@ -25,56 +25,56 @@ class DecodeResponseUseCase @Inject constructor() : (Result<ResponseData>) -> Li
                 result.value() as ResponseData.BodyCompositionResponseData
             val measurementWeight = Measurement(
                 measurementResult = measurementResponse.weight ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.WEIGHT
             )
             val measurementFatPercentage = Measurement(
                 measurementResult = measurementResponse.bodyFatPercentage
                     ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.BODY_FAT
             )
             val measurementBmr = Measurement(
                 measurementResult = measurementResponse.basalMetabolism
                     ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.BASAL_METABOLISM
             )
             val measurementBoneMass = Measurement(
                 measurementResult = measurementResponse.boneMass ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.BONE_MASS
             )
             val measurementMuscleMass = Measurement(
                 measurementResult = measurementResponse.muscleMass ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.MUSCLE_MASS
             )
             val measurementMusclePercentage = Measurement(
                 measurementResult = measurementResponse.musclePercentage
                     ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.MUSCLE_PERCENTAGE
             )
             val measurementWaterPercentage = Measurement(
                 measurementResult = measurementResponse.bodyWaterPercentage
                     ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.BODY_WATER_MASS
             )
             val measurementVisceralFat = Measurement(
                 measurementResult = measurementResponse.visceralFat ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.VISCERAL_FAT
             )
             val measurementIdealWeight = Measurement(
                 measurementResult = measurementResponse.idealWeight ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.IDEAL_WEIGHT
             )
             val measurementBmi = Measurement(
                 measurementResult = measurementResponse.bmi ?: 0.0,
-                timestamp = measurementResponse.timestamp,
+                date = measurementResponse.date,
                 measurementType = MeasurementType.BMI
             )
 
@@ -96,7 +96,6 @@ class DecodeResponseUseCase @Inject constructor() : (Result<ResponseData>) -> Li
             Timber.d("Result3=$measurementResponse")
 
             emptyList()
-            // onStopMeasureClick()
         }
     }
 }

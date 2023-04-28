@@ -7,6 +7,6 @@ internal fun MeasurementEntity.toDomain(): Measurement =
     Measurement(
         id = id,
         measurementResult = measurementResult,
-        timestamp = timestamp,
+        date = date,
         measurementType = measurementType
     )

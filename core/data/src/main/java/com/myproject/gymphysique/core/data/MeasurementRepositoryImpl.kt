@@ -12,10 +12,16 @@ import javax.inject.Singleton
 @Singleton
 class MeasurementRepositoryImpl @Inject constructor(
     private val measurementDao: MeasurementDao
-): MeasurementRepository{
+) : MeasurementRepository {
 
     override fun getMeasurements(): Flow<List<Measurement>> {
         return measurementDao.getAllMeasurements().map { measurementList ->
+            measurementList.map { it.toDomain() }
+        }
+    }
+
+    override fun getMeasurementsWithDate(dateParam: String): Flow<List<Measurement>> {
+        return measurementDao.getMeasurementsWithDate(dateParam).map { measurementList ->
             measurementList.map { it.toDomain() }
         }
     }
