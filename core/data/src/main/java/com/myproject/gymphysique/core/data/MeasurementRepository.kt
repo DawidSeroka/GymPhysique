@@ -1,10 +1,10 @@
 package com.myproject.gymphysique.core.data
 
-import com.myproject.gymphysique.core.database.dao.MeasurementDao
-import javax.inject.Inject
-import javax.inject.Singleton
+import com.myproject.gymphysique.core.model.Measurement
+import kotlinx.coroutines.flow.Flow
 
-@Singleton
-class MeasurementRepository @Inject constructor(
-    private val measurementDao: MeasurementDao
-)
+interface MeasurementRepository {
+    fun getMeasurements(): Flow<List<Measurement>>
+
+    suspend fun saveMeasurement(measurement: Measurement)
+}
