@@ -18,5 +18,4 @@ interface MeasurementDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMeasurement(measurementEntity: MeasurementEntity)
-
 }

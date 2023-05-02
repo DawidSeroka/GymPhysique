@@ -49,6 +49,7 @@ protobuf = "3.21.12"
 protobufPlugin = "0.8.19"
 kable = "0.22.0"
 composePermissionHandler = "1.5.0-beta" # https://github.com/dawidraszka/compose-permission-handler
+vico = "1.6.5"
 
 
 [libraries]
@@ -125,7 +126,9 @@ turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-lite", version.ref = "protobuf" }
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
-kable-android-ble = { group = "com.juul.kable", name = "core", version.ref = "kable"}
+kable-android-ble = { group = "com.juul.kable", name = "core", version.ref = "kable" }
+vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 
 
 # Dependencies of the included build-logic

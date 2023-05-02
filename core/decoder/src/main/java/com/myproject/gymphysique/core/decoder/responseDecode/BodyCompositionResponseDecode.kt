@@ -1,7 +1,6 @@
 package com.myproject.gymphysique.core.decoder.responseDecode
 
 import com.myproject.gymphysique.core.common.Result
-import com.myproject.gymphysique.core.common.dateToTimestamp
 import com.myproject.gymphysique.core.common.signedBytesToInt
 import com.myproject.gymphysique.core.decoder.ResponseData
 import com.myproject.gymphysique.core.decoder.flag.FlagTypeCheck
@@ -105,7 +104,6 @@ class BodyCompositionResponseDecode @Inject constructor(
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         return LocalDate.now().format(formatter)
     }
-
 
     private fun decodeFatPercentage(sex: String, age: Int, weight: Double, height: Int): Double {
         // Set a constant to remove from LBM

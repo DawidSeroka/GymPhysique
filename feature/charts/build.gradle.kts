@@ -10,5 +10,8 @@ android {
 
 dependencies {
     implementation(project(":core:designsystem"))
+
     implementation(libs.timber)
+    implementation(libs.vico.core)
+    implementation(libs.vico.compose)
 }

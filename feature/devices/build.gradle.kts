@@ -7,3 +7,5 @@ plugins {
 android {
     namespace = "com.myproject.gymphysique.feature.devices"
 }
+dependencies {
+}

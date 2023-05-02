@@ -16,11 +16,11 @@ import com.myproject.gymphysique.core.model.ConnectionState
 import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
-import com.myproject.gymphysqiue.core.domain.measure.ProvideAdvertisementsUseCase
-import com.myproject.gymphysqiue.core.domain.measure.TimerUseCase
 import com.myproject.gymphysqiue.core.domain.decode.DecodeDataUseCase
 import com.myproject.gymphysqiue.core.domain.measure.AddMeasurementUseCase
 import com.myproject.gymphysqiue.core.domain.measure.ObserveConnectStateUseCase
+import com.myproject.gymphysqiue.core.domain.measure.ProvideAdvertisementsUseCase
+import com.myproject.gymphysqiue.core.domain.measure.TimerUseCase
 import com.myproject.gymphysqiue.core.domain.measure.ValidateCurrentAdvertisementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

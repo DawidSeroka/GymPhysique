@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class AddMeasurementUseCase @Inject constructor(
     private val repository: MeasurementRepository
-): suspend (Measurement) -> Unit {
+) : suspend (Measurement) -> Unit {
     override suspend fun invoke(measurement: Measurement) {
         repository.saveMeasurement(measurement)
     }

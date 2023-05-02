@@ -22,7 +22,7 @@ class ChartsViewModel @Inject constructor(
             launched = Launched.WhileSubscribed(stopTimeoutMillis = 5_000),
             {
                 observeMeasurementsUseCase(state.value.selectedDate)
-                    .onEachToState{ measurements, chartsState ->
+                    .onEachToState { measurements, chartsState ->
                         val weightMeasurements = measurements
                             .filter { it.measurementType == MeasurementType.WEIGHT }
                         val basalMetabolismMeasurements = measurements
@@ -38,15 +38,15 @@ class ChartsViewModel @Inject constructor(
                         val fatFreeMassMeasurements = measurements
                             .filter { it.measurementType == MeasurementType.FAT_FREE_MASS }
                         val idealWeightMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.WEIGHT }
+                            .filter { it.measurementType == MeasurementType.IDEAL_WEIGHT }
                         val muscleMassMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.WEIGHT }
+                            .filter { it.measurementType == MeasurementType.MUSCLE_MASS }
                         val musclePercentageMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.WEIGHT }
+                            .filter { it.measurementType == MeasurementType.MUSCLE_PERCENTAGE }
                         val softLeanMassMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.WEIGHT }
+                            .filter { it.measurementType == MeasurementType.SOFT_LEAN_MASS }
                         val visceralFatMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.WEIGHT }
+                            .filter { it.measurementType == MeasurementType.VISCERAL_FAT }
 
                         chartsState.copy(
                             weightMeasurements = weightMeasurements,
@@ -65,5 +65,5 @@ class ChartsViewModel @Inject constructor(
                     }
             }
         )
-val state: StateFlow<ChartsState> = _state
+    val state: StateFlow<ChartsState> = _state
 }
