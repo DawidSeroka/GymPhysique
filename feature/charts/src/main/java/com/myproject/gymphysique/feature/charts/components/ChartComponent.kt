@@ -29,29 +29,21 @@ internal fun ChartComponent(measurements: List<Measurement>) {
             )
         }
     val entryModel = entryModelOf(measurementValues)
-    val title = if(measurements.isNotEmpty())
-        measurements[0].measurementType.fullName else
-            null
-    title?.let {
-        Column(
-            modifier = Modifier.padding(Dimens.margin),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = it,
-                style = MaterialTheme.typography.labelLarge
-            )
-            Chart(
-                chart = lineChart(),
-                model = entryModel,
-                startAxis = startAxis(),
-                bottomAxis = bottomAxis(),
-                chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = true),
-                isZoomEnabled = true,
-                marker = rememberMarker()
-            )
-        }
+    Column(
+        modifier = Modifier.padding(Dimens.margin),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Chart(
+            chart = lineChart(),
+            model = entryModel,
+            startAxis = startAxis(),
+            bottomAxis = bottomAxis(),
+            chartScrollSpec = rememberChartScrollSpec(isScrollEnabled = true),
+            isZoomEnabled = true,
+            marker = rememberMarker()
+        )
+
     }
 
 }

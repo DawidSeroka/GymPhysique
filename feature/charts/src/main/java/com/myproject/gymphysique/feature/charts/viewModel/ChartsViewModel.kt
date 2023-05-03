@@ -4,66 +4,74 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
+import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.MeasurementType
 import com.myproject.gymphysique.feature.charts.ChartsState
+import com.myproject.gymphysqiue.core.domain.charts.GetMeasurementsUseCase
 import com.myproject.gymphysqiue.core.domain.charts.ObserveMeasurementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ChartsViewModel @Inject constructor(
-    observeMeasurementsUseCase: ObserveMeasurementsUseCase
+    private val getMeasurementsUseCase: GetMeasurementsUseCase
 ) : ViewModel() {
+
     private val _state: MutableStateFlow<ChartsState> = MutableStateFlow(ChartsState())
         .stateInMerge(
             scope = viewModelScope,
-            launched = Launched.WhileSubscribed(stopTimeoutMillis = 5_000),
-            {
-                observeMeasurementsUseCase(state.value.selectedDate)
-                    .onEachToState { measurements, chartsState ->
-                        val weightMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.WEIGHT }
-                        val basalMetabolismMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.BASAL_METABOLISM }
-                        val bmiMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.BMI }
-                        val bodyFatMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.BODY_FAT }
-                        val bodyWaterMassMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.BODY_WATER_MASS }
-                        val boneMassMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.BONE_MASS }
-                        val fatFreeMassMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.FAT_FREE_MASS }
-                        val idealWeightMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.IDEAL_WEIGHT }
-                        val muscleMassMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.MUSCLE_MASS }
-                        val musclePercentageMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.MUSCLE_PERCENTAGE }
-                        val softLeanMassMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.SOFT_LEAN_MASS }
-                        val visceralFatMeasurements = measurements
-                            .filter { it.measurementType == MeasurementType.VISCERAL_FAT }
-
-                        chartsState.copy(
-                            weightMeasurements = weightMeasurements,
-                            basalMetabolismMeasurements = basalMetabolismMeasurements,
-                            bmiMeasurements = bmiMeasurements,
-                            bodyFatMeasurements = bodyFatMeasurements,
-                            bodyWaterMassMeasurements = bodyWaterMassMeasurements,
-                            boneMassMeasurements = boneMassMeasurements,
-                            fatFreeMassMeasurements = fatFreeMassMeasurements,
-                            idealWeightMeasurements = idealWeightMeasurements,
-                            muscleMassMeasurements = muscleMassMeasurements,
-                            musclePercentageMeasurements = musclePercentageMeasurements,
-                            softLeanMassMeasurements = softLeanMassMeasurements,
-                            visceralFatMeasurements = visceralFatMeasurements
-                        )
-                    }
-            }
+            launched = Launched.WhileSubscribed(stopTimeoutMillis = 5_000)
         )
     val state: StateFlow<ChartsState> = _state
+
+    init {
+        viewModelScope.launch {
+            _state.update { it.copy(measurements = getMeasurements()) }
+        }
+    }
+
+    internal fun onMeasurementTypeSelected(measurementType: MeasurementType) {
+        _state.update {
+            it.copy(
+                selectedMeasurementType = measurementType,
+                dropdownMeasurementExpanded = false
+            )
+        }.also {
+            viewModelScope.launch {
+                _state.update { it.copy(measurements = getMeasurements()) }
+            }
+        }
+    }
+
+    internal fun onMeasurementDropdownSelected() {
+        _state.update { it.copy(dropdownMeasurementExpanded = !it.dropdownMeasurementExpanded) }
+    }
+
+    internal fun onDateSelected(date: String) {
+        _state.update {
+            it.copy(
+                selectedDate = date,
+                dropdownDateExpanded = false
+            )
+        }.also {
+            viewModelScope.launch {
+                _state.update { it.copy(measurements = getMeasurements()) }
+            }
+        }
+    }
+
+    internal fun onDateDropdownSelected() {
+        _state.update { it.copy(dropdownDateExpanded = !it.dropdownDateExpanded) }
+    }
+
+    private suspend fun getMeasurements(): List<Measurement> {
+        return getMeasurementsUseCase(
+            _state.value.selectedDate,
+            _state.value.selectedMeasurementType
+        )
+    }
 }
