@@ -14,4 +14,5 @@ dependencies {
     implementation(libs.timber)
     implementation(libs.vico.core)
     implementation(libs.vico.compose)
+    implementation(libs.date.picker)
 }

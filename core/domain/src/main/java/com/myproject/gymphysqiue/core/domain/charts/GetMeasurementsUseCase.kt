@@ -8,13 +8,11 @@ import javax.inject.Inject
 
 class GetMeasurementsUseCase @Inject constructor(
     private val measurementRepository: MeasurementRepository
-): suspend (String?, MeasurementType) -> List<Measurement>{
-    override suspend fun invoke(dateParam: String?, measurementType: MeasurementType): List<Measurement> {
-        return dateParam?.let {
-            measurementRepository.getMeasurements(it,measurementType)
-        } ?: kotlin.run {
-            val currentDate = getCurrentDate()
-            measurementRepository.getMeasurements(currentDate,measurementType)
-        }
+) : suspend (String, MeasurementType) -> List<Measurement> {
+    override suspend fun invoke(
+        dateParam: String,
+        measurementType: MeasurementType
+    ): List<Measurement> {
+        return measurementRepository.getMeasurements(dateParam, measurementType)
     }
 }

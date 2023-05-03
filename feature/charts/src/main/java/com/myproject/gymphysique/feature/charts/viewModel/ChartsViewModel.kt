@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
+import com.myproject.gymphysique.core.common.toMonthAndYear
 import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.MeasurementType
 import com.myproject.gymphysique.feature.charts.ChartsState
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,10 +53,10 @@ class ChartsViewModel @Inject constructor(
         _state.update { it.copy(dropdownMeasurementExpanded = !it.dropdownMeasurementExpanded) }
     }
 
-    internal fun onDateSelected(date: String) {
+    internal fun onDateSelected(date: Date) {
         _state.update {
             it.copy(
-                selectedDate = date,
+                selectedDate = date.toMonthAndYear(),
                 dropdownDateExpanded = false
             )
         }.also {
