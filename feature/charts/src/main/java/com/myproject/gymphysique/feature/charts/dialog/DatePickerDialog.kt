@@ -11,18 +11,19 @@ import java.util.Date
 internal fun DatePickerDialog(
     onDateSelected: (Date) -> Unit,
     onDismissed: () -> Unit
-){
+) {
     Dialog(onDismissRequest = onDismissed) {
         ComposeCalendar(
             listener = object : SelectDateListener {
-            override fun onCanceled() {
-                onDismissed()
-            }
+                override fun onCanceled() {
+                    onDismissed()
+                }
 
-            override fun onDateSelected(date: Date) {
-                Log.i("DATE",date.toString())
-                onDateSelected(date)
+                override fun onDateSelected(date: Date) {
+                    Log.i("DATE", date.toString())
+                    onDateSelected(date)
+                }
             }
-        })
+        )
     }
 }

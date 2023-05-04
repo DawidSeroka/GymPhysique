@@ -22,9 +22,9 @@ fun GPNavHost(
         startDestination = startDestination,
         modifier = modifier
     ) {
-        measureGraph(onButtonClick = { navController.navigateToSettings() })
-        settingsGraph(onButtonClick = { navController.navigateToMeasure() })
-        chartsGraph(onButtonClick = {})
+        measureGraph()
+        settingsGraph()
+        chartsGraph()
 
     }
 }

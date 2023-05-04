@@ -1,6 +1,5 @@
 package com.myproject.gymphysqiue.core.domain.charts
 
-import com.myproject.gymphysique.core.common.getCurrentDate
 import com.myproject.gymphysique.core.data.MeasurementRepository
 import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.MeasurementType

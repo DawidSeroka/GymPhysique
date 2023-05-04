@@ -16,7 +16,7 @@ class MeasurementRepositoryImpl @Inject constructor(
 ) : MeasurementRepository {
 
     override fun observeMeasurements(dateParam: String, measurementType: MeasurementType): Flow<List<Measurement>> {
-        return measurementDao.observeMeasurements(dateParam,measurementType).map { measurementList ->
+        return measurementDao.observeMeasurements(dateParam, measurementType).map { measurementList ->
             measurementList.map { it.toDomain() }
         }
     }
@@ -25,7 +25,7 @@ class MeasurementRepositoryImpl @Inject constructor(
         dateParam: String,
         measurementType: MeasurementType
     ): List<Measurement> {
-        return measurementDao.getMeasurements(dateParam,measurementType).map { measurement ->
+        return measurementDao.getMeasurements(dateParam, measurementType).map { measurement ->
             measurement.toDomain()
         }
     }

@@ -15,8 +15,8 @@ class UserRepository @Inject constructor(
 
     suspend fun getUser(): UserData = userPreferencesDataSource.getUser()
 
-    suspend fun saveUser(userData: UserData) {
-        userPreferencesDataSource.setUser(userData)
+    suspend fun saveUser(userData: UserData): Result<UserData> {
+        return userPreferencesDataSource.setUser(userData)
     }
 
     suspend fun setUserFirstName(firstName: String) {

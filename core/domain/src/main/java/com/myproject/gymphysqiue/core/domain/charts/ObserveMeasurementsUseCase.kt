@@ -14,12 +14,12 @@ class ObserveMeasurementsUseCase @Inject constructor(
 ) : (String?, MeasurementType) -> Flow<List<Measurement>> {
     override fun invoke(dateParam: String?, measurementType: MeasurementType): Flow<List<Measurement>> {
         dateParam?.let {
-            return measurementRepository.observeMeasurements(it,measurementType)
+            return measurementRepository.observeMeasurements(it, measurementType)
         } ?: kotlin.run {
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
                 .withZone(ZoneId.systemDefault())
             val currentDate = formatter.format(Instant.now())
-            return measurementRepository.observeMeasurements(currentDate,measurementType)
+            return measurementRepository.observeMeasurements(currentDate, measurementType)
         }
     }
 }

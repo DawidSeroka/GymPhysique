@@ -9,7 +9,6 @@ import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.MeasurementType
 import com.myproject.gymphysique.feature.charts.ChartsState
 import com.myproject.gymphysqiue.core.domain.charts.GetMeasurementsUseCase
-import com.myproject.gymphysqiue.core.domain.charts.ObserveMeasurementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

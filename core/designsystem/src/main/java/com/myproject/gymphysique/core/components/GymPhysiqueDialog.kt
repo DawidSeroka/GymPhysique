@@ -23,12 +23,13 @@ fun GymPhysiqueDialog(
             tonalElevation = AlertDialogDefaults.TonalElevation,
             shape = AlertDialogDefaults.shape
         ) {
-            Box(modifier = Modifier.padding(Dimens.dialogMargin)){
+            Box(modifier = Modifier.padding(Dimens.dialogMargin)) {
                 content()
             }
         }
     }
 }
+
 @Preview(name = "Light mode")
 @Preview(name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable

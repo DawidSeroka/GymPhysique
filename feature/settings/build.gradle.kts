@@ -7,3 +7,8 @@ plugins {
 android {
     namespace = "com.myproject.gymphysique.feature.settings"
 }
+dependencies {
+    implementation(project(":core:designsystem"))
+
+    implementation(libs.timber)
+}

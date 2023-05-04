@@ -25,8 +25,8 @@ class UserPreferencesDataSource @Inject constructor(
     suspend fun getUser(): UserData =
         userData.firstOrNull() ?: UserData("", "", 0, 0, "")
 
-    suspend fun setUser(userData: UserData) {
-        try {
+    suspend fun setUser(userData: UserData): Result<UserData> {
+        return try {
             userPreferences.updateData {
                 it.copy {
                     firstName = userData.firstName
@@ -36,8 +36,10 @@ class UserPreferencesDataSource @Inject constructor(
                     gender = userData.gender
                 }
             }
+            Result.success(userData)
         } catch (ioException: IOException) {
             Log.e("GymPhysique", "Failed to update user preferences", ioException)
+            Result.failure(ioException)
         }
     }
 

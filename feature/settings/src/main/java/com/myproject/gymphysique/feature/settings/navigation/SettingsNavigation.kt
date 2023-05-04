@@ -12,8 +12,8 @@ fun NavController.navigateToSettings(navOptions: NavOptions? = null) {
     this.navigate(settingsNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.settingsGraph(onButtonClick: () -> Unit) {
+fun NavGraphBuilder.settingsGraph() {
     composable(route = settingsNavigationRoute) {
-        SettingsRoute(onClick = onButtonClick)
+        SettingsRoute()
     }
 }

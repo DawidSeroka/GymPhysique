@@ -12,7 +12,7 @@ fun NavController.navigateToCharts(navOptions: NavOptions? = null) {
     this.navigate(chartsNavigationRoute, navOptions)
 }
 
-fun NavGraphBuilder.chartsGraph(onButtonClick: () -> Unit) {
+fun NavGraphBuilder.chartsGraph() {
     composable(route = chartsNavigationRoute) {
         ChartsRoute()
     }

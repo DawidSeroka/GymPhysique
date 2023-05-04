@@ -9,7 +9,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -21,10 +20,12 @@ internal fun DatePicker(
     modifier: Modifier = Modifier,
     date: String,
     expanded: Boolean,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
-    Box(modifier = modifier
-        .fillMaxWidth()) {
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
         OutlinedTextField(
             modifier = modifier
                 .clickable { onClick() }
@@ -43,8 +44,7 @@ internal fun DatePicker(
                     }
                 },
             readOnly = true,
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) }
         )
     }
-
 }

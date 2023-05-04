@@ -37,4 +37,3 @@ fun dateToTimestamp(byteArray: ByteArray): Long {
 
 fun Long.toMillis(): Long =
     TimeUnit.SECONDS.toMillis(this)
-

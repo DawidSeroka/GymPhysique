@@ -9,7 +9,6 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,7 +49,8 @@ internal fun ChartDropdownMenu(
                 measurementTypes.forEach {
                     DropdownMenuItem(
                         text = { Text(it.fullName) },
-                        onClick = { onMeasurementTypeSelected(it) })
+                        onClick = { onMeasurementTypeSelected(it) }
+                    )
                     if (measurementTypes.last() != it) Divider()
                 }
             }
@@ -66,6 +66,7 @@ fun ChartsDropdownMenuPreview() {
         expanded = false,
         selectedMeasurementType = null,
         onMeasurementTypeSelected = {},
-        onDismissRequest = { /*TODO*/ }) {
+        onDismissRequest = { /*TODO*/ }
+    ) {
     }
 }
