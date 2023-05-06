@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetUserUseCase @Inject constructor(
     private val repository: UserRepository
-): suspend () -> UserData {
+) : suspend () -> UserData {
     override suspend fun invoke(): UserData {
         return repository.getUser()
     }

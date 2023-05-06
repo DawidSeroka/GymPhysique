@@ -1,7 +1,7 @@
 package com.myproject.gymphysqiue.core.domain.settings
 
-import com.myproject.gymphysique.core.model.Gender
 import com.myproject.gymphysique.core.data.UserRepository
+import com.myproject.gymphysique.core.model.Gender
 import com.myproject.gymphysique.core.model.UserData
 import javax.inject.Inject
 

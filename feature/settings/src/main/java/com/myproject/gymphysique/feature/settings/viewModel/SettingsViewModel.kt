@@ -35,13 +35,15 @@ internal class SettingsViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val user = getUserUseCase()
-            _state.update { it.copy(
-                firstName = TextFieldValue(user.firstName),
-                surname = TextFieldValue(user.surname),
-                height = TextFieldValue(user.height.toString()),
-                age = TextFieldValue(user.age.toString()),
-                gender = user.gender.toGender()
-            ) }
+            _state.update {
+                it.copy(
+                    firstName = TextFieldValue(user.firstName),
+                    surname = TextFieldValue(user.surname),
+                    height = TextFieldValue(user.height.toString()),
+                    age = TextFieldValue(user.age.toString()),
+                    gender = user.gender.toGender()
+                )
+            }
         }
     }
 
@@ -65,11 +67,11 @@ internal class SettingsViewModel @Inject constructor(
         _state.update { it.copy(gender = gender, expanded = false) }
     }
 
-    internal fun onSaveUserDataResultReset(){
+    internal fun onSaveUserDataResultReset() {
         _state.update { it.copy(saveUserDataResult = SaveUserDataResult.Initial) }
     }
 
-    internal fun onDropdownSelected(){
+    internal fun onDropdownSelected() {
         _state.update { it.copy(expanded = !it.expanded) }
     }
 

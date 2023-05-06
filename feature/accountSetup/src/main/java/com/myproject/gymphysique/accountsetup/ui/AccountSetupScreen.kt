@@ -28,10 +28,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.myproject.gymphysique.accountsetup.AccountSetupState
 import com.myproject.gymphysique.accountsetup.viewModel.AccountSetupActions
 import com.myproject.gymphysique.accountsetup.viewModel.AccountSetupViewModel
-import com.myproject.gymphysique.core.model.Gender
 import com.myproject.gymphysique.core.components.SelectGenderComponent
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
+import com.myproject.gymphysique.core.model.Gender
 
 @Composable
 internal fun AccountSetupRoute(

@@ -1,6 +1,5 @@
 package com.myproject.gymphysique.core.model
 
-
 enum class Gender(val fullName: String) {
     MALE("Male"),
     FEMALE("Female"),
@@ -8,10 +7,9 @@ enum class Gender(val fullName: String) {
 }
 
 fun String.toGender(): Gender {
-    return when(this.lowercase()){
+    return when (this.lowercase()) {
         Gender.MALE.fullName.lowercase() -> Gender.MALE
         Gender.FEMALE.fullName.lowercase() -> Gender.FEMALE
         else -> Gender.OTHER
     }
 }
-

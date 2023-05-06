@@ -11,7 +11,7 @@ internal data class SettingsState(
     val age: TextFieldValue = TextFieldValue(),
     val gender: Gender = Gender.OTHER,
     val saveUserDataResult: SaveUserDataResult = SaveUserDataResult.Initial,
-    val expanded: Boolean = false,
+    val expanded: Boolean = false
 )
 
 internal sealed class SaveUserDataResult {

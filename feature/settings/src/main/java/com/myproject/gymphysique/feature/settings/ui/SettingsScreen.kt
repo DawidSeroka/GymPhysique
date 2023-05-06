@@ -1,4 +1,4 @@
-package com.myproject.gymphysique.feature.settings
+package com.myproject.gymphysique.feature.settings.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,6 +31,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.myproject.gymphysique.core.components.SelectGenderComponent
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.model.Gender
+import com.myproject.gymphysique.feature.settings.SaveUserDataResult
+import com.myproject.gymphysique.feature.settings.SettingsState
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsScreenActions
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsViewModel
 import kotlinx.coroutines.launch
@@ -68,9 +70,9 @@ internal fun SettingsScreen(
 
     val saveUserDataResult = uiState.saveUserDataResult
 
-    LaunchedEffect(key1 = saveUserDataResult){
+    LaunchedEffect(key1 = saveUserDataResult) {
         coroutineScope.launch {
-            when(saveUserDataResult){
+            when (saveUserDataResult) {
                 is SaveUserDataResult.Failure -> {
                     snackbarHostState.showSnackbar("Error: ${saveUserDataResult.error.asString(context)}")
                 }
@@ -142,7 +144,6 @@ internal fun SettingsScreen(
             }
         }
     }
-
 }
 
 @Preview
@@ -150,6 +151,6 @@ internal fun SettingsScreen(
 private fun SettingsScreenPreview() {
     SettingsScreen(
         uiState = SettingsState(),
-        screenActions = SettingsScreenActions({}, {}, {}, {}, {}, {},{},{})
+        screenActions = SettingsScreenActions({}, {}, {}, {}, {}, {}, {}, {})
     )
 }

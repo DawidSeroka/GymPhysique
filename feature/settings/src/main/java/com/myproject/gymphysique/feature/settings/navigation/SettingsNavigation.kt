@@ -4,7 +4,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.myproject.gymphysique.feature.settings.SettingsRoute
+import com.myproject.gymphysique.feature.settings.ui.SettingsRoute
 
 const val settingsNavigationRoute = "settings_route"
 
