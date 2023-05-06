@@ -11,4 +11,6 @@ dependencies {
     implementation(project(":core:designsystem"))
 
     implementation(libs.timber)
+    implementation(libs.coil.kt)
+    implementation(libs.androidx.kts)
 }

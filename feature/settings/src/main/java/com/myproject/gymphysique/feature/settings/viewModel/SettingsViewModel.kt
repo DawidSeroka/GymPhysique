@@ -1,5 +1,6 @@
 package com.myproject.gymphysique.feature.settings.viewModel
 
+import android.net.Uri
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -45,7 +46,8 @@ internal class SettingsViewModel @Inject constructor(
                     surname = TextFieldValue(user.surname),
                     height = TextFieldValue(user.height.toString()),
                     age = TextFieldValue(user.age.toString()),
-                    gender = user.gender.toGender()
+                    gender = user.gender.toGender(),
+                    selectedImageUri = Uri.parse(user.uri)
                 )
             }
         }
@@ -83,6 +85,10 @@ internal class SettingsViewModel @Inject constructor(
         _state.update { it.copy(validateResult = ValidateResult.Correct) }
     }
 
+    internal fun onImageUriSelected(uri: Uri?) {
+        _state.update { it.copy(selectedImageUri = uri) }
+    }
+
     internal fun onSaveSelected() {
         resetErrorStates()
         viewModelScope.launch {
@@ -108,7 +114,8 @@ internal class SettingsViewModel @Inject constructor(
                     surname = _state.value.surname.text,
                     height = _state.value.height.text.toInt(),
                     age = _state.value.age.text.toInt(),
-                    gender = _state.value.gender
+                    gender = _state.value.gender,
+                    imageUri = _state.value.selectedImageUri.toString() ?: ""
                 ).onSuccess { userData ->
                     _state.update {
                         it.copy(

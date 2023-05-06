@@ -1,5 +1,6 @@
 package com.myproject.gymphysique.feature.settings
 
+import android.net.Uri
 import androidx.compose.ui.text.input.TextFieldValue
 import com.myproject.gymphysique.core.model.Gender
 import com.myproject.gymphysique.core.utils.UiText
@@ -17,7 +18,8 @@ internal data class SettingsState(
     val ageError: Boolean = false,
     val validateResult: ValidateResult = ValidateResult.Correct,
     val saveUserDataResult: SaveUserDataResult = SaveUserDataResult.Initial,
-    val expanded: Boolean = false
+    val expanded: Boolean = false,
+    val selectedImageUri: Uri? = null
 )
 
 internal sealed class SaveUserDataResult {

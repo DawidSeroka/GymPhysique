@@ -18,12 +18,13 @@ class UserPreferencesDataSource @Inject constructor(
                 surname = it.surname,
                 age = it.age,
                 height = it.height,
-                gender = it.gender
+                gender = it.gender,
+                uri = it.uri
             )
         }
 
     suspend fun getUser(): UserData =
-        userData.firstOrNull() ?: UserData("", "", 0, 0, "")
+        userData.firstOrNull() ?: UserData("", "", 0, 0, "", "")
 
     suspend fun setUser(userData: UserData): Result<UserData> {
         return try {
@@ -34,6 +35,7 @@ class UserPreferencesDataSource @Inject constructor(
                     age = userData.age
                     height = userData.height
                     gender = userData.gender
+                    uri = userData.uri
                 }
             }
             Result.success(userData)

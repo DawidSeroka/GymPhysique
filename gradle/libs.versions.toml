@@ -2,8 +2,8 @@
 accompanist = "0.28.0" # https://github.com/google/accompanist/releases
 androidDesugarJdkLibs = "2.0.2" # https://maven.google.com/web/index.html?q=desugar_jdk_libs#com.android.tools:desugar_jdk_libs
 androidGradlePlugin = "7.4.2" # https://maven.google.com/web/index.html?q=com.android.tools.build#com.android.tools.build:gradle
-androidxActivity = "1.6.1" # https://developer.android.com/jetpack/androidx/releases/activity
-androidxAppCompat = "1.6.1" # https://developer.android.com/jetpack/androidx/releases/appcompat
+androidxActivity = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/activity
+androidxAppCompat = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/appcompat
 androidxBrowser = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/browser
 androidxComposeBom = "2023.01.00" # https://maven.google.com/web/index.html?q=compose-bom#androidx.compose:compose-bom
 androidxComposeCompiler = "1.4.1" # https://developer.android.com/jetpack/androidx/releases/compose
@@ -51,6 +51,7 @@ kable = "0.22.0"
 composePermissionHandler = "1.5.0-beta" # https://github.com/dawidraszka/compose-permission-handler
 vico = "1.6.5"
 dogusTeknoloji = "1.1.0"
+androidXkts = "1.7.1"
 
 
 [libraries]
@@ -131,6 +132,8 @@ kable-android-ble = { group = "com.juul.kable", name = "core", version.ref = "ka
 vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = "vico" }
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 date-picker = { group = "com.github.DogusTeknoloji", name = "compose-date-picker", version.ref = "dogusTeknoloji" }
+androidx-kts = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidXkts" }
+
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
