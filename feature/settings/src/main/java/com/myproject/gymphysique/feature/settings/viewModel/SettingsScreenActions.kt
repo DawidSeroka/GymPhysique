@@ -11,5 +11,6 @@ internal data class SettingsScreenActions(
     val onGenderSelected: (Gender) -> Unit,
     val onDropdownSelected: () -> Unit,
     val onSaveSelected: () -> Unit,
-    val onSaveUserDataResultReset: () -> Unit
+    val onSaveUserDataResultReset: () -> Unit,
+    val onValidateResultReset: () -> Unit
 )

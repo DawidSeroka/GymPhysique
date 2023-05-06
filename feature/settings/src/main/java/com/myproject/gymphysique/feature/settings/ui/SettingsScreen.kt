@@ -35,6 +35,7 @@ import com.myproject.gymphysique.feature.settings.SaveUserDataResult
 import com.myproject.gymphysique.feature.settings.SettingsState
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsScreenActions
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsViewModel
+import com.myproject.gymphysqiue.core.domain.util.ValidateResult
 import kotlinx.coroutines.launch
 
 @Composable
@@ -53,7 +54,8 @@ internal fun SettingsRoute(
             onGenderSelected = viewModel::onGenderSelected,
             onSaveSelected = viewModel::onSaveSelected,
             onSaveUserDataResultReset = viewModel::onSaveUserDataResultReset,
-            onDropdownSelected = viewModel::onDropdownSelected
+            onDropdownSelected = viewModel::onDropdownSelected,
+            onValidateResultReset = viewModel::onValidateResultReset
         )
     )
 }
@@ -69,6 +71,7 @@ internal fun SettingsScreen(
     val context = LocalContext.current
 
     val saveUserDataResult = uiState.saveUserDataResult
+    val validateResult = uiState.validateResult
 
     LaunchedEffect(key1 = saveUserDataResult) {
         coroutineScope.launch {
@@ -83,6 +86,15 @@ internal fun SettingsScreen(
             }
         }
         screenActions.onSaveUserDataResultReset()
+    }
+
+    LaunchedEffect(key1 = validateResult) {
+        if (validateResult is ValidateResult.Error) {
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message = validateResult.message)
+            }
+            screenActions.onValidateResultReset()
+        }
     }
 
     Scaffold(
@@ -101,14 +113,16 @@ internal fun SettingsScreen(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.firstName,
                 onValueChange = { screenActions.onFirstNameChange(it) },
-                label = { Text(text = "Firstname") }
+                label = { Text(text = "Firstname") },
+                isError = uiState.firstnameError
             )
             Spacer(modifier = Modifier.height(Dimens.margin))
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
                 value = uiState.surname,
                 onValueChange = { screenActions.onSurnameChange(it) },
-                label = { Text(text = "Surname") }
+                label = { Text(text = "Surname") },
+                isError = uiState.surnameError
             )
             Spacer(modifier = Modifier.height(Dimens.margin))
             OutlinedTextField(
@@ -118,7 +132,8 @@ internal fun SettingsScreen(
                 label = { Text(text = "Height") },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal
-                )
+                ),
+                isError = uiState.heightError
             )
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -127,7 +142,8 @@ internal fun SettingsScreen(
                 label = { Text(text = "Age") },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal
-                )
+                ),
+                isError = uiState.ageError
             )
             Spacer(modifier = Modifier.height(Dimens.margin))
             SelectGenderComponent(
@@ -151,6 +167,6 @@ internal fun SettingsScreen(
 private fun SettingsScreenPreview() {
     SettingsScreen(
         uiState = SettingsState(),
-        screenActions = SettingsScreenActions({}, {}, {}, {}, {}, {}, {}, {})
+        screenActions = SettingsScreenActions({}, {}, {}, {}, {}, {}, {}, {}, {})
     )
 }
