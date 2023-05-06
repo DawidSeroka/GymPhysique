@@ -18,7 +18,10 @@ import com.patrykandpatrick.vico.core.entry.FloatEntry
 import com.patrykandpatrick.vico.core.entry.entryModelOf
 
 @Composable
-internal fun ChartComponent(measurements: List<Measurement>) {
+internal fun ChartComponent(
+    modifier: Modifier = Modifier,
+    measurements: List<Measurement>
+) {
     val measurementValues = measurements
         .map {
             FloatEntry(
@@ -28,7 +31,7 @@ internal fun ChartComponent(measurements: List<Measurement>) {
         }
     val entryModel = entryModelOf(measurementValues)
     Column(
-        modifier = Modifier.padding(Dimens.margin),
+        modifier = modifier.padding(Dimens.margin),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -47,5 +50,7 @@ internal fun ChartComponent(measurements: List<Measurement>) {
 @Preview
 @Composable
 fun ChartComponentPreview() {
-    ChartComponent(emptyList())
+    ChartComponent(
+        measurements = emptyList()
+    )
 }
