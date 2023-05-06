@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -23,13 +24,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.myproject.gymphysique.core.components.SelectGenderComponent
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
+import com.myproject.gymphysique.core.model.Gender
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsScreenActions
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsViewModel
 import kotlinx.coroutines.launch
@@ -47,9 +48,10 @@ internal fun SettingsRoute(
             onSurnameChange = viewModel::onSurnameChange,
             onHeightChange = viewModel::onHeightChange,
             onAgeChange = viewModel::onAgeChange,
-            onGenderChange = viewModel::onGenderChange,
+            onGenderSelected = viewModel::onGenderSelected,
             onSaveSelected = viewModel::onSaveSelected,
-            onSaveUserDataResultReset = viewModel::onSaveUserDataResultReset
+            onSaveUserDataResultReset = viewModel::onSaveUserDataResultReset,
+            onDropdownSelected = viewModel::onDropdownSelected
         )
     )
 }
@@ -88,46 +90,51 @@ internal fun SettingsScreen(
         Column(
             modifier = Modifier
                 .padding(paddingValues)
+                .padding(Dimens.screenPadding)
                 .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             OutlinedTextField(
-                value = TextFieldValue(text = uiState.firstName),
-                onValueChange = { screenActions.onFirstNameChange(it.text) },
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.firstName,
+                onValueChange = { screenActions.onFirstNameChange(it) },
                 label = { Text(text = "Firstname") }
             )
             Spacer(modifier = Modifier.height(Dimens.margin))
             OutlinedTextField(
-                value = TextFieldValue(text = uiState.surname),
-                onValueChange = { screenActions.onSurnameChange(it.text) },
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.surname,
+                onValueChange = { screenActions.onSurnameChange(it) },
                 label = { Text(text = "Surname") }
             )
             Spacer(modifier = Modifier.height(Dimens.margin))
             OutlinedTextField(
-                value = TextFieldValue(text = uiState.height.toString()),
-                onValueChange = { screenActions.onHeightChange(it.text.toInt()) },
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.height,
+                onValueChange = { screenActions.onHeightChange(it) },
                 label = { Text(text = "Height") },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal
                 )
             )
-            Spacer(modifier = Modifier.height(Dimens.margin))
             OutlinedTextField(
-                value = TextFieldValue(text = uiState.age.toString()),
-                onValueChange = { screenActions.onAgeChange(it.text.toInt()) },
+                modifier = Modifier.fillMaxWidth(),
+                value = uiState.age,
+                onValueChange = { screenActions.onAgeChange(it) },
                 label = { Text(text = "Age") },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Decimal
                 )
             )
             Spacer(modifier = Modifier.height(Dimens.margin))
-            OutlinedTextField(
-                value = TextFieldValue(text = uiState.gender),
-                onValueChange = { screenActions.onGenderChange(it.text) },
-                label = { Text(text = "Gender") },
-                maxLines = 1,
-
+            SelectGenderComponent(
+                genders = Gender.values().toList(),
+                expanded = uiState.expanded,
+                selectedGender = uiState.gender,
+                onGenderSelected = screenActions.onGenderSelected,
+                onDismissRequest = screenActions.onDropdownSelected,
+                onExpandedChange = screenActions.onDropdownSelected
             )
             Spacer(modifier = Modifier.height(Dimens.margin))
             Button(onClick = { screenActions.onSaveSelected() }) {
@@ -143,6 +150,6 @@ internal fun SettingsScreen(
 private fun SettingsScreenPreview() {
     SettingsScreen(
         uiState = SettingsState(),
-        screenActions = SettingsScreenActions({}, {}, {}, {}, {}, {},{})
+        screenActions = SettingsScreenActions({}, {}, {}, {}, {}, {},{},{})
     )
 }

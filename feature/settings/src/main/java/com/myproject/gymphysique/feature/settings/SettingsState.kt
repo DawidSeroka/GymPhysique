@@ -1,15 +1,17 @@
 package com.myproject.gymphysique.feature.settings
 
-import com.myproject.gymphysique.core.common.Gender
+import androidx.compose.ui.text.input.TextFieldValue
+import com.myproject.gymphysique.core.model.Gender
 import com.myproject.gymphysique.core.utils.UiText
 
 internal data class SettingsState(
-    val firstName: String = "",
-    val surname: String = "",
-    val height: Int = 0,
-    val age: Int = 0,
-    val gender: String = Gender.MALE.fullName,
-    val saveUserDataResult: SaveUserDataResult = SaveUserDataResult.Initial
+    val firstName: TextFieldValue = TextFieldValue(),
+    val surname: TextFieldValue = TextFieldValue(),
+    val height: TextFieldValue = TextFieldValue(),
+    val age: TextFieldValue = TextFieldValue(),
+    val gender: Gender = Gender.OTHER,
+    val saveUserDataResult: SaveUserDataResult = SaveUserDataResult.Initial,
+    val expanded: Boolean = false,
 )
 
 internal sealed class SaveUserDataResult {

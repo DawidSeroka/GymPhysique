@@ -1,6 +1,5 @@
 package com.myproject.gymphysique.accountsetup.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,19 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardCapitalization
@@ -35,7 +28,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.myproject.gymphysique.accountsetup.AccountSetupState
 import com.myproject.gymphysique.accountsetup.viewModel.AccountSetupActions
 import com.myproject.gymphysique.accountsetup.viewModel.AccountSetupViewModel
-import com.myproject.gymphysique.core.common.Gender
+import com.myproject.gymphysique.core.model.Gender
+import com.myproject.gymphysique.core.components.SelectGenderComponent
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 
@@ -75,9 +69,6 @@ private fun AccountScreen(
     uiState: AccountSetupState,
     screenActions: AccountSetupActions
 ) {
-    var text by remember {
-        mutableStateOf(TextFieldValue())
-    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -148,7 +139,7 @@ private fun AccountScreen(
             onValueChange = { screenActions.onAgeChange(it) }
         )
         Spacer(modifier = Modifier.height(Dimens.dialogMargin))
-        SelectSexComponent(
+        SelectGenderComponent(
             genders = Gender.values().toList(),
             expanded = uiState.expanded,
             selectedGender = uiState.gender,
@@ -159,46 +150,6 @@ private fun AccountScreen(
         Spacer(modifier = Modifier.height(Dimens.dialogMargin))
         Button(onClick = { screenActions.onSaveUserClick() }) {
             Text(text = "Save")
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun SelectSexComponent(
-    genders: List<Gender>,
-    expanded: Boolean,
-    selectedGender: Gender?,
-    onGenderSelected: (Gender) -> Unit,
-    onDismissRequest: () -> Unit,
-    onExpandedChange: () -> Unit
-) {
-    ExposedDropdownMenuBox(
-        modifier = Modifier.fillMaxWidth(),
-        expanded = expanded,
-        onExpandedChange = { onExpandedChange() }
-    ) {
-        OutlinedTextField(
-            value = selectedGender?.name ?: "",
-            onValueChange = {},
-            readOnly = true,
-            label = { Text("Gender") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            modifier = Modifier
-                .fillMaxWidth()
-                .menuAnchor()
-        )
-        ExposedDropdownMenu(expanded = expanded, onDismissRequest = onDismissRequest) {
-            genders.forEach {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { onGenderSelected(it) }
-                        .padding(Dimens.halfMargin),
-                    text = it.name
-                )
-                if (genders.last() != it) Divider()
-            }
         }
     }
 }

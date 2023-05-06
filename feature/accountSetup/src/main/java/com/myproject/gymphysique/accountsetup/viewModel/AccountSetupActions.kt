@@ -1,7 +1,7 @@
 package com.myproject.gymphysique.accountsetup.viewModel
 
 import androidx.compose.ui.text.input.TextFieldValue
-import com.myproject.gymphysique.core.common.Gender
+import com.myproject.gymphysique.core.model.Gender
 
 internal data class AccountSetupActions(
     val onFirstNameChange: (TextFieldValue) -> Unit,

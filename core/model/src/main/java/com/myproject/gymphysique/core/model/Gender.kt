@@ -1,7 +1,5 @@
-package com.myproject.gymphysique.core.common
+package com.myproject.gymphysique.core.model
 
-import androidx.compose.ui.text.toLowerCase
-import java.util.Locale
 
 enum class Gender(val fullName: String) {
     MALE("Male"),
@@ -9,7 +7,7 @@ enum class Gender(val fullName: String) {
     OTHER("Other")
 }
 
-fun String.toGender(): Gender{
+fun String.toGender(): Gender {
     return when(this.lowercase()){
         Gender.MALE.fullName.lowercase() -> Gender.MALE
         Gender.FEMALE.fullName.lowercase() -> Gender.FEMALE

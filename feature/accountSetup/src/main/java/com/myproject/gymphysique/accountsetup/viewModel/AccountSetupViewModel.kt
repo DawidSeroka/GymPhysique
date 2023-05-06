@@ -4,7 +4,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.myproject.gymphysique.accountsetup.AccountSetupState
-import com.myproject.gymphysique.core.common.Gender
+import com.myproject.gymphysique.core.model.Gender
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysqiue.core.domain.app.CreateUserUseCase
