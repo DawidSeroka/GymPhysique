@@ -24,5 +24,5 @@ interface MeasurementDao {
     ): List<MeasurementEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertMeasurement(measurementEntity: MeasurementEntity)
+    suspend fun insertMeasurement(measurementEntity: MeasurementEntity): Long
 }

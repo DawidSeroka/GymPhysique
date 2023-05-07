@@ -1,4 +1,4 @@
-package com.myproject.gymphysique.core.utils
+package com.myproject.gymphysique.core.common
 
 import android.content.Context
 import androidx.annotation.StringRes

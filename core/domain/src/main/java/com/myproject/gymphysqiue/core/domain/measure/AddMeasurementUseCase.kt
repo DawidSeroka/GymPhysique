@@ -6,8 +6,8 @@ import javax.inject.Inject
 
 class AddMeasurementUseCase @Inject constructor(
     private val repository: MeasurementRepository
-) : suspend (Measurement) -> Unit {
-    override suspend fun invoke(measurement: Measurement) {
-        repository.saveMeasurement(measurement)
+) : suspend (Measurement) -> Long {
+    override suspend fun invoke(measurement: Measurement): Long {
+        return repository.saveMeasurement(measurement)
     }
 }

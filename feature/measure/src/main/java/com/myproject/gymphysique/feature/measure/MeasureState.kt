@@ -9,7 +9,8 @@ internal data class MeasureState(
     val advertisingStatus: AdvertisingStatus = AdvertisingStatus.STOPPED,
     val advertisements: List<AdvertisementWrapper> = mutableListOf(),
     val measurements: List<Measurement> = mutableListOf(),
-    val measureState: Boolean = false
+    val measureState: Boolean = false,
+    val saveMeasurementResult: SaveOperationResult? = null
 )
 
 internal data class AdvertisementWrapper(
@@ -20,4 +21,9 @@ internal data class AdvertisementWrapper(
 internal enum class AdvertisingStatus(val text: String) {
     ADVERTISING("Advertising"),
     STOPPED("Stopped")
+}
+
+internal interface SaveOperationResult {
+    data class Success(val message: String) : SaveOperationResult
+    data class Error(val message: String) : SaveOperationResult
 }

@@ -12,5 +12,4 @@ dependencies {
 
     implementation(libs.timber)
     implementation(libs.coil.kt)
-    implementation(libs.androidx.kts)
 }

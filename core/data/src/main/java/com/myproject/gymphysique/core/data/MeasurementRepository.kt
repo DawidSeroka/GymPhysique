@@ -9,5 +9,5 @@ interface MeasurementRepository {
 
     suspend fun getMeasurements(dateParam: String, measurementType: MeasurementType): List<Measurement>
 
-    suspend fun saveMeasurement(measurement: Measurement)
+    suspend fun saveMeasurement(measurement: Measurement): Long
 }

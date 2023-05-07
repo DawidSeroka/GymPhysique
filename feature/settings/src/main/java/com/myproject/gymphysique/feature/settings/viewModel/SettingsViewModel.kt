@@ -5,11 +5,11 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.myproject.gymphysique.core.common.Launched
+import com.myproject.gymphysique.core.common.SaveUserDataResult
+import com.myproject.gymphysique.core.common.UiText
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.model.Gender
 import com.myproject.gymphysique.core.model.toGender
-import com.myproject.gymphysique.core.utils.UiText
-import com.myproject.gymphysique.feature.settings.SaveUserDataResult
 import com.myproject.gymphysique.feature.settings.SettingsState
 import com.myproject.gymphysqiue.core.domain.settings.GetUserUseCase
 import com.myproject.gymphysqiue.core.domain.settings.SaveUserDataUseCase

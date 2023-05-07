@@ -30,7 +30,7 @@ class MeasurementRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveMeasurement(measurement: Measurement) {
-        measurementDao.insertMeasurement(measurement.toEntity())
+    override suspend fun saveMeasurement(measurement: Measurement): Long {
+        return measurementDao.insertMeasurement(measurement.toEntity())
     }
 }

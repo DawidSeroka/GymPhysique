@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,6 +36,7 @@ import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
+import com.myproject.gymphysique.feature.measure.SaveOperationResult
 import com.myproject.gymphysique.feature.measure.components.Devices
 import com.myproject.gymphysique.feature.measure.components.Measurement
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureScreenActions
@@ -56,7 +58,8 @@ internal fun MeasureRoute(
             onSaveMeasurementsClick = viewModel::onSaveMeasurementClick,
             onSearchMeasurementsClick = viewModel::onSearchMeasurementsClick,
             onStopMeasureClick = viewModel::onStopMeasureClick,
-            onDisconnectClick = viewModel::onDisconnectClick
+            onDisconnectClick = viewModel::onDisconnectClick,
+            onSaveMeasurementResultReset = viewModel::onSaveMeasurementResultReset
         )
     )
 }
@@ -85,6 +88,19 @@ private fun MeasureScreen(
     val launcher = rememberLauncherForActivityResult(RequestBluetoothEnable()) { result ->
         if (result) {
             screenActions.onSearchDevicesClick()
+        }
+    }
+
+    val saveMeasurementResult = uiState.saveMeasurementResult
+    LaunchedEffect(key1 = saveMeasurementResult) {
+        saveMeasurementResult?.let {
+            if (saveMeasurementResult is SaveOperationResult.Success) {
+                snackbarHostState.showSnackbar(saveMeasurementResult.message)
+            } else if (saveMeasurementResult is SaveOperationResult.Error) {
+                snackbarHostState.showSnackbar(saveMeasurementResult.message)
+            }
+
+            screenActions.onSaveMeasurementResultReset()
         }
     }
 
@@ -121,6 +137,7 @@ private fun MeasureScreen(
                                     launcher.launch()
                                 }
                             }
+
                             PermissionHandlerResult.DENIED -> {
                                 snackbarHostState.showAppSettingsSnackbar(
                                     message = "App permission denied",
@@ -128,6 +145,7 @@ private fun MeasureScreen(
                                     context = context
                                 )
                             }
+
                             PermissionHandlerResult.DENIED_NEXT_RATIONALE -> {}
                         }
                     }
@@ -162,6 +180,7 @@ private fun HomePreview() {
         MeasureScreen(
             uiState = MeasureState(),
             screenActions = MeasureScreenActions(
+                {},
                 {},
                 {},
                 {},

@@ -16,6 +16,7 @@ import com.myproject.gymphysique.core.model.ConnectionState
 import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
+import com.myproject.gymphysique.feature.measure.SaveOperationResult
 import com.myproject.gymphysqiue.core.domain.decode.DecodeDataUseCase
 import com.myproject.gymphysqiue.core.domain.measure.AddMeasurementUseCase
 import com.myproject.gymphysqiue.core.domain.measure.ObserveConnectStateUseCase
@@ -164,7 +165,24 @@ internal class MeasureViewModel @Inject constructor(
         val measurements = _state.value.measurements
         measurements.forEach { measurement ->
             viewModelScope.launch {
-                addMeasurementUseCase(measurement)
+                val result = addMeasurementUseCase(measurement)
+                if (result >= 0) {
+                    _state.update {
+                        it.copy(
+                            saveMeasurementResult = SaveOperationResult.Success(
+                                "Measurement succesfully added"
+                            )
+                        )
+                    }
+                } else {
+                    _state.update {
+                        it.copy(
+                            saveMeasurementResult = SaveOperationResult.Error(
+                                "Error occurred during adding new measurement!"
+                            )
+                        )
+                    }
+                }
             }
         }
     }
@@ -172,6 +190,10 @@ internal class MeasureViewModel @Inject constructor(
     internal fun onStopMeasureClick() {
         observeJob?.cancel()
         _state.update { it.copy(measureState = false) }
+    }
+
+    internal fun onSaveMeasurementResultReset() {
+        _state.update { it.copy(saveMeasurementResult = null) }
     }
 
     private suspend fun observeConnectState(peripheral: Peripheral, advertisement: Advertisement) {
