@@ -28,6 +28,7 @@ import com.myproject.gymphysique.feature.settings.viewModel.SettingsScreenAction
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsViewModel
 import com.myproject.gymphysqiue.core.domain.util.ValidateResult
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 internal fun SettingsRoute(
@@ -59,34 +60,21 @@ internal fun SettingsScreen(
     screenActions: SettingsScreenActions
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     val saveUserDataResult = uiState.saveUserDataResult
     val validateResult = uiState.validateResult
 
     LaunchedEffect(key1 = saveUserDataResult) {
-        when (saveUserDataResult) {
-            is SaveUserDataResult.Failure -> {
-                snackbarHostState.showSnackbar(
-                    "Error: ${saveUserDataResult.error.asString(context)}"
-                )
-            }
-            is SaveUserDataResult.Success -> {
-                snackbarHostState.showSnackbar(
-                    "Succesfully updated user: ${saveUserDataResult.data.asString(context)}"
-                )
-            }
-            SaveUserDataResult.Initial -> {}
+        saveUserDataResult?.let {
+            snackbarHostState.showSnackbar(saveUserDataResult.message.asString(context))
+            screenActions.onSaveUserDataResultReset()
         }
-        screenActions.onSaveUserDataResultReset()
     }
 
     LaunchedEffect(key1 = validateResult) {
         if (validateResult is ValidateResult.Error) {
-            coroutineScope.launch {
-                snackbarHostState.showSnackbar(message = validateResult.message)
-            }
+            snackbarHostState.showSnackbar(message = validateResult.message)
             screenActions.onValidateResultReset()
         }
     }

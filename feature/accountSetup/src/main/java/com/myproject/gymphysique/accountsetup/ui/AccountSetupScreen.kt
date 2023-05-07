@@ -78,29 +78,15 @@ private fun AccountScreen(
     val validateResult = uiState.validateResult
 
     LaunchedEffect(key1 = saveUserDataResult) {
-        when (saveUserDataResult) {
-            is SaveUserDataResult.Failure -> {
-                snackbarHostState.showSnackbar(
-                    "Error: ${saveUserDataResult.error.asString(context)}"
-                )
-            }
-
-            is SaveUserDataResult.Success -> {
-                snackbarHostState.showSnackbar(
-                    "Succesfully updated user: ${saveUserDataResult.data.asString(context)}"
-                )
-            }
-
-            SaveUserDataResult.Initial -> {}
+        saveUserDataResult?.let {
+            snackbarHostState.showSnackbar(saveUserDataResult.message.asString(context))
+            screenActions.onSaveUserDataResultReset()
         }
-        screenActions.onSaveUserDataResultReset()
     }
 
     LaunchedEffect(key1 = validateResult) {
         if (validateResult is ValidateResult.Error) {
-            coroutineScope.launch {
-                snackbarHostState.showSnackbar(message = validateResult.message)
-            }
+            snackbarHostState.showSnackbar(message = validateResult.message)
             screenActions.onValidateResultReset()
         }
     }

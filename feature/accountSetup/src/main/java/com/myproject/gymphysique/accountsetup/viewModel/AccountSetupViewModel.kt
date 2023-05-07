@@ -67,7 +67,7 @@ internal class AccountSetupViewModel @Inject constructor(
     }
 
     internal fun onSaveUserDataResultReset() {
-        _state.update { it.copy(saveUserDataResult = SaveUserDataResult.Initial) }
+        _state.update { it.copy(saveUserDataResult = null) }
     }
 
     internal fun onDropdownSelected() {

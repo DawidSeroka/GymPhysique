@@ -74,7 +74,7 @@ internal class SettingsViewModel @Inject constructor(
     }
 
     internal fun onSaveUserDataResultReset() {
-        _state.update { it.copy(saveUserDataResult = SaveUserDataResult.Initial) }
+        _state.update { it.copy(saveUserDataResult = null) }
     }
 
     internal fun onDropdownSelected() {
@@ -101,9 +101,19 @@ internal class SettingsViewModel @Inject constructor(
             val ageValidateResult =
                 validateTextFieldUseCase(TextFieldType.Age(state.value.age.text.toInt()))
             if (firstnameValidateResult is ValidateResult.Error) {
-                _state.update { it.copy(validateResult = firstnameValidateResult, firstnameError = true) }
+                _state.update {
+                    it.copy(
+                        validateResult = firstnameValidateResult,
+                        firstnameError = true
+                    )
+                }
             } else if (surnameValidateResult is ValidateResult.Error) {
-                _state.update { it.copy(validateResult = surnameValidateResult, surnameError = true) }
+                _state.update {
+                    it.copy(
+                        validateResult = surnameValidateResult,
+                        surnameError = true
+                    )
+                }
             } else if (heightValidateResult is ValidateResult.Error) {
                 _state.update { it.copy(validateResult = heightValidateResult, heightError = true) }
             } else if (ageValidateResult is ValidateResult.Error) {
@@ -120,7 +130,8 @@ internal class SettingsViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             saveUserDataResult = SaveUserDataResult.Success(
-                                UiText.DynamicString(userData.firstName + " " + userData.surname)
+                                UiText.DynamicString("Succesfully updated user: "
+                                        + userData.firstName + " " + userData.surname)
                             )
                         )
                     }
@@ -128,7 +139,9 @@ internal class SettingsViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             saveUserDataResult = SaveUserDataResult.Failure(
-                                UiText.DynamicString(error.message ?: "Unknown")
+                                UiText.DynamicString(error.message?.let { errorMessage ->
+                                    "Error: $errorMessage"
+                                } ?: "Unknown error occurred")
                             )
                         )
                     }
@@ -138,6 +151,7 @@ internal class SettingsViewModel @Inject constructor(
             }
         }
     }
+
     private fun resetErrorStates() {
         _state.update {
             it.copy(

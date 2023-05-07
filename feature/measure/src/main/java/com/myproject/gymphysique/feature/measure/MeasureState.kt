@@ -24,7 +24,7 @@ internal enum class AdvertisingStatus(val text: String) {
     STOPPED("Stopped")
 }
 
-internal interface SaveOperationResult {
-    data class Success(val message: UiText) : SaveOperationResult
-    data class Error(val message: UiText) : SaveOperationResult
+internal sealed class SaveOperationResult(val message: UiText) {
+    data class Success(val data: UiText) : SaveOperationResult(message = data)
+    data class Error(val errorMessage: UiText) : SaveOperationResult(message = errorMessage)
 }

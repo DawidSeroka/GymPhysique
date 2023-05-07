@@ -42,6 +42,7 @@ import com.myproject.gymphysique.feature.measure.components.Measurement
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureScreenActions
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 internal fun MeasureRoute(
@@ -92,14 +93,11 @@ private fun MeasureScreen(
     }
 
     val saveMeasurementResult = uiState.saveMeasurementResult
+
     LaunchedEffect(key1 = saveMeasurementResult) {
         saveMeasurementResult?.let {
+            snackbarHostState.showSnackbar(saveMeasurementResult.message.asString(context))
             screenActions.onSaveMeasurementResultReset()
-            if (saveMeasurementResult is SaveOperationResult.Success) {
-                snackbarHostState.showSnackbar(saveMeasurementResult.message.asString(context))
-            } else if (saveMeasurementResult is SaveOperationResult.Error) {
-                snackbarHostState.showSnackbar(saveMeasurementResult.message.asString(context))
-            }
         }
     }
 

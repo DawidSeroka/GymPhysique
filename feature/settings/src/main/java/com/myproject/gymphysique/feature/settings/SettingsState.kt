@@ -17,7 +17,7 @@ internal data class SettingsState(
     val heightError: Boolean = false,
     val ageError: Boolean = false,
     val validateResult: ValidateResult = ValidateResult.Correct,
-    val saveUserDataResult: SaveUserDataResult = SaveUserDataResult.Initial,
+    val saveUserDataResult: SaveUserDataResult? = null,
     val expanded: Boolean = false,
     val selectedImageUri: Uri? = null
 )
