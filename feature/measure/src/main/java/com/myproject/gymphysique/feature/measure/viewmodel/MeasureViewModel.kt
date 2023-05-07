@@ -9,6 +9,7 @@ import com.juul.kable.logs.Hex
 import com.juul.kable.logs.Logging
 import com.juul.kable.peripheral
 import com.myproject.gymphysique.core.common.Launched
+import com.myproject.gymphysique.core.common.UiText
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.common.supportedServices.SupportedService
 import com.myproject.gymphysique.core.common.toMillis
@@ -170,7 +171,7 @@ internal class MeasureViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             saveMeasurementResult = SaveOperationResult.Success(
-                                "Measurement succesfully added"
+                                UiText.DynamicString("Measurement succesfully added")
                             )
                         )
                     }
@@ -178,7 +179,7 @@ internal class MeasureViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             saveMeasurementResult = SaveOperationResult.Error(
-                                "Error occurred during adding new measurement!"
+                                UiText.DynamicString("Error occurred during adding new measurement!")
                             )
                         )
                     }

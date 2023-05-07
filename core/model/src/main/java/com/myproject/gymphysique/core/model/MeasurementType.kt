@@ -13,7 +13,7 @@ enum class MeasurementType(
     BASAL_METABOLISM(
         serializedName = "Basal metabolism",
         fullName = "Basal metabolism",
-        unit = MeasurementUnit.KILOJOULES
+        unit = MeasurementUnit.KCAL
     ),
     MUSCLE_PERCENTAGE(
         serializedName = "Muscle percentage",

@@ -1,6 +1,7 @@
 package com.myproject.gymphysique.feature.measure
 
 import com.juul.kable.Advertisement
+import com.myproject.gymphysique.core.common.UiText
 import com.myproject.gymphysique.core.model.ConnectionState
 import com.myproject.gymphysique.core.model.Measurement
 
@@ -24,6 +25,6 @@ internal enum class AdvertisingStatus(val text: String) {
 }
 
 internal interface SaveOperationResult {
-    data class Success(val message: String) : SaveOperationResult
-    data class Error(val message: String) : SaveOperationResult
+    data class Success(val message: UiText) : SaveOperationResult
+    data class Error(val message: UiText) : SaveOperationResult
 }

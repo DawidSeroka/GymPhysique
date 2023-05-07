@@ -10,7 +10,6 @@ import com.myproject.gymphysique.core.common.SaveUserDataResult
 import com.myproject.gymphysique.core.common.UiText
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.model.Gender
-import com.myproject.gymphysqiue.core.domain.app.CreateUserUseCase
 import com.myproject.gymphysqiue.core.domain.app.ObserveIfUserExistsUseCase
 import com.myproject.gymphysqiue.core.domain.settings.SaveUserDataUseCase
 import com.myproject.gymphysqiue.core.domain.util.TextFieldType
@@ -25,8 +24,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class AccountSetupViewModel @Inject constructor(
-    private val createUserUseCase: CreateUserUseCase,
-    private val observeIfUserExistsUseCase: ObserveIfUserExistsUseCase,
     private val validateTextFieldUseCase: ValidateTextFieldUseCase,
     private val saveUserDataUseCase: SaveUserDataUseCase
 ) : ViewModel() {
@@ -34,14 +31,7 @@ internal class AccountSetupViewModel @Inject constructor(
     private val _state: MutableStateFlow<AccountSetupState> = MutableStateFlow(AccountSetupState())
         .stateInMerge(
             scope = viewModelScope,
-            launched = Launched.WhileSubscribed(stopTimeoutMillis = 5_000),
-            {
-                // if user exists then navigate to GpApp
-                observeIfUserExistsUseCase()
-                    .onEachToState { userExists, state ->
-                        state.copy(navigateToGpApp = userExists)
-                    }
-            }
+            launched = Launched.WhileSubscribed(stopTimeoutMillis = 5_000)
         )
 
     val state: StateFlow<AccountSetupState> = _state
@@ -91,25 +81,6 @@ internal class AccountSetupViewModel @Inject constructor(
     internal fun onImageUriSelected(uri: Uri?) {
         _state.update { it.copy(selectedImageUri = uri) }
     }
-
-//    internal fun onSaveUserClick() {
-//        val firstName = _state.value.firstName.text
-//        val surname = _state.value.surname.text
-//        val gender = _state.value.gender?.name ?: ""
-//        val height = _state.value.height.text.toInt()
-//        val age = _state.value.age.text.toInt()
-//        viewModelScope.launch {
-//            withContext(Dispatchers.IO) {
-//                createUserUseCase(
-//                    firstName,
-//                    surname,
-//                    gender,
-//                    height,
-//                    age
-//                )
-//            }
-//        }
-//    }
 
     internal fun onSaveSelected() {
         resetErrorStates()

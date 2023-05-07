@@ -6,7 +6,7 @@ enum class MeasurementUnit(
 ) {
     KG("KG", "kg"),
     PERCENTAGE("PERCENTAGE", "%"),
-    KILOJOULES("KILOJOULES", "kJ"),
+    KCAL("KCAL", "Kcal"),
     UNKNOWN("UNKNOWN", "")
 }
 

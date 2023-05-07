@@ -94,13 +94,12 @@ private fun MeasureScreen(
     val saveMeasurementResult = uiState.saveMeasurementResult
     LaunchedEffect(key1 = saveMeasurementResult) {
         saveMeasurementResult?.let {
-            if (saveMeasurementResult is SaveOperationResult.Success) {
-                snackbarHostState.showSnackbar(saveMeasurementResult.message)
-            } else if (saveMeasurementResult is SaveOperationResult.Error) {
-                snackbarHostState.showSnackbar(saveMeasurementResult.message)
-            }
-
             screenActions.onSaveMeasurementResultReset()
+            if (saveMeasurementResult is SaveOperationResult.Success) {
+                snackbarHostState.showSnackbar(saveMeasurementResult.message.asString(context))
+            } else if (saveMeasurementResult is SaveOperationResult.Error) {
+                snackbarHostState.showSnackbar(saveMeasurementResult.message.asString(context))
+            }
         }
     }
 
