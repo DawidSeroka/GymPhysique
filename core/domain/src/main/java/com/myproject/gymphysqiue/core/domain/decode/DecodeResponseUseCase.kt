@@ -4,7 +4,6 @@ import com.myproject.gymphysique.core.common.Result
 import com.myproject.gymphysique.core.decoder.ResponseData
 import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.MeasurementType
-import timber.log.Timber
 import javax.inject.Inject
 
 @Suppress("LongMethod", "MagicNumber")
@@ -92,10 +91,6 @@ class DecodeResponseUseCase @Inject constructor() : (Result<ResponseData>) -> Li
                 measurementMusclePercentage
             )
         } else {
-            val measurementResponse =
-                result.value() as ResponseData.BodyCompositionResponseData
-            Timber.d("Result3=$measurementResponse")
-
             emptyList()
         }
     }

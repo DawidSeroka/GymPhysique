@@ -25,16 +25,19 @@ enum class MeasurementType(
         fullName = "Muscle mass",
         unit = MeasurementUnit.KG
     ),
-    FAT_FREE_MASS(
+
+    // TODO() To add
+    /*FAT_FREE_MASS(
         serializedName = "Fat free mass",
         fullName = "Fat free mass",
         unit = MeasurementUnit.KG
-    ),
-    SOFT_LEAN_MASS(
+    ),*/
+    // TODO() To add
+    /*SOFT_LEAN_MASS(
         serializedName = "Soft lean mass",
         fullName = "Soft lean mass",
         unit = MeasurementUnit.KG
-    ),
+    ),*/
     BODY_WATER_MASS(
         serializedName = "Body water mass",
         fullName = "Body water mass",
@@ -64,16 +67,5 @@ enum class MeasurementType(
         "Bmi",
         "Bmi",
         MeasurementUnit.UNKNOWN
-    ),
-    UNKNOWN(
-        "",
-        "",
-        MeasurementUnit.UNKNOWN
     )
-}
-
-fun String?.asMeasurementType() = when (this) {
-    null -> MeasurementType.UNKNOWN
-    else -> MeasurementType.values()
-        .firstOrNull { type -> type.serializedName == this } ?: MeasurementType.UNKNOWN
 }

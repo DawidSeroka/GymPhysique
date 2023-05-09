@@ -32,7 +32,7 @@ class ValidateTextFieldUseCase @Inject constructor() : (TextFieldType) -> Valida
                 }
             }
             is TextFieldType.Age -> {
-                if (textFieldType.value < ageMinValue) {
+                if (textFieldType.value <= ageMinValue) {
                     ValidateResult.Error("Age must be greater than 0!")
                 } else if (textFieldType.value >= ageMaxValue) {
                     ValidateResult.Error("Age must be smaller than 120!")
@@ -66,12 +66,12 @@ sealed interface ValidateResult {
 }
 
 @Suppress("TopLevelPropertyNaming")
-private object Constants {
+internal object Constants {
     const val firstnameMinLenght = 2
     const val surnameMinLenght = 2
     const val firstnameMaxLenght = 20
     const val surnameMaxLenght = 20
-    const val ageMinValue = 1
+    const val ageMinValue = 2
     const val heightMinValue = 100
     const val ageMaxValue = 120
     const val heightMaxValue = 200

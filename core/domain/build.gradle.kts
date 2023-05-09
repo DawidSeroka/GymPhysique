@@ -15,4 +15,6 @@ dependencies {
     implementation(project(":core:common"))
 
     implementation(libs.timber)
+
+    testImplementation(project(":core:testing"))
 }

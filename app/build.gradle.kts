@@ -37,6 +37,8 @@ android {
     packagingOptions {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+            excludes.add("META-INF/LICENSE.md")
+            excludes.add("META-INF/LICENSE-notice.md")
         }
     }
     namespace = "com.myproject.gymphysique"

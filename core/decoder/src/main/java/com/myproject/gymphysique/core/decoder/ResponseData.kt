@@ -2,7 +2,7 @@ package com.myproject.gymphysique.core.decoder
 
 sealed interface ResponseData {
     data class BodyCompositionResponseData(
-        val weight: Double?,
+        val weight: Double? = null,
         val unit: String = "kg",
         val bodyFatPercentage: Double? = null,
         val date: String,
