@@ -10,7 +10,6 @@ import com.myproject.gymphysique.core.common.SaveUserDataResult
 import com.myproject.gymphysique.core.common.UiText
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.model.Gender
-import com.myproject.gymphysqiue.core.domain.app.ObserveIfUserExistsUseCase
 import com.myproject.gymphysqiue.core.domain.settings.SaveUserDataUseCase
 import com.myproject.gymphysqiue.core.domain.util.TextFieldType
 import com.myproject.gymphysqiue.core.domain.util.ValidateResult

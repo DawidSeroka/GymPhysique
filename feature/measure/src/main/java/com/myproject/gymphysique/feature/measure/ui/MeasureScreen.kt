@@ -36,17 +36,14 @@ import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
-import com.myproject.gymphysique.feature.measure.SaveOperationResult
 import com.myproject.gymphysique.feature.measure.components.Devices
 import com.myproject.gymphysique.feature.measure.components.Measurement
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureScreenActions
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 internal fun MeasureRoute(
-    modifier: Modifier = Modifier,
     viewModel: MeasureViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()

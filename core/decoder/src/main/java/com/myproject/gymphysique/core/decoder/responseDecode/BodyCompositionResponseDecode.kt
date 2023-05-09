@@ -8,6 +8,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
+@Suppress("MagicNumber")
 class BodyCompositionResponseDecode @Inject constructor(
     private val flagTypeCheck: FlagTypeCheck.BodyCompositionFlagTypeCheck,
     private val decodeImpedance: DecodeImpedance
@@ -68,7 +69,7 @@ class BodyCompositionResponseDecode @Inject constructor(
                         height = height
                     )
                 )
-            } ?: Result.error(Exception())
+            } ?: Result.error(Exception("Error occurred"))
         } else {
             Result.loading(
                 ResponseData.BodyCompositionResponseData(
@@ -105,6 +106,7 @@ class BodyCompositionResponseDecode @Inject constructor(
         return LocalDate.now().format(formatter)
     }
 
+    @Suppress("ComplexMethod")
     private fun decodeFatPercentage(sex: String, age: Int, weight: Double, height: Int): Double {
         // Set a constant to remove from LBM
         val const: Double = when {
@@ -114,7 +116,7 @@ class BodyCompositionResponseDecode @Inject constructor(
         }
 
         // Calculate body fat percentage
-        val LBM = lbmCoefficient!!
+        val lbm = lbmCoefficient!!
 
         val coefficient: Double = when {
             sex == "male" && weight < 61 -> 0.98
@@ -135,7 +137,7 @@ class BodyCompositionResponseDecode @Inject constructor(
             else -> 1.0
         }
 
-        var fatPercentage = (1.0 - (((LBM - const) * coefficient) / weight)) * 100
+        var fatPercentage = (1.0 - (((lbm - const) * coefficient) / weight)) * 100
 
         // Capping body fat percentage
         if (fatPercentage > 63) {

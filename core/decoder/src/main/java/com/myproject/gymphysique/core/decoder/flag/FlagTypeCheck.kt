@@ -1,5 +1,6 @@
 package com.myproject.gymphysique.core.decoder.flag
 
+@Suppress("TooManyFunctions")
 sealed interface FlagTypeCheck {
     interface BodyCompositionFlagTypeCheck : FlagTypeCheck {
         fun checkBodyCompositionFlagUnit(flags: Int): Boolean

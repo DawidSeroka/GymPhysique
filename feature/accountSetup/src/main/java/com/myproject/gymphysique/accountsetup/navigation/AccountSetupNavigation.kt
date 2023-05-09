@@ -6,6 +6,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.myproject.gymphysique.accountsetup.ui.AccountSetupRoute
 
+@Suppress("TopLevelPropertyNaming")
 const val accountSetupNavigationRoute = "account_setup_route"
 
 fun NavController.navigateToAccountSetup(navOptions: NavOptions? = null) {

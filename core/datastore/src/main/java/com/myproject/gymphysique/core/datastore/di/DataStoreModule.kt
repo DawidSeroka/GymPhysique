@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
-import com.myproject.gymphysique.core.common.dispatcher.di.Dispatcher
-import com.myproject.gymphysique.core.common.dispatcher.di.GPDispatchers
+import com.myproject.gymphysique.core.common.dispatcher.Dispatcher
+import com.myproject.gymphysique.core.common.dispatcher.GPDispatchers
 import com.myproject.gymphysique.core.datastore.UserPreferences
 import com.myproject.gymphysique.core.datastore.UserPreferencesSerializer
 import dagger.Module

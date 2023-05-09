@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Suppress("LongMethod")
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
     private val saveUserDataUseCase: SaveUserDataUseCase,
@@ -130,8 +131,10 @@ internal class SettingsViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             saveUserDataResult = SaveUserDataResult.Success(
-                                UiText.DynamicString("Succesfully updated user: "
-                                        + userData.firstName + " " + userData.surname)
+                                UiText.DynamicString(
+                                    "Succesfully updated user: " +
+                                        userData.firstName + " " + userData.surname
+                                )
                             )
                         )
                     }
@@ -139,9 +142,11 @@ internal class SettingsViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             saveUserDataResult = SaveUserDataResult.Failure(
-                                UiText.DynamicString(error.message?.let { errorMessage ->
-                                    "Error: $errorMessage"
-                                } ?: "Unknown error occurred")
+                                UiText.DynamicString(
+                                    error.message?.let { errorMessage ->
+                                        "Error: $errorMessage"
+                                    } ?: "Unknown error occurred"
+                                )
                             )
                         )
                     }

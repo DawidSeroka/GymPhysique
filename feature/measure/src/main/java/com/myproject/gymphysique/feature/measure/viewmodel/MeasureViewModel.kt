@@ -218,4 +218,5 @@ internal class MeasureViewModel @Inject constructor(
     }
 }
 
+@Suppress("TopLevelPropertyNaming")
 const val SCAN_TIME = 10L

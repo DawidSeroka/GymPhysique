@@ -15,24 +15,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.myproject.gymphysique.core.common.SaveUserDataResult
 import com.myproject.gymphysique.core.components.ProfileSetupComponent
 import com.myproject.gymphysique.feature.settings.SettingsState
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsScreenActions
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsViewModel
 import com.myproject.gymphysqiue.core.domain.util.ValidateResult
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @Composable
 internal fun SettingsRoute(
-    modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()

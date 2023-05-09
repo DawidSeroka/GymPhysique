@@ -15,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.TextFieldValue
@@ -25,7 +24,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.myproject.gymphysique.accountsetup.AccountSetupState
 import com.myproject.gymphysique.accountsetup.viewModel.AccountSetupActions
 import com.myproject.gymphysique.accountsetup.viewModel.AccountSetupViewModel
-import com.myproject.gymphysique.core.common.SaveUserDataResult
 import com.myproject.gymphysique.core.components.ProfileSetupComponent
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysqiue.core.domain.util.ValidateResult
@@ -33,7 +31,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 internal fun AccountSetupRoute(
-    modifier: Modifier = Modifier,
     viewModel: AccountSetupViewModel = hiltViewModel(),
     onNavigateToGpApp: () -> Unit
 ) {
@@ -71,7 +68,6 @@ private fun AccountScreen(
     screenActions: AccountSetupActions
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
     val saveUserDataResult = uiState.saveUserDataResult

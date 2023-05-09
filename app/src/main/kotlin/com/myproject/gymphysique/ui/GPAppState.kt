@@ -11,8 +11,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navOptions
 import com.myproject.gymphysique.feature.charts.navigation.navigateToCharts
-import com.myproject.gymphysique.feature.measure.measureNavigationRoute
-import com.myproject.gymphysique.feature.measure.navigateToMeasure
+import com.myproject.gymphysique.feature.measure.navigation.measureNavigationRoute
+import com.myproject.gymphysique.feature.measure.navigation.navigateToMeasure
 import com.myproject.gymphysique.feature.settings.navigation.navigateToSettings
 import com.myproject.gymphysique.feature.settings.navigation.settingsNavigationRoute
 import com.myproject.gymphysique.navigation.TopLevelDestination

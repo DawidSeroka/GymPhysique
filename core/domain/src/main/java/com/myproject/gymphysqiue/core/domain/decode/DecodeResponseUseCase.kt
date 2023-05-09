@@ -7,6 +7,7 @@ import com.myproject.gymphysique.core.model.MeasurementType
 import timber.log.Timber
 import javax.inject.Inject
 
+@Suppress("LongMethod", "MagicNumber")
 class DecodeResponseUseCase @Inject constructor() : (Result<ResponseData>) -> List<Measurement> {
     override fun invoke(result: Result<ResponseData>): List<Measurement> {
         return if (result.isLoading()) {

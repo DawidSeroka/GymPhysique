@@ -29,9 +29,12 @@ class DeviceScanner @Inject constructor() : AdvertisementProvider {
     override fun provideAdvertisements(): Flow<Advertisement> {
         return scanner
             .advertisements
-            .throttleLatest(100)
+            .throttleLatest(throttleValue)
             .catch { exception ->
                 Timber.d("stopped exception: " + exception.message)
             }
     }
 }
+
+@Suppress("TopLevelPropertyNaming")
+private const val throttleValue = 100L

@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -14,12 +13,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.myproject.gymphysique.accountsetup.navigation.accountSetupNavigationRoute
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
-import com.myproject.gymphysique.feature.measure.measureNavigationRoute
-import com.myproject.gymphysique.navigation.nestedNavigation.GymPhysiqueNavHost
-import com.myproject.gymphysique.ui.GPApp
-import com.myproject.gymphysique.ui.gpAppNavigationRoute
+import com.myproject.gymphysique.navigation.GymPhysiqueNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach

@@ -31,7 +31,6 @@ import com.myproject.gymphysique.feature.charts.viewModel.ChartsViewModel
 
 @Composable
 internal fun ChartsRoute(
-    modifier: Modifier = Modifier,
     viewModel: ChartsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()

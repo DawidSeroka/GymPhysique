@@ -2,6 +2,7 @@ package com.myproject.gymphysique.core.decoder.responseDecode
 
 import javax.inject.Inject
 
+@Suppress("MagicNumber")
 class DecodeImpedance @Inject constructor() {
 
     internal fun checkValueOverflow(value: Double, minimum: Double, maximum: Double): Double {

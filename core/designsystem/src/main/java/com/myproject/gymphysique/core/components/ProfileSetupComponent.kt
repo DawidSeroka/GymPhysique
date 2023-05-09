@@ -37,6 +37,7 @@ import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.core.model.Gender
 
+@Suppress("LongMethod")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileSetupComponent(

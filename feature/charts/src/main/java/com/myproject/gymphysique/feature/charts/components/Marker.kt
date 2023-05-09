@@ -7,6 +7,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
+import com.myproject.gymphysique.feature.charts.components.Constants.GUIDELINE_ALPHA
+import com.myproject.gymphysique.feature.charts.components.Constants.INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS
+import com.myproject.gymphysique.feature.charts.components.Constants.INDICATOR_OUTER_COMPONENT_ALPHA
+import com.myproject.gymphysique.feature.charts.components.Constants.INDICATOR_SIZE_DP
+import com.myproject.gymphysique.feature.charts.components.Constants.LABEL_BACKGROUND_SHADOW_DY
+import com.myproject.gymphysique.feature.charts.components.Constants.LABEL_BACKGROUND_SHADOW_RADIUS
+import com.myproject.gymphysique.feature.charts.components.Constants.LABEL_LINE_COUNT
+import com.myproject.gymphysique.feature.charts.components.Constants.SHADOW_RADIUS_MULTIPLIER
+import com.myproject.gymphysique.feature.charts.components.Constants.guidelineShape
+import com.myproject.gymphysique.feature.charts.components.Constants.guidelineThickness
+import com.myproject.gymphysique.feature.charts.components.Constants.indicatorCenterAndOuterComponentPaddingValue
+import com.myproject.gymphysique.feature.charts.components.Constants.indicatorInnerAndCenterComponentPaddingValue
+import com.myproject.gymphysique.feature.charts.components.Constants.labelBackgroundShape
+import com.myproject.gymphysique.feature.charts.components.Constants.labelPadding
 import com.patrykandpatrick.vico.compose.component.lineComponent
 import com.patrykandpatrick.vico.compose.component.overlayingComponent
 import com.patrykandpatrick.vico.compose.component.shapeComponent
@@ -96,22 +110,26 @@ internal fun rememberMarker(): Marker {
     }
 }
 
-private const val LABEL_BACKGROUND_SHADOW_RADIUS = 4f
-private const val LABEL_BACKGROUND_SHADOW_DY = 2f
-private const val LABEL_LINE_COUNT = 1
-private const val GUIDELINE_ALPHA = .2f
-private const val INDICATOR_SIZE_DP = 36f
-private const val INDICATOR_OUTER_COMPONENT_ALPHA = 32
-private const val INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS = 12f
-private const val GUIDELINE_DASH_LENGTH_DP = 8f
-private const val GUIDELINE_GAP_LENGTH_DP = 4f
-private const val SHADOW_RADIUS_MULTIPLIER = 1.3f
+@Suppress("TopLevelPropertyNaming")
+private object Constants {
 
-private val labelBackgroundShape = MarkerCorneredShape(Corner.FullyRounded)
-private val labelHorizontalPaddingValue = 8.dp
-private val labelVerticalPaddingValue = 4.dp
-private val labelPadding = dimensionsOf(labelHorizontalPaddingValue, labelVerticalPaddingValue)
-private val indicatorInnerAndCenterComponentPaddingValue = 5.dp
-private val indicatorCenterAndOuterComponentPaddingValue = 10.dp
-private val guidelineThickness = 2.dp
-private val guidelineShape = DashedShape(Shapes.pillShape, GUIDELINE_DASH_LENGTH_DP, GUIDELINE_GAP_LENGTH_DP)
+    const val LABEL_BACKGROUND_SHADOW_RADIUS = 4f
+    const val LABEL_BACKGROUND_SHADOW_DY = 2f
+    const val LABEL_LINE_COUNT = 1
+    const val GUIDELINE_ALPHA = .2f
+    const val INDICATOR_SIZE_DP = 36f
+    const val INDICATOR_OUTER_COMPONENT_ALPHA = 32
+    const val INDICATOR_CENTER_COMPONENT_SHADOW_RADIUS = 12f
+    const val GUIDELINE_DASH_LENGTH_DP = 8f
+    const val GUIDELINE_GAP_LENGTH_DP = 4f
+    const val SHADOW_RADIUS_MULTIPLIER = 1.3f
+
+    val labelBackgroundShape = MarkerCorneredShape(Corner.FullyRounded)
+    val labelHorizontalPaddingValue = 8.dp
+    val labelVerticalPaddingValue = 4.dp
+    val labelPadding = dimensionsOf(labelHorizontalPaddingValue, labelVerticalPaddingValue)
+    val indicatorInnerAndCenterComponentPaddingValue = 5.dp
+    val indicatorCenterAndOuterComponentPaddingValue = 10.dp
+    val guidelineThickness = 2.dp
+    val guidelineShape = DashedShape(Shapes.pillShape, GUIDELINE_DASH_LENGTH_DP, GUIDELINE_GAP_LENGTH_DP)
+}

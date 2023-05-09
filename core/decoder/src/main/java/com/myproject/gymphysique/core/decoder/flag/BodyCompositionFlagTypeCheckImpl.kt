@@ -3,6 +3,7 @@ package com.myproject.gymphysique.core.decoder.flag
 import com.myproject.gymphysique.core.decoder.ResponseData
 import javax.inject.Inject
 
+@Suppress("TooManyFunctions")
 class BodyCompositionFlagTypeCheckImpl @Inject constructor() : FlagTypeCheck.BodyCompositionFlagTypeCheck {
     override fun checkBodyCompositionFlagUnit(flags: Int): Boolean =
         flags and ResponseData.BodyCompositionResponseData.FLAG_UNIT_IMPERIAL ==

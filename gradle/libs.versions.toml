@@ -40,11 +40,11 @@ ksp = "1.8.0-1.0.9" # https://github.com/google/ksp/releases
 lint = "30.3.1" # https://maven.google.com/web/index.html?q=com.android.tools.lint#com.android.tools.lint:lint-api
 room = "2.5.0" # https://developer.android.com/jetpack/androidx/releases/room
 secrets = "2.0.1" # https://github.com/google/secrets-gradle-plugin/releases
-turbine = "0.12.1" # https://github.com/cashapp/turbine/releases
+turbine = "0.12.3" # https://github.com/cashapp/turbine/releases
 junit5 = "5.9.2" # https://github.com/junit-team/junit5/releases
 junit5-plugin = "1.8.2.1" # https://github.com/mannodermaus/android-junit5/releases
 timber = "5.0.1" # https://github.com/JakeWharton/timber/releases
-ktlint = "11.3.1" # https://github.com/JLLeitschuh/ktlint-gradle/releases
+ktlint = "11.3.2" # https://github.com/JLLeitschuh/ktlint-gradle/releases
 protobuf = "3.21.12"
 protobufPlugin = "0.8.19"
 kable = "0.22.0"
@@ -52,6 +52,8 @@ composePermissionHandler = "1.5.0-beta" # https://github.com/dawidraszka/compose
 vico = "1.6.5"
 dogusTeknoloji = "1.1.0"
 androidXkts = "1.7.1"
+detekt = "1.21.0" # https://github.com/detekt/detekt/releases
+mockk = "1.13.5"
 
 
 [libraries]
@@ -133,7 +135,7 @@ vico-core = { group = "com.patrykandpatrick.vico", name = "core", version.ref = 
 vico-compose = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 date-picker = { group = "com.github.DogusTeknoloji", name = "compose-date-picker", version.ref = "dogusTeknoloji" }
 androidx-kts = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidXkts" }
-
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -153,3 +155,4 @@ secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugi
 junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

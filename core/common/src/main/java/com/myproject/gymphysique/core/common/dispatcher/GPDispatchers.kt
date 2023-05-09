@@ -1,4 +1,4 @@
-package com.myproject.gymphysique.core.common.dispatcher.di
+package com.myproject.gymphysique.core.common.dispatcher
 
 import javax.inject.Qualifier
 

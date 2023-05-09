@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,10 +31,10 @@ import com.myproject.gymphysique.core.designsystem.icon.Icon.DrawableResourceIco
 import com.myproject.gymphysique.core.designsystem.icon.Icon.ImageVectorIcon
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.navigation.TopLevelDestination
-import com.myproject.gymphysique.navigation.GPNavHost
+import com.myproject.gymphysique.navigation.nestedNavigation.GPNavHost
 import timber.log.Timber
 
-
+@Suppress("TopLevelPropertyNaming")
 const val gpAppNavigationRoute = "gp_app_route"
 
 fun NavController.navigateToGp(navOptions: NavOptions? = null) {
