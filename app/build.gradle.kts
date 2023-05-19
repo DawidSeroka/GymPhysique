@@ -6,6 +6,8 @@ plugins {
     id("android.application.compose")
     id("android.hilt")
     alias(libs.plugins.junit5)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 android {
@@ -62,6 +64,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.profileinstaller)
+    "baselineProfile"(project(mapOf("path" to ":baselineprofile")))
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     debugImplementation(libs.androidx.compose.ui.testManifest)

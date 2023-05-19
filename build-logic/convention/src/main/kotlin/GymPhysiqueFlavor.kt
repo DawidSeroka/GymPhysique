@@ -14,8 +14,8 @@ enum class GymPhysiqueFlavor(
     val dimension: FlavorDimension,
     val applicationIdSuffix: String? = null
 ) {
-//    dev(FlavorDimension.contentType),
-//    prod(FlavorDimension.contentType, ".prod")
+    dev(FlavorDimension.contentType),
+    production(FlavorDimension.contentType)
 }
 
 fun Project.configureFlavors(

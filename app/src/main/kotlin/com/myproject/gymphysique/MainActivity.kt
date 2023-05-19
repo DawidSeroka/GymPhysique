@@ -44,14 +44,16 @@ internal class MainActivity : ComponentActivity() {
         // Keep the splash screen on-screen until the UI state is loaded. This condition is
         // evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
         // the UI.
-        splashScreen.setKeepOnScreenCondition {
-            when (uiState.downloadState) {
-                DownloadState.Loading -> true
-                DownloadState.Success -> false
+        if (!BuildConfig.BUILD_TYPE.contains("benchmark")){
+            splashScreen.setKeepOnScreenCondition {
+                when (uiState.downloadState) {
+                    DownloadState.Loading -> true
+                    DownloadState.Success -> false
+                }
             }
         }
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        //WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             uiState.startDestination?.let { startDestination ->
                 GymPhysiqueTheme() {

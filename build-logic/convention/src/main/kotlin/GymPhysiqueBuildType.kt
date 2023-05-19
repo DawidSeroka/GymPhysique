@@ -18,4 +18,5 @@
 enum class GymPhysiqueBuildType(val applicationIdSuffix: String? = null) {
     DEBUG(".debug"),
     RELEASE,
+    BENCHMARK(".benchmark")
 }

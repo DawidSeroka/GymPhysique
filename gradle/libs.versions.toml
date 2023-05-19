@@ -1,12 +1,12 @@
 [versions]
 accompanist = "0.28.0" # https://github.com/google/accompanist/releases
 androidDesugarJdkLibs = "2.0.2" # https://maven.google.com/web/index.html?q=desugar_jdk_libs#com.android.tools:desugar_jdk_libs
-androidGradlePlugin = "7.4.2" # https://maven.google.com/web/index.html?q=com.android.tools.build#com.android.tools.build:gradle
+androidGradlePlugin = "8.0.0" # https://maven.google.com/web/index.html?q=com.android.tools.build#com.android.tools.build:gradle
 androidxActivity = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/activity
 androidxAppCompat = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/appcompat
 androidxBrowser = "1.5.0" # https://developer.android.com/jetpack/androidx/releases/browser
 androidxComposeBom = "2023.01.00" # https://maven.google.com/web/index.html?q=compose-bom#androidx.compose:compose-bom
-androidxComposeCompiler = "1.4.1" # https://developer.android.com/jetpack/androidx/releases/compose
+androidxComposeCompiler = "1.4.2" # https://developer.android.com/jetpack/androidx/releases/compose
 androidxComposeRuntimeTracing = "1.0.0-alpha03" # https://developer.android.com/jetpack/androidx/releases/compose-runtime
 androidxCore = "1.9.0" # https://developer.android.com/jetpack/androidx/releases/core
 androidxCoreSplashscreen = "1.0.0" # https://developer.android.com/jetpack/androidx/releases/core
@@ -23,7 +23,7 @@ androidxTestExt = "1.1.5" # https://maven.google.com/web/index.html?q=junit-ktx#
 androidxTestRules = "1.5.0" # https://maven.google.com/web/index.html?q=runner#androidx.test:rules
 androidxTestRunner = "1.5.2" # https://maven.google.com/web/index.html?q=runner#androidx.test:runner
 androidxTracing = "1.1.0" # https://developer.android.com/jetpack/androidx/releases/tracing
-androidxUiAutomator = "2.2.2" # https://maven.google.com/web/index.html?q=uiautomator#androidx.test.uiautomator:uiautomator
+androidxUiAutomator = "2.2.0" # https://maven.google.com/web/index.html?q=uiautomator#androidx.test.uiautomator:uiautomator
 androidxWindowManager = "1.0.0" # https://developer.android.com/jetpack/androidx/releases/window
 androidxWork = "2.8.0" # https://developer.android.com/jetpack/androidx/releases/work
 coil = "2.2.2" # https://github.com/coil-kt/coil/releases
@@ -36,7 +36,7 @@ kotlin = "1.8.0" # https://github.com/JetBrains/kotlin/releases
 kotlinxCoroutines = "1.6.4" # https://github.com/Kotlin/kotlinx.coroutines/releases
 kotlinxDatetime = "0.4.0" # https://github.com/Kotlin/kotlinx-datetime/releases
 kotlinxSerializationJson = "1.5.0" # https://github.com/Kotlin/kotlinx.serialization/releases
-ksp = "1.8.0-1.0.9" # https://github.com/google/ksp/releases
+ksp = "1.8.10-1.0.9" # https://github.com/google/ksp/releases
 lint = "30.3.1" # https://maven.google.com/web/index.html?q=com.android.tools.lint#com.android.tools.lint:lint-api
 room = "2.5.0" # https://developer.android.com/jetpack/androidx/releases/room
 secrets = "2.0.1" # https://github.com/google/secrets-gradle-plugin/releases
@@ -46,7 +46,7 @@ junit5-plugin = "1.8.2.1" # https://github.com/mannodermaus/android-junit5/relea
 timber = "5.0.1" # https://github.com/JakeWharton/timber/releases
 ktlint = "11.3.2" # https://github.com/JLLeitschuh/ktlint-gradle/releases
 protobuf = "3.21.12"
-protobufPlugin = "0.8.19"
+protobufPlugin = "0.9.0"
 kable = "0.22.0"
 composePermissionHandler = "1.5.0-beta" # https://github.com/dawidraszka/compose-permission-handler
 vico = "1.6.5"
@@ -54,6 +54,9 @@ dogusTeknoloji = "1.1.0"
 androidXkts = "1.7.1"
 detekt = "1.21.0" # https://github.com/detekt/detekt/releases
 mockk = "1.13.5"
+junit = "1.1.5"
+kotlin180 = "1.8.0"
+androidx-baselineprofile = "1.2.0-alpha13"
 
 
 [libraries]
@@ -141,6 +144,7 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit" }
 
 
 [plugins]
@@ -156,3 +160,5 @@ junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "junit5-plugin" 
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 protobuf = { id = "com.google.protobuf", version.ref = "protobufPlugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin180" }
+androidx-baselineprofile = { id = "androidx.baselineprofile", version.ref = "androidx-baselineprofile" }

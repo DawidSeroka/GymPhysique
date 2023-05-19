@@ -28,6 +28,7 @@ import com.myproject.gymphysique.core.components.ProfileSetupComponent
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysqiue.core.domain.util.ValidateResult
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 @Composable
 internal fun AccountSetupRoute(
@@ -97,7 +98,11 @@ private fun AccountScreen(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) { Snackbar(it) } }
     ) { paddingValues ->
         ProfileSetupComponent(
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier.fillMaxSize().padding(
+                all = paddingValues.calculateBottomPadding() - paddingValues.calculateBottomPadding()
+            ).also {
+                Timber.d("PaddingValues = $paddingValues")
+            },
             firstname = uiState.firstName,
             surname = uiState.surname,
             age = uiState.age,
