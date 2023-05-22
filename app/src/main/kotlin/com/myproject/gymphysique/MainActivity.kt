@@ -31,7 +31,6 @@ internal class MainActivity : ComponentActivity() {
 
         var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState())
 
-
         //Update uiState
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
