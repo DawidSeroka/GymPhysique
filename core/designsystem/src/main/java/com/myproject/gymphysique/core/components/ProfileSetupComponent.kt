@@ -65,7 +65,6 @@ fun ProfileSetupComponent(
     LazyColumn(
         modifier = modifier
             .fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
@@ -148,6 +147,7 @@ fun ProfileSetupComponent(
                     isError = heightError,
                     maxLines = 1
                 )
+                Spacer(modifier = Modifier.height(Dimens.margin))
                 OutlinedTextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = age,
