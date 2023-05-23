@@ -153,7 +153,16 @@ internal class MeasureViewModel @Inject constructor(
                         byteArray.collect {
                             withContext(Dispatchers.IO) {
                                 val measurements = decodeDataUseCase(it)
-                                _state.update { it.copy(measurements = measurements) }
+                                if (measurements.size > 1) {
+                                    _state.update {
+                                        it.copy(
+                                            measurements = measurements,
+                                            measureState = false
+                                        )
+                                    }
+                                } else {
+                                    _state.update { it.copy(measurements = measurements) }
+                                }
                             }
                         }
                     }
@@ -172,7 +181,8 @@ internal class MeasureViewModel @Inject constructor(
                         it.copy(
                             saveMeasurementResult = SaveOperationResult.Success(
                                 UiText.DynamicString("Measurement succesfully added")
-                            )
+                            ),
+                            measurements = emptyList()
                         )
                     }
                 } else {
@@ -180,7 +190,8 @@ internal class MeasureViewModel @Inject constructor(
                         it.copy(
                             saveMeasurementResult = SaveOperationResult.Error(
                                 UiText.DynamicString("Error occurred during adding new measurement!")
-                            )
+                            ),
+                            measurements = emptyList()
                         )
                     }
                 }

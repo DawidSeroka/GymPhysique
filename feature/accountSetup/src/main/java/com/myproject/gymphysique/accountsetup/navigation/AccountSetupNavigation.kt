@@ -1,8 +1,6 @@
 package com.myproject.gymphysique.accountsetup.navigation
 
-import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.myproject.gymphysique.accountsetup.ui.AccountSetupRoute
 

@@ -57,6 +57,7 @@ mockk = "1.13.5"
 junit = "1.1.5"
 kotlin180 = "1.8.0"
 androidx-baselineprofile = "1.2.0-alpha13"
+lottieVersion = "6.0.0"
 
 
 [libraries]
@@ -139,6 +140,7 @@ vico-compose = { group = "com.patrykandpatrick.vico", name = "compose-m3", versi
 date-picker = { group = "com.github.DogusTeknoloji", name = "compose-date-picker", version.ref = "dogusTeknoloji" }
 androidx-kts = { group = "androidx.activity", name = "activity-ktx", version.ref = "androidXkts" }
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottieVersion"}
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

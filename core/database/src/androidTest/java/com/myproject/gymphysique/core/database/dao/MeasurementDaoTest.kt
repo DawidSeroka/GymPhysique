@@ -61,7 +61,7 @@ internal class MeasurementDaoTest {
             measurements.forEach { dao.insertMeasurement(it) }
             dao.observeMeasurements(dateParam, MeasurementType.WEIGHT).test {
                 val result = awaitItem().size
-                //-1 because there is two measurements with same id, so it is replaced
+                // -1 because there is two measurements with same id, so it is replaced
                 val expectedResult = measurements
                     .filter {
                         it.measurementType == MeasurementType.WEIGHT && it.date.contains(
@@ -79,7 +79,6 @@ internal class MeasurementDaoTest {
             measurements.forEach { dao.insertMeasurement(it) }
             val dateParam = "2022-04"
             dao.observeMeasurements(dateParam, MeasurementType.WEIGHT).test {
-
                 expectNoEvents()
             }
         }
@@ -89,7 +88,6 @@ internal class MeasurementDaoTest {
         runTest {
             val dateParam = "2022-05"
             dao.observeMeasurements(dateParam, MeasurementType.WEIGHT).test {
-
                 expectNoEvents()
             }
         }
@@ -99,7 +97,6 @@ internal class MeasurementDaoTest {
         runTest {
             val dateParam = "2022-05"
             dao.observeMeasurements(dateParam, MeasurementType.WEIGHT).test {
-
                 expectNoEvents()
             }
         }
@@ -109,15 +106,15 @@ internal class MeasurementDaoTest {
         runTest {
             val dateParam = "2022-05"
             measurements.forEach { dao.insertMeasurement(it) }
-            val result = dao.getMeasurements(dateParam,MeasurementType.WEIGHT).size
-            //-1 because there is two measurements with same id, so it is replaced
+            val result = dao.getMeasurements(dateParam, MeasurementType.WEIGHT).size
+            // -1 because there is two measurements with same id, so it is replaced
             val expectedResult = measurements.filter {
                 it.measurementType == MeasurementType.WEIGHT && it.date.contains(
                     dateParam
                 )
             }.size - 1
 
-            assertEquals(expectedResult,result)
+            assertEquals(expectedResult, result)
         }
 
     @Test
@@ -125,51 +122,70 @@ internal class MeasurementDaoTest {
         runTest {
             val dateParam = "2022-04"
             measurements.forEach { dao.insertMeasurement(it) }
-            val result = dao.getMeasurements(dateParam,MeasurementType.WEIGHT)
+            val result = dao.getMeasurements(dateParam, MeasurementType.WEIGHT)
             val expectedResult = emptyList<MeasurementEntity>()
 
-            assertEquals(expectedResult,result)
+            assertEquals(expectedResult, result)
         }
 
     @Test
     fun getMeasurements_correctDateAndMeasurementNonExists_shouldReturnMeasurementList() =
         runTest {
             val dateParam = "2022-05"
-            val result = dao.getMeasurements(dateParam,MeasurementType.WEIGHT)
+            val result = dao.getMeasurements(dateParam, MeasurementType.WEIGHT)
             val expectedResult = emptyList<MeasurementEntity>()
 
-            assertEquals(expectedResult,result)
+            assertEquals(expectedResult, result)
         }
+
     @Test
     fun getMeasurements_inCorrectDateAndMeasurementNonExists_shouldReturnMeasurementList() =
         runTest {
             val dateParam = "2022-04"
-            val result = dao.getMeasurements(dateParam,MeasurementType.WEIGHT)
+            val result = dao.getMeasurements(dateParam, MeasurementType.WEIGHT)
             val expectedResult = emptyList<MeasurementEntity>()
 
-            assertEquals(expectedResult,result)
+            assertEquals(expectedResult, result)
         }
 }
 
 private object Constant {
     val measurements = listOf(
         MeasurementEntity(
-            1, 1.0, "2022-05-23", MeasurementType.WEIGHT
+            1,
+            1.0,
+            "2022-05-23",
+            MeasurementType.WEIGHT
         ),
         MeasurementEntity(
-            2, 1.0, "2022-05-24", MeasurementType.BASAL_METABOLISM
+            2,
+            1.0,
+            "2022-05-24",
+            MeasurementType.BASAL_METABOLISM
         ),
         MeasurementEntity(
-            3, 1.0, "2022-05-26", MeasurementType.BMI
+            3,
+            1.0,
+            "2022-05-26",
+            MeasurementType.BMI
         ),
         MeasurementEntity(
-            1, 4.0, "2022-05-27", MeasurementType.WEIGHT
+            1,
+            4.0,
+            "2022-05-27",
+            MeasurementType.WEIGHT
         ),
         MeasurementEntity(
-            4, 5.0, "2022-05-27", MeasurementType.WEIGHT
+            4,
+            5.0,
+            "2022-05-27",
+            MeasurementType.WEIGHT
         ),
         MeasurementEntity(
-            5, 6.0, "2022-05-27", MeasurementType.WEIGHT
-        ),
+            5,
+            6.0,
+            "2022-05-27",
+            MeasurementType.WEIGHT
+        )
     )
 }

@@ -36,8 +36,8 @@ import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
-import com.myproject.gymphysique.feature.measure.components.Devices
-import com.myproject.gymphysique.feature.measure.components.Measurement
+import com.myproject.gymphysique.feature.measure.components.DevicesComponent
+import com.myproject.gymphysique.feature.measure.components.MeasurementComponent
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureScreenActions
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureViewModel
 import kotlinx.coroutines.launch
@@ -112,12 +112,12 @@ private fun MeasureScreen(
                 .padding(Dimens.screenPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Devices(
-                advertisingStatus = uiState.advertisingStatus,
+            DevicesComponent(
+                modifier = Modifier.weight(1f),
                 advertisements = uiState.advertisements,
                 scanTime = uiState.scanTime,
-                onDisconnectClick = { screenActions.onDisconnectClick() },
-                onSearchDeviceClick = {
+                onDisconnectClicked = { screenActions.onDisconnectClick() },
+                onScanClicked = {
                     coroutineScope.launch {
                         snackbarHostState.currentSnackbarData?.dismiss()
                         when (permissionHandlerHostState.handlePermissions()) {
@@ -144,7 +144,7 @@ private fun MeasureScreen(
                         }
                     }
                 },
-                onConnectDeviceClick = {
+                onConnectDeviceClicked = {
                     if (uiState.advertisingStatus == AdvertisingStatus.STOPPED) {
                         screenActions.onConnectDeviceClick(it)
                     } else {
@@ -156,7 +156,8 @@ private fun MeasureScreen(
                 }
             )
             Spacer(modifier = Modifier.padding(Dimens.margin))
-            Measurement(
+            MeasurementComponent(
+                modifier = Modifier.weight(1f),
                 measurements = uiState.measurements,
                 measureState = uiState.measureState,
                 onSearchMeasurementsClick = { screenActions.onSearchMeasurementsClick() },
