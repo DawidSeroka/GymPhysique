@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,117 +63,113 @@ fun ProfileSetupComponent(
     onUploadPhotoSelected: () -> Unit,
     onSaveSelected: () -> Unit
 ) {
-    LazyColumn(
+    Column(
         modifier = modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(
-                        shape = RoundedCornerShape(
-                            bottomStart = Dimens.screenPadding,
-                            bottomEnd = Dimens.screenPadding
-                        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(
+                    shape = RoundedCornerShape(
+                        bottomStart = Dimens.screenPadding,
+                        bottomEnd = Dimens.screenPadding
                     )
-                    .background(color = MaterialTheme.colorScheme.primaryContainer)
-                    .padding(Dimens.screenPadding),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                AsyncImage(
-                    model = imageUri,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(100.dp)
-                        .clip(CircleShape)
-                        .border(
-                            width = 2.dp,
-                            color = Color.Black,
-                            shape = CircleShape
-                        ),
-                    contentScale = ContentScale.Fit
                 )
-                Button(
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                .background(color = MaterialTheme.colorScheme.primaryContainer)
+                .padding(Dimens.screenPadding),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AsyncImage(
+                model = imageUri,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape)
+                    .border(
+                        width = 2.dp,
+                        color = Color.Black,
+                        shape = CircleShape
                     ),
-                    onClick = onUploadPhotoSelected
-                ) {
-                    Text(text = "Upload New Photo")
-                }
+                contentScale = ContentScale.Fit
+            )
+            Button(
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+                ),
+                onClick = onUploadPhotoSelected
+            ) {
+                Text(text = "Upload New Photo")
             }
         }
-        item {
-            Column(
-                modifier = Modifier.padding(Dimens.screenPadding),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = firstname,
-                    onValueChange = { onFirstnameChange(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
-                    label = { Text(text = "Firstname") },
-                    isError = firstnameError,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(Dimens.margin))
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = surname,
-                    onValueChange = { onSurnameChange(it) },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Done
-                    ),
-                    label = { Text(text = "Surname") },
-                    isError = surnameError,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(Dimens.margin))
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = height,
-                    onValueChange = { onHeightChange(it) },
-                    label = { Text(text = "Height") },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Decimal,
-                        imeAction = ImeAction.Done
-                    ),
-                    isError = heightError,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(Dimens.margin))
-                OutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = age,
-                    onValueChange = { onAgeChange(it) },
-                    label = { Text(text = "Age") },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Decimal,
-                        imeAction = ImeAction.Done
-                    ),
-                    isError = ageError,
-                    maxLines = 1
-                )
-                Spacer(modifier = Modifier.height(Dimens.margin))
-                SelectGenderComponent(
-                    genders = Gender.values().toList(),
-                    expanded = expanded,
-                    selectedGender = gender,
-                    onGenderSelected = onGenderSelected,
-                    onDismissRequest = onDropdownSelected,
-                    onExpandedChange = onDropdownSelected
-                )
-                Spacer(modifier = Modifier.height(Dimens.margin))
-                Button(onClick = onSaveSelected) {
-                    Text(text = "Save")
-                }
+        Column(
+            modifier = Modifier.padding(Dimens.screenPadding),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = firstname,
+                onValueChange = { onFirstnameChange(it) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                label = { Text(text = "Firstname") },
+                isError = firstnameError,
+                maxLines = 1
+            )
+            Spacer(modifier = Modifier.height(Dimens.margin))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = surname,
+                onValueChange = { onSurnameChange(it) },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                label = { Text(text = "Surname") },
+                isError = surnameError,
+                maxLines = 1
+            )
+            Spacer(modifier = Modifier.height(Dimens.margin))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = height,
+                onValueChange = { onHeightChange(it) },
+                label = { Text(text = "Height") },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Done
+                ),
+                isError = heightError,
+                maxLines = 1
+            )
+            Spacer(modifier = Modifier.height(Dimens.margin))
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = age,
+                onValueChange = { onAgeChange(it) },
+                label = { Text(text = "Age") },
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Decimal,
+                    imeAction = ImeAction.Done
+                ),
+                isError = ageError,
+                maxLines = 1
+            )
+            Spacer(modifier = Modifier.height(Dimens.margin))
+            SelectGenderComponent(
+                genders = Gender.values().toList(),
+                expanded = expanded,
+                selectedGender = gender,
+                onGenderSelected = onGenderSelected,
+                onDismissRequest = onDropdownSelected,
+                onExpandedChange = onDropdownSelected
+            )
+            Spacer(modifier = Modifier.height(Dimens.margin))
+            Button(onClick = onSaveSelected) {
+                Text(text = "Save")
             }
         }
     }

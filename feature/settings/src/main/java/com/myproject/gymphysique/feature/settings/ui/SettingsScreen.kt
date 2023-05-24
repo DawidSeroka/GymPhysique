@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -55,6 +56,7 @@ internal fun SettingsScreen(
     uiState: SettingsState,
     screenActions: SettingsScreenActions
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
@@ -63,15 +65,19 @@ internal fun SettingsScreen(
 
     LaunchedEffect(key1 = saveUserDataResult) {
         saveUserDataResult?.let {
-            snackbarHostState.showSnackbar(saveUserDataResult.message.asString(context))
-            screenActions.onSaveUserDataResultReset()
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(saveUserDataResult.message.asString(context))
+                screenActions.onSaveUserDataResultReset()
+            }
         }
     }
 
     LaunchedEffect(key1 = validateResult) {
         if (validateResult is ValidateResult.Error) {
-            snackbarHostState.showSnackbar(message = validateResult.message)
-            screenActions.onValidateResultReset()
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message = validateResult.message)
+                screenActions.onValidateResultReset()
+            }
         }
     }
 

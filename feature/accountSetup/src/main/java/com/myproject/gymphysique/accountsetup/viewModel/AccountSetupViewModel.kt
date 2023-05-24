@@ -5,6 +5,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.myproject.gymphysique.accountsetup.AccountSetupState
+import com.myproject.gymphysique.accountsetup.receiver.RemindersManager
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.SaveUserDataResult
 import com.myproject.gymphysique.core.common.UiText
@@ -24,7 +25,8 @@ import javax.inject.Inject
 @HiltViewModel
 internal class AccountSetupViewModel @Inject constructor(
     private val validateTextFieldUseCase: ValidateTextFieldUseCase,
-    private val saveUserDataUseCase: SaveUserDataUseCase
+    private val saveUserDataUseCase: SaveUserDataUseCase,
+    private val remindersManager: RemindersManager
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<AccountSetupState> = MutableStateFlow(AccountSetupState())
@@ -101,6 +103,7 @@ internal class AccountSetupViewModel @Inject constructor(
             } else if (ageValidateResult is ValidateResult.Error) {
                 _state.update { it.copy(validateResult = ageValidateResult, ageError = true) }
             } else {
+                remindersManager.startReminder()
                 saveUserDataUseCase(
                     firstName = _state.value.firstName.text,
                     surname = _state.value.surname.text,

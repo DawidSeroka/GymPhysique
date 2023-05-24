@@ -4,13 +4,16 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -22,6 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -78,6 +82,7 @@ private fun AccountScreen(
     uiState: AccountSetupState,
     screenActions: AccountSetupActions
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val context = LocalContext.current
 
@@ -86,15 +91,19 @@ private fun AccountScreen(
 
     LaunchedEffect(key1 = saveUserDataResult) {
         saveUserDataResult?.let {
-            snackbarHostState.showSnackbar(saveUserDataResult.message.asString(context))
-            screenActions.onSaveUserDataResultReset()
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(saveUserDataResult.message.asString(context))
+                screenActions.onSaveUserDataResultReset()
+            }
         }
     }
 
     LaunchedEffect(key1 = validateResult) {
         if (validateResult is ValidateResult.Error) {
-            snackbarHostState.showSnackbar(message = validateResult.message)
-            screenActions.onValidateResultReset()
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(message = validateResult.message)
+                screenActions.onValidateResultReset()
+            }
         }
     }
 
@@ -103,6 +112,8 @@ private fun AccountScreen(
         onResult = { uri -> screenActions.onImageUriSelected(uri) }
     )
 
+    val scrollState = rememberScrollState()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) { Snackbar(it) } }
@@ -110,7 +121,8 @@ private fun AccountScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
@@ -134,8 +146,6 @@ private fun AccountScreen(
                 )
             }
             ProfileSetupComponent(
-                modifier = Modifier
-                    .fillMaxSize(),
                 firstname = uiState.firstName,
                 surname = uiState.surname,
                 age = uiState.age,

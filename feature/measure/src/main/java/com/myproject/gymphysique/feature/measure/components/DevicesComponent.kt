@@ -64,11 +64,11 @@ internal fun DevicesComponent(
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.primaryContainer)
                 .padding(Dimens.halfMargin),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "Devices",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleLarge
             )
         }
         Spacer(modifier = Modifier.height(Dimens.halfMargin))
@@ -78,7 +78,6 @@ internal fun DevicesComponent(
                 composition = composition,
                 progress = { progress }
             )
-
         } ?: run {
             if (advertisements.isEmpty()) {
                 Box(
@@ -96,7 +95,7 @@ internal fun DevicesComponent(
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
-            } else
+            } else {
                 LazyColumn(
                     modifier = Modifier
                         .fillMaxSize()
@@ -106,7 +105,7 @@ internal fun DevicesComponent(
                             shape = RoundedCornerShape(8.dp),
                             color = Color.Black
                         ),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     items(advertisements) { advertisement ->
                         val isLastAdvertisement =
@@ -125,6 +124,7 @@ internal fun DevicesComponent(
                         }
                     }
                 }
+            }
         }
         Buttons(
             advertisements = advertisements,
@@ -173,7 +173,6 @@ private fun Buttons(
         }
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

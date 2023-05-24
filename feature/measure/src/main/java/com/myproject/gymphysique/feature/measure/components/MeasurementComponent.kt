@@ -1,6 +1,5 @@
 package com.myproject.gymphysique.feature.measure.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,8 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,9 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
-import com.myproject.gymphysique.core.model.ConnectionState
 import com.myproject.gymphysique.core.model.Measurement
-import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 
 @Composable
 internal fun MeasurementComponent(
@@ -52,14 +47,14 @@ internal fun MeasurementComponent(
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.primaryContainer)
                 .padding(Dimens.halfMargin),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "Measurements",
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleLarge
             )
         }
-        if (measurements.isNotEmpty())
+        if (measurements.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
@@ -78,7 +73,7 @@ internal fun MeasurementComponent(
                     }
                 }
             }
-        else
+        } else {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -94,6 +89,7 @@ internal fun MeasurementComponent(
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
+        }
         Buttons(
             measurements = measurements,
             onSaveClicked = onSaveClick,
@@ -118,43 +114,44 @@ private fun Buttons(
         if (measurements.isNotEmpty() && measureState == true) {
             Button(
                 modifier = Modifier.align(Alignment.CenterStart),
-                onClick = onStopMeasureClick,
+                onClick = onStopMeasureClick
             ) {
                 Text(text = "Stop measure")
             }
             Button(
                 modifier = Modifier.align(Alignment.CenterEnd),
-                onClick = onSaveClicked,
+                onClick = onSaveClicked
             ) {
                 Text(text = "Save")
             }
         } else if (measurements.isNotEmpty()) {
             Button(
                 modifier = Modifier.align(Alignment.CenterStart),
-                onClick = onStartMeasureClicked,
+                onClick = onStartMeasureClicked
             ) {
                 Text(text = "Start measure")
             }
             Button(
                 modifier = Modifier.align(Alignment.CenterEnd),
-                onClick = onSaveClicked,
+                onClick = onSaveClicked
             ) {
                 Text(text = "Save")
             }
         } else if (measureState == true) {
             Button(
                 modifier = Modifier.align(Alignment.Center),
-                onClick = onStopMeasureClick,
+                onClick = onStopMeasureClick
             ) {
                 Text(text = "Stop measure")
             }
-        } else
+        } else {
             Button(
                 modifier = Modifier.align(Alignment.Center),
-                onClick = onStartMeasureClicked,
+                onClick = onStartMeasureClicked
             ) {
                 Text(text = "Start measure")
             }
+        }
     }
 }
 

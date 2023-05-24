@@ -93,8 +93,10 @@ private fun MeasureScreen(
 
     LaunchedEffect(key1 = saveMeasurementResult) {
         saveMeasurementResult?.let {
-            snackbarHostState.showSnackbar(saveMeasurementResult.message.asString(context))
-            screenActions.onSaveMeasurementResultReset()
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(saveMeasurementResult.message.asString(context))
+                screenActions.onSaveMeasurementResultReset()
+            }
         }
     }
 

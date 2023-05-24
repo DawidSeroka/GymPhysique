@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="daily_reminder">Daily measurement reminder</string>
+    <string name="hi">Hi</string>
+    <string name="daily_measurement_reminder">dont forget about daily measurement!</string>
+    <string name="reminders_notification_channel_id">999</string>
+</resources>
