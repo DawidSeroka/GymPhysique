@@ -65,35 +65,10 @@ private fun ChartsScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(
-                        shape = RoundedCornerShape(
-                            bottomStart = Dimens.screenPadding,
-                            bottomEnd = Dimens.screenPadding
-                        )
-                    )
-                    .background(color = MaterialTheme.colorScheme.primaryContainer)
-                    .padding(Dimens.screenPadding),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                ChartDropdownMenu(
-                    measurementTypes = MeasurementType.values().toList(),
-                    expanded = uiState.dropdownMeasurementExpanded,
-                    selectedMeasurementType = uiState.selectedMeasurementType,
-                    onMeasurementTypeSelected = { screenActions.onMeasurementTypeSelected(it) },
-                    onDismissRequest = { screenActions.onMeasurementDropdownSelected() },
-                    onExpandedChange = { screenActions.onMeasurementDropdownSelected() }
-                )
-                Spacer(modifier = Modifier.height(Dimens.margin))
-                DatePicker(
-                    date = uiState.selectedDate,
-                    expanded = uiState.dropdownDateExpanded,
-                    onClick = { screenActions.onDateDropdownSelected() }
-                )
-            }
-
+            ChartPropertiesComponent(
+                uiState,
+                screenActions
+            )
             ChartComponent(
                 modifier = Modifier
                     .weight(1f)
@@ -101,6 +76,41 @@ private fun ChartsScreen(
                 measurements = uiState.measurements
             )
         }
+    }
+}
+
+@Composable
+private fun ChartPropertiesComponent(
+    uiState: ChartsState,
+    screenActions: ChartsScreenActions
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(
+                shape = RoundedCornerShape(
+                    bottomStart = Dimens.screenPadding,
+                    bottomEnd = Dimens.screenPadding
+                )
+            )
+            .background(color = MaterialTheme.colorScheme.primaryContainer)
+            .padding(Dimens.screenPadding),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        ChartDropdownMenu(
+            measurementTypes = MeasurementType.values().toList(),
+            expanded = uiState.dropdownMeasurementExpanded,
+            selectedMeasurementType = uiState.selectedMeasurementType,
+            onMeasurementTypeSelected = { screenActions.onMeasurementTypeSelected(it) },
+            onDismissRequest = { screenActions.onMeasurementDropdownSelected() },
+            onExpandedChange = { screenActions.onMeasurementDropdownSelected() }
+        )
+        Spacer(modifier = Modifier.height(Dimens.margin))
+        DatePicker(
+            date = uiState.selectedDate,
+            expanded = uiState.dropdownDateExpanded,
+            onClick = { screenActions.onDateDropdownSelected() }
+        )
     }
 }
 

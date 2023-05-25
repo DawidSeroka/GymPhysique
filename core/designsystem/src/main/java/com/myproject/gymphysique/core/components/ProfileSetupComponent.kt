@@ -39,7 +39,6 @@ import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.core.model.Gender
 
 @Suppress("LongMethod")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileSetupComponent(
     modifier: Modifier = Modifier,
@@ -68,109 +67,156 @@ fun ProfileSetupComponent(
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clip(
-                    shape = RoundedCornerShape(
-                        bottomStart = Dimens.screenPadding,
-                        bottomEnd = Dimens.screenPadding
-                    )
-                )
-                .background(color = MaterialTheme.colorScheme.primaryContainer)
-                .padding(Dimens.screenPadding),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            AsyncImage(
-                model = imageUri,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .border(
-                        width = 2.dp,
-                        color = Color.Black,
-                        shape = CircleShape
-                    ),
-                contentScale = ContentScale.Fit
-            )
-            Button(
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                onClick = onUploadPhotoSelected
-            ) {
-                Text(text = "Upload New Photo")
-            }
+        UserPhotoComponent(imageUri, onUploadPhotoSelected)
+        UserDataComponent(
+            firstname,
+            onFirstnameChange,
+            firstnameError,
+            surname,
+            onSurnameChange,
+            surnameError,
+            height,
+            onHeightChange,
+            heightError,
+            age,
+            onAgeChange,
+            ageError,
+            expanded,
+            gender,
+            onGenderSelected,
+            onDropdownSelected,
+            onSaveSelected
+        )
+    }
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun UserDataComponent(
+    firstname: TextFieldValue,
+    onFirstnameChange: (TextFieldValue) -> Unit,
+    firstnameError: Boolean,
+    surname: TextFieldValue,
+    onSurnameChange: (TextFieldValue) -> Unit,
+    surnameError: Boolean,
+    height: TextFieldValue,
+    onHeightChange: (TextFieldValue) -> Unit,
+    heightError: Boolean,
+    age: TextFieldValue,
+    onAgeChange: (TextFieldValue) -> Unit,
+    ageError: Boolean,
+    expanded: Boolean,
+    gender: Gender,
+    onGenderSelected: (Gender) -> Unit,
+    onDropdownSelected: () -> Unit,
+    onSaveSelected: () -> Unit
+) {
+    Column(
+        modifier = Modifier.padding(Dimens.screenPadding),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = firstname,
+            onValueChange = { onFirstnameChange(it) },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            label = { Text(text = "Firstname") },
+            isError = firstnameError,
+            maxLines = 1
+        )
+        Spacer(modifier = Modifier.height(Dimens.margin))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = surname,
+            onValueChange = { onSurnameChange(it) },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            label = { Text(text = "Surname") },
+            isError = surnameError,
+            maxLines = 1
+        )
+        Spacer(modifier = Modifier.height(Dimens.margin))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = height,
+            onValueChange = { onHeightChange(it) },
+            label = { Text(text = "Height") },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal,
+                imeAction = ImeAction.Done
+            ),
+            isError = heightError,
+            maxLines = 1
+        )
+        Spacer(modifier = Modifier.height(Dimens.margin))
+        OutlinedTextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = age,
+            onValueChange = { onAgeChange(it) },
+            label = { Text(text = "Age") },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Decimal,
+                imeAction = ImeAction.Done
+            ),
+            isError = ageError,
+            maxLines = 1
+        )
+        Spacer(modifier = Modifier.height(Dimens.margin))
+        SelectGenderComponent(
+            genders = Gender.values().toList(),
+            expanded = expanded,
+            selectedGender = gender,
+            onGenderSelected = onGenderSelected,
+            onDismissRequest = onDropdownSelected,
+            onExpandedChange = onDropdownSelected
+        )
+        Spacer(modifier = Modifier.height(Dimens.margin))
+        Button(onClick = onSaveSelected) {
+            Text(text = "Save")
         }
-        Column(
-            modifier = Modifier.padding(Dimens.screenPadding),
-            horizontalAlignment = Alignment.CenterHorizontally
+    }
+}
+
+@Composable
+private fun UserPhotoComponent(imageUri: Uri?, onUploadPhotoSelected: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(
+                shape = RoundedCornerShape(
+                    bottomStart = Dimens.screenPadding,
+                    bottomEnd = Dimens.screenPadding
+                )
+            )
+            .background(color = MaterialTheme.colorScheme.primaryContainer)
+            .padding(Dimens.screenPadding),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AsyncImage(
+            model = imageUri,
+            contentDescription = null,
+            modifier = Modifier
+                .size(100.dp)
+                .clip(CircleShape)
+                .border(
+                    width = 2.dp,
+                    color = Color.Black,
+                    shape = CircleShape
+                ),
+            contentScale = ContentScale.Fit
+        )
+        Button(
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.onPrimaryContainer
+            ),
+            onClick = onUploadPhotoSelected
         ) {
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = firstname,
-                onValueChange = { onFirstnameChange(it) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
-                ),
-                label = { Text(text = "Firstname") },
-                isError = firstnameError,
-                maxLines = 1
-            )
-            Spacer(modifier = Modifier.height(Dimens.margin))
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = surname,
-                onValueChange = { onSurnameChange(it) },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
-                ),
-                label = { Text(text = "Surname") },
-                isError = surnameError,
-                maxLines = 1
-            )
-            Spacer(modifier = Modifier.height(Dimens.margin))
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = height,
-                onValueChange = { onHeightChange(it) },
-                label = { Text(text = "Height") },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Done
-                ),
-                isError = heightError,
-                maxLines = 1
-            )
-            Spacer(modifier = Modifier.height(Dimens.margin))
-            OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = age,
-                onValueChange = { onAgeChange(it) },
-                label = { Text(text = "Age") },
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Decimal,
-                    imeAction = ImeAction.Done
-                ),
-                isError = ageError,
-                maxLines = 1
-            )
-            Spacer(modifier = Modifier.height(Dimens.margin))
-            SelectGenderComponent(
-                genders = Gender.values().toList(),
-                expanded = expanded,
-                selectedGender = gender,
-                onGenderSelected = onGenderSelected,
-                onDismissRequest = onDropdownSelected,
-                onExpandedChange = onDropdownSelected
-            )
-            Spacer(modifier = Modifier.height(Dimens.margin))
-            Button(onClick = onSaveSelected) {
-                Text(text = "Save")
-            }
+            Text(text = "Upload New Photo")
         }
     }
 }

@@ -125,26 +125,7 @@ private fun AccountScreen(
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(
-                        RoundedCornerShape(
-                            bottomStart = Dimens.halfMargin,
-                            bottomEnd = Dimens.halfMargin
-                        )
-                    )
-                    .background(MaterialTheme.colorScheme.onPrimaryContainer),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Account Setup",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.headlineLarge,
-                    color = MaterialTheme.colorScheme.primaryContainer
-                )
-            }
+            ScreenTitle()
             ProfileSetupComponent(
                 firstname = uiState.firstName,
                 surname = uiState.surname,
@@ -171,6 +152,30 @@ private fun AccountScreen(
                 onSaveSelected = screenActions.onSaveSelected
             )
         }
+    }
+}
+
+@Composable
+private fun ScreenTitle() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(
+                RoundedCornerShape(
+                    bottomStart = Dimens.halfMargin,
+                    bottomEnd = Dimens.halfMargin
+                )
+            )
+            .background(MaterialTheme.colorScheme.onPrimaryContainer),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Account Setup",
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.primaryContainer
+        )
     }
 }
 
