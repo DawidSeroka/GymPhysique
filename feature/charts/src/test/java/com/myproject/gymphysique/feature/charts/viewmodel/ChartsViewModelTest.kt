@@ -31,6 +31,7 @@ class ChartsViewModelTest {
         viewModel = ChartsViewModel(getMeasurementUseCase)
     }
 
+    @Suppress("MaxLineLength")
     @Test
     fun `when onMeasurementTypeSelected, measurements with dateParam exists, then date and measurementType and measurements are updated `() =
         runTest {
@@ -48,6 +49,7 @@ class ChartsViewModelTest {
             assertEquals(expectedMeasurements, viewModel.state.value.measurements)
         }
 
+    @Suppress("MaxLineLength")
     @Test
     fun `when onMeasurementTypeSelected, measurements with dateParam non exists, then date and measurementType are updated and measurements are empty `() =
         runTest {
@@ -99,6 +101,6 @@ private object Constants {
             measurementResult = 1.0,
             date = "2022-07",
             measurementType = MeasurementType.BASAL_METABOLISM
-        ),
+        )
     )
 }

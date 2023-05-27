@@ -1,6 +1,5 @@
 package com.myproject.gymphysique.feature.charts.dialog
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.window.Dialog
 import com.dt.composedatepicker.ComposeCalendar

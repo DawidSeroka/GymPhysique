@@ -26,12 +26,14 @@ class ValidateCurrentAdvertisementsUseCaseTest {
             advertisement2
         )
         val newAd = advertisement3
-        every { advertisement1.peripheralName } returns "advertisement1"
-        every { advertisement2.peripheralName } returns "advertisement2"
-        every { advertisement3.peripheralName } returns "advertisement3"
+        every { advertisement1.address } returns "advertisement1"
+        every { advertisement2.address } returns "advertisement2"
+        every { advertisement3.address } returns "advertisement3"
         val result = useCase(newAd, oldAds)
 
-        assertEquals(oldAds + newAd, result)
+        val expectedResult = oldAds + newAd
+
+        assertEquals(expectedResult, result)
     }
 
     @Test
@@ -41,9 +43,9 @@ class ValidateCurrentAdvertisementsUseCaseTest {
             advertisement2
         )
         val newAd = advertisement3
-        every { advertisement1.peripheralName } returns "advertisement1"
-        every { advertisement2.peripheralName } returns "advertisement2"
-        every { advertisement3.peripheralName } returns "advertisement1"
+        every { advertisement1.address } returns "advertisement1"
+        every { advertisement2.address } returns "advertisement2"
+        every { advertisement3.address } returns "advertisement1"
         val result = useCase(newAd, oldAds)
 
         assertEquals(oldAds, result)

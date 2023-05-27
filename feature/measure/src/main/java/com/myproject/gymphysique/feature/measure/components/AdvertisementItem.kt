@@ -14,13 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.juul.kable.Advertisement
 import com.myproject.gymphysique.core.common.supportedServices.SupportedService
 import com.myproject.gymphysique.core.designsystem.icon.GPIcons
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
-import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.core.model.ConnectionState
 import com.myproject.gymphysique.feature.measure.AdvertisementWrapper
 
@@ -74,4 +72,3 @@ internal fun AdvertisementItem(
         }
     }
 }
-

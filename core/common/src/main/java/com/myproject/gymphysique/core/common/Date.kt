@@ -23,7 +23,7 @@ fun Date.toMonthAndYear(): String {
     return formatter.format(localDate)
 }
 
-fun String.toDate(): Date{
+fun String.toDate(): Date {
     val dateFormat = SimpleDateFormat("yyyy-MM")
     return dateFormat.parse(this) ?: Date()
 }

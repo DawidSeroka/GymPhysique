@@ -80,7 +80,7 @@ class BodyCompositionResponseDecode @Inject constructor(
                     )
                 )
             }
-        } else{
+        } else {
             Timber.e("Empty characteristic byteArray")
             return Result.error(java.lang.Exception("Empty characteristic"))
         }

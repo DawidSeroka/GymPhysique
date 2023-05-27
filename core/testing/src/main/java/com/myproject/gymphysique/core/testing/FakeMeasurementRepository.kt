@@ -19,12 +19,13 @@ class FakeMeasurementRepository : MeasurementRepository {
         dateParam: String,
         measurementType: MeasurementType
     ): Flow<List<Measurement>> {
-        return if (measurementsFlow.replayCache.isEmpty())
+        return if (measurementsFlow.replayCache.isEmpty()) {
             flowOf(emptyList())
-        else
+        } else {
             measurementsFlow.map { measurementList ->
                 measurementList.filter { it.date == dateParam && it.measurementType == measurementType }
             }
+        }
     }
 
     override suspend fun getMeasurements(
@@ -33,7 +34,7 @@ class FakeMeasurementRepository : MeasurementRepository {
     ): List<Measurement> {
         return measurementsFlow
             .replayCache.firstOrNull()
-            ?.filter { it.date == dateParam && it.measurementType == measurementType }?: emptyList()
+            ?.filter { it.date == dateParam && it.measurementType == measurementType } ?: emptyList()
     }
 
     override suspend fun saveMeasurement(measurement: Measurement): Long {
@@ -45,5 +46,4 @@ class FakeMeasurementRepository : MeasurementRepository {
         measurementsFlow.tryEmit(newList)
         return newId.toLong()
     }
-
 }

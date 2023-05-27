@@ -1,6 +1,3 @@
 package com.myproject.gymphysique.accountsetup.ui
 
-
-class AccountSetupScreenKtTest{
-
-}
+class AccountSetupScreenKtTest

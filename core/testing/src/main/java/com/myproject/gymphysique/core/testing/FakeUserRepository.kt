@@ -7,17 +7,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flowOf
 
-class FakeUserRepository: UserRepository{
+class FakeUserRepository : UserRepository {
 
     private val userDataFlow: MutableSharedFlow<UserData> =
         MutableSharedFlow(replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST)
 
     override fun observeUser(): Flow<UserData> {
-        return if (userDataFlow.replayCache.isEmpty())
-            flowOf(UserData("","",0,0,"",""))
-        else
+        return if (userDataFlow.replayCache.isEmpty()) {
+            flowOf(UserData("", "", 0, 0, "", ""))
+        } else {
             userDataFlow
-
+        }
     }
 
     override suspend fun getUser(): UserData {
@@ -53,5 +53,4 @@ class FakeUserRepository: UserRepository{
         val userData = getUser().copy(gender = gender)
         userDataFlow.tryEmit(userData)
     }
-
 }

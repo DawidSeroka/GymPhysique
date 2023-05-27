@@ -25,7 +25,6 @@ import com.myproject.gymphysqiue.core.domain.measure.ProvideAdvertisementsUseCas
 import com.myproject.gymphysqiue.core.domain.measure.TimerUseCase
 import com.myproject.gymphysqiue.core.domain.measure.ValidateCurrentAdvertisementsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +32,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import timber.log.Timber
 import javax.inject.Inject
