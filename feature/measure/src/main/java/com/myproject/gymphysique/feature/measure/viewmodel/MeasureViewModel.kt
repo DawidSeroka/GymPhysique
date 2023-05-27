@@ -86,13 +86,12 @@ internal class MeasureViewModel @Inject constructor(
                                 val newAdvertisementList = validateCurrentAdvertisementsUseCase(
                                     advertisement,
                                     currentState.advertisements.map { it.advertisement }
-                                )
-                                    .map {
-                                        AdvertisementWrapper(
-                                            ConnectionState.DISCONNECTED,
-                                            advertisement
-                                        )
-                                    }
+                                ).map {
+                                    AdvertisementWrapper(
+                                        ConnectionState.DISCONNECTED,
+                                        advertisement
+                                    )
+                                }
                                 currentState.copy(
                                     advertisements = newAdvertisementList
                                 )
@@ -151,18 +150,16 @@ internal class MeasureViewModel @Inject constructor(
                     ).cancellable()
                     observeJob = viewModelScope.launch {
                         byteArray.collect {
-                            withContext(Dispatchers.IO) {
-                                val measurements = decodeDataUseCase(it)
-                                if (measurements.size > 1) {
-                                    _state.update {
-                                        it.copy(
-                                            measurements = measurements,
-                                            measureState = false
-                                        )
-                                    }
-                                } else {
-                                    _state.update { it.copy(measurements = measurements) }
+                            val measurements = decodeDataUseCase(it)
+                            if (measurements.size > 1) {
+                                _state.update {
+                                    it.copy(
+                                        measurements = measurements,
+                                        measureState = false
+                                    )
                                 }
+                            } else {
+                                _state.update { it.copy(measurements = measurements) }
                             }
                         }
                     }

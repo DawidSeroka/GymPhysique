@@ -4,6 +4,7 @@ import com.myproject.gymphysique.core.common.Result
 import com.myproject.gymphysique.core.common.signedBytesToInt
 import com.myproject.gymphysique.core.decoder.ResponseData
 import com.myproject.gymphysique.core.decoder.flag.FlagTypeCheck
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -21,62 +22,67 @@ class BodyCompositionResponseDecode @Inject constructor(
         height: Int,
         age: Int
     ): Result<ResponseData> {
-        val flags = signedBytesToInt(byteArray[0], byteArray[1])
-        val sizeOfList = byteArray.size
-        val metricUnit = !flagTypeCheck.checkBodyCompositionFlagUnit(flags)
+        if (byteArray.isNotEmpty()) {
+            val flags = signedBytesToInt(byteArray[0], byteArray[1])
+            val sizeOfList = byteArray.size
+            val metricUnit = !flagTypeCheck.checkBodyCompositionFlagUnit(flags)
 
-        val weight = decodeWeight(flags, byteArray, sizeOfList, metricUnit)
-        val date = getCurrentDate()
-        val impedancePresent = flagTypeCheck.checkBodyCompositionFlagImpedance(flags)
-        return if (impedancePresent) {
-            var impedance: Int? = null
-            impedance = if (flagTypeCheck.checkBodyCompositionFlagHeight(flags)) {
-                signedBytesToInt(
-                    byteArray[sizeOfList - 6],
-                    byteArray[sizeOfList - 5]
-                )
+            val weight = decodeWeight(flags, byteArray, sizeOfList, metricUnit)
+            val date = getCurrentDate()
+            val impedancePresent = flagTypeCheck.checkBodyCompositionFlagImpedance(flags)
+            return if (impedancePresent) {
+                var impedance: Int? = null
+                impedance = if (flagTypeCheck.checkBodyCompositionFlagHeight(flags)) {
+                    signedBytesToInt(
+                        byteArray[sizeOfList - 6],
+                        byteArray[sizeOfList - 5]
+                    )
+                } else {
+                    signedBytesToInt(
+                        byteArray[sizeOfList - 4],
+                        byteArray[sizeOfList - 3]
+                    )
+                }
+                weight?.let {
+                    lbmCoefficient = decodeImpedance.getLBMCoefficient(it, height, impedance, age)
+                    val fatPercentage = decodeFatPercentage(sex, age, weight, height)
+                    val bmr = decodeBMR(sex, it, height, age)
+                    val boneMass = decodeBoneMass(sex)
+                    val muscleMass = decodeMuscleMass(sex, it, fatPercentage, boneMass)
+                    val musclePercentage = ((muscleMass * 100) / it).roundTo2Places()
+                    val waterPercentage = decodeWaterPercentage(fatPercentage)
+                    val visceralFat = decodeVisceralFat(sex, it, height, age)
+                    val idealWeight = decodeIdealWeight(sex = sex, height = height)
+                    val bmi = decodeBMI(height, it)
+
+                    Result.success(
+                        ResponseData.BodyCompositionResponseData(
+                            weight = it,
+                            date = date,
+                            bodyFatPercentage = fatPercentage,
+                            basalMetabolism = bmr,
+                            musclePercentage = musclePercentage,
+                            muscleMass = muscleMass,
+                            visceralFat = visceralFat,
+                            bodyWaterPercentage = waterPercentage,
+                            boneMass = boneMass,
+                            idealWeight = idealWeight,
+                            bmi = bmi,
+                            height = height
+                        )
+                    )
+                } ?: Result.error(Exception("Error occurred"))
             } else {
-                signedBytesToInt(
-                    byteArray[sizeOfList - 4],
-                    byteArray[sizeOfList - 3]
-                )
-            }
-            weight?.let {
-                lbmCoefficient = decodeImpedance.getLBMCoefficient(it, height, impedance, age)
-                val fatPercentage = decodeFatPercentage(sex, age, weight, height)
-                val bmr = decodeBMR(sex, it, height, age)
-                val boneMass = decodeBoneMass(sex)
-                val muscleMass = decodeMuscleMass(sex, it, fatPercentage, boneMass)
-                val musclePercentage = ((muscleMass * 100) / it).roundTo2Places()
-                val waterPercentage = decodeWaterPercentage(fatPercentage)
-                val visceralFat = decodeVisceralFat(sex, it, height, age)
-                val idealWeight = decodeIdealWeight(sex = sex, height = height)
-                val bmi = decodeBMI(height, it)
-
-                Result.success(
+                Result.loading(
                     ResponseData.BodyCompositionResponseData(
-                        weight = it,
-                        date = date,
-                        bodyFatPercentage = fatPercentage,
-                        basalMetabolism = bmr,
-                        musclePercentage = musclePercentage,
-                        muscleMass = muscleMass,
-                        visceralFat = visceralFat,
-                        bodyWaterPercentage = waterPercentage,
-                        boneMass = boneMass,
-                        idealWeight = idealWeight,
-                        bmi = bmi,
-                        height = height
+                        weight = weight,
+                        date = date
                     )
                 )
-            } ?: Result.error(Exception("Error occurred"))
-        } else {
-            Result.loading(
-                ResponseData.BodyCompositionResponseData(
-                    weight = weight,
-                    date = date
-                )
-            )
+            }
+        } else{
+            Timber.e("Empty characteristic byteArray")
+            return Result.error(java.lang.Exception("Empty characteristic"))
         }
     }
 
