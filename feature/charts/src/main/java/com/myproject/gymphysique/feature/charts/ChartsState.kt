@@ -10,5 +10,5 @@ data class ChartsState(
     val selectedDate: String = getCurrentDate(),
     val selectedMeasurementType: MeasurementType = MeasurementType.WEIGHT,
     val dropdownDateExpanded: Boolean = false,
-    val dropdownMeasurementExpanded: Boolean = false
+    val dropdownMeasurementTypeExpanded: Boolean = false
 )

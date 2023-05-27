@@ -39,7 +39,7 @@ class ChartsViewModel @Inject constructor(
         _state.update {
             it.copy(
                 selectedMeasurementType = measurementType,
-                dropdownMeasurementExpanded = false
+                dropdownMeasurementTypeExpanded = false
             )
         }.also {
             viewModelScope.launch {
@@ -48,8 +48,8 @@ class ChartsViewModel @Inject constructor(
         }
     }
 
-    internal fun onMeasurementDropdownSelected() {
-        _state.update { it.copy(dropdownMeasurementExpanded = !it.dropdownMeasurementExpanded) }
+    internal fun onMeasurementTypeDropdownSelected() {
+        _state.update { it.copy(dropdownMeasurementTypeExpanded = !it.dropdownMeasurementTypeExpanded) }
     }
 
     internal fun onDateSelected(date: Date) {

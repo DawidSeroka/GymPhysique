@@ -20,7 +20,6 @@ internal fun DatePickerDialog(
                 }
 
                 override fun onDateSelected(date: Date) {
-                    Log.i("DATE", date.toString())
                     onDateSelected(date)
                 }
             }

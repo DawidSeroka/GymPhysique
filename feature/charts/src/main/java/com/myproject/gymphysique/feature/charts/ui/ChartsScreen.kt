@@ -38,7 +38,7 @@ internal fun ChartsRoute(
     ChartsScreen(
         uiState,
         screenActions = ChartsScreenActions(
-            onMeasurementDropdownSelected = viewModel::onMeasurementDropdownSelected,
+            onMeasurementDropdownSelected = viewModel::onMeasurementTypeDropdownSelected,
             onMeasurementTypeSelected = viewModel::onMeasurementTypeSelected,
             onDateDropdownSelected = viewModel::onDateDropdownSelected,
             onDateSelected = viewModel::onDateSelected
@@ -99,7 +99,7 @@ private fun ChartPropertiesComponent(
     ) {
         ChartDropdownMenu(
             measurementTypes = MeasurementType.values().toList(),
-            expanded = uiState.dropdownMeasurementExpanded,
+            expanded = uiState.dropdownMeasurementTypeExpanded,
             selectedMeasurementType = uiState.selectedMeasurementType,
             onMeasurementTypeSelected = { screenActions.onMeasurementTypeSelected(it) },
             onDismissRequest = { screenActions.onMeasurementDropdownSelected() },
