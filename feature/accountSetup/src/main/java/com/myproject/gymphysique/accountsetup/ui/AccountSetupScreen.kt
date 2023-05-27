@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -56,7 +55,7 @@ internal fun AccountSetupRoute(
         }
     }
 
-    AccountScreen(
+    AccountSetupScreen(
         uiState = uiState,
         screenActions = AccountSetupActions(
             onFirstNameChange = viewModel::onFirstNameChange,
@@ -74,7 +73,7 @@ internal fun AccountSetupRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AccountScreen(
+private fun AccountSetupScreen(
     uiState: AccountSetupState,
     screenActions: AccountSetupActions
 ) {
@@ -169,7 +168,7 @@ private fun ScreenTitle() {
 @Composable
 private fun AccountScreenPreview() {
     GymPhysiqueTheme {
-        AccountScreen(
+        AccountSetupScreen(
             uiState = AccountSetupState(
                 firstName = "Dawid"
             ),
