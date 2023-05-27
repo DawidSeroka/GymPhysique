@@ -10,15 +10,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -28,24 +28,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.myproject.gymphysique.core.designsystem.R
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.core.model.Gender
 
-@Suppress("LongMethod")
 @Composable
 fun ProfileSetupComponent(
     modifier: Modifier = Modifier,
-    firstname: TextFieldValue,
-    surname: TextFieldValue,
-    age: TextFieldValue,
-    height: TextFieldValue,
+    firstname: String,
+    surname: String,
+    age: String,
+    height: String,
     gender: Gender,
     imageUri: Uri?,
     firstnameError: Boolean,
@@ -53,10 +53,10 @@ fun ProfileSetupComponent(
     ageError: Boolean,
     heightError: Boolean,
     expanded: Boolean,
-    onFirstnameChange: (TextFieldValue) -> Unit,
-    onSurnameChange: (TextFieldValue) -> Unit,
-    onAgeChange: (TextFieldValue) -> Unit,
-    onHeightChange: (TextFieldValue) -> Unit,
+    onFirstnameChange: (String) -> Unit,
+    onSurnameChange: (String) -> Unit,
+    onAgeChange: (String) -> Unit,
+    onHeightChange: (String) -> Unit,
     onGenderSelected: (Gender) -> Unit,
     onDropdownSelected: () -> Unit,
     onUploadPhotoSelected: () -> Unit,
@@ -90,20 +90,21 @@ fun ProfileSetupComponent(
     }
 }
 
+@Suppress("LongMethod")
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 private fun UserDataComponent(
-    firstname: TextFieldValue,
-    onFirstnameChange: (TextFieldValue) -> Unit,
+    firstname: String,
+    onFirstnameChange: (String) -> Unit,
     firstnameError: Boolean,
-    surname: TextFieldValue,
-    onSurnameChange: (TextFieldValue) -> Unit,
+    surname: String,
+    onSurnameChange: (String) -> Unit,
     surnameError: Boolean,
-    height: TextFieldValue,
-    onHeightChange: (TextFieldValue) -> Unit,
+    height: String,
+    onHeightChange: (String) -> Unit,
     heightError: Boolean,
-    age: TextFieldValue,
-    onAgeChange: (TextFieldValue) -> Unit,
+    age: String,
+    onAgeChange: (String) -> Unit,
     ageError: Boolean,
     expanded: Boolean,
     gender: Gender,
@@ -118,11 +119,21 @@ private fun UserDataComponent(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = firstname,
-            onValueChange = { onFirstnameChange(it) },
+            onValueChange = onFirstnameChange,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
+            supportingText = {
+                if (firstnameError) {
+                    Text(text = stringResource(R.string.firstname_error))
+                }
+            },
+            trailingIcon = {
+                if (firstnameError) {
+                    Icon(imageVector = Icons.Filled.Error, contentDescription = "IconError")
+                }
+            },
             label = { Text(text = "Firstname") },
             isError = firstnameError,
             maxLines = 1
@@ -131,11 +142,21 @@ private fun UserDataComponent(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = surname,
-            onValueChange = { onSurnameChange(it) },
+            onValueChange = onSurnameChange,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Done
             ),
+            supportingText = {
+                if (surnameError) {
+                    Text(text = stringResource(R.string.surname_error))
+                }
+            },
+            trailingIcon = {
+                if (surnameError) {
+                    Icon(imageVector = Icons.Filled.Error, contentDescription = "IconError")
+                }
+            },
             label = { Text(text = "Surname") },
             isError = surnameError,
             maxLines = 1
@@ -144,12 +165,22 @@ private fun UserDataComponent(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = height,
-            onValueChange = { onHeightChange(it) },
+            onValueChange = onHeightChange,
             label = { Text(text = "Height") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done
             ),
+            supportingText = {
+                if (heightError) {
+                    Text(text = stringResource(R.string.height_error))
+                }
+            },
+            trailingIcon = {
+                if (heightError) {
+                    Icon(imageVector = Icons.Filled.Error, contentDescription = "IconError")
+                }
+            },
             isError = heightError,
             maxLines = 1
         )
@@ -157,12 +188,22 @@ private fun UserDataComponent(
         OutlinedTextField(
             modifier = Modifier.fillMaxWidth(),
             value = age,
-            onValueChange = { onAgeChange(it) },
+            onValueChange = onAgeChange,
             label = { Text(text = "Age") },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done
             ),
+            supportingText = {
+                if (ageError) {
+                    Text(text = stringResource(R.string.age_error))
+                }
+            },
+            trailingIcon = {
+                if (ageError) {
+                    Icon(imageVector = Icons.Filled.Error, contentDescription = "IconError")
+                }
+            },
             isError = ageError,
             maxLines = 1
         )
@@ -227,10 +268,10 @@ fun ProfileSetupComponentPreview() {
     GymPhysiqueTheme {
         ProfileSetupComponent(
             modifier = Modifier,
-            firstname = TextFieldValue(),
-            surname = TextFieldValue(),
-            age = TextFieldValue(),
-            height = TextFieldValue(),
+            firstname = "",
+            surname = "",
+            age = "",
+            height = "",
             gender = Gender.OTHER,
             imageUri = null,
             firstnameError = false,

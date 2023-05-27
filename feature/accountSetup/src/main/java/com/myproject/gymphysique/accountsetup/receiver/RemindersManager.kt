@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import dagger.hilt.android.qualifiers.ApplicationContext
-import timber.log.Timber
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
@@ -14,7 +13,7 @@ class RemindersManager @Inject constructor(
     @ApplicationContext private val applicationContext: Context
 ) {
     fun startReminder(
-        reminderTime: String = reminderHour,
+        reminderTime: String = REMIND_HOUR,
         reminderId: Int = REMINDER_NOTIFICATION_REQUEST_CODE
     ) {
         val alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -59,5 +58,5 @@ class RemindersManager @Inject constructor(
     }
 }
 
-const val reminderHour = "19:00"
+const val REMIND_HOUR = "19:00"
 const val REMINDER_NOTIFICATION_REQUEST_CODE = 123

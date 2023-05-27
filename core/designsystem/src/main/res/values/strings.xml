@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Error messages -->
+    <string name="firstname_error">Must be longer than 2 chars!</string>
+    <string name="surname_error">Must be longer than 2 chars!</string>
+    <string name="age_error">Must be between 2 and 100!</string>
+    <string name="height_error">Must be between 100 and 200!</string>
+</resources>

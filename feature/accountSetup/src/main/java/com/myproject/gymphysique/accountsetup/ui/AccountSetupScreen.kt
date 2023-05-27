@@ -4,7 +4,6 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,7 +39,6 @@ import com.myproject.gymphysique.accountsetup.viewModel.AccountSetupViewModel
 import com.myproject.gymphysique.core.components.ProfileSetupComponent
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
-import com.myproject.gymphysqiue.core.domain.util.ValidateResult
 import kotlinx.coroutines.launch
 
 @Composable
@@ -70,7 +67,6 @@ internal fun AccountSetupRoute(
             onSaveSelected = viewModel::onSaveSelected,
             onSaveUserDataResultReset = viewModel::onSaveUserDataResultReset,
             onDropdownSelected = viewModel::onDropdownSelected,
-            onValidateResultReset = viewModel::onValidateResultReset,
             onImageUriSelected = viewModel::onImageUriSelected
         )
     )
@@ -87,22 +83,12 @@ private fun AccountScreen(
     val context = LocalContext.current
 
     val saveUserDataResult = uiState.saveUserDataResult
-    val validateResult = uiState.validateResult
 
     LaunchedEffect(key1 = saveUserDataResult) {
         saveUserDataResult?.let {
             coroutineScope.launch {
                 snackbarHostState.showSnackbar(saveUserDataResult.message.asString(context))
                 screenActions.onSaveUserDataResultReset()
-            }
-        }
-    }
-
-    LaunchedEffect(key1 = validateResult) {
-        if (validateResult is ValidateResult.Error) {
-            coroutineScope.launch {
-                snackbarHostState.showSnackbar(message = validateResult.message)
-                screenActions.onValidateResultReset()
             }
         }
     }
@@ -185,9 +171,9 @@ private fun AccountScreenPreview() {
     GymPhysiqueTheme {
         AccountScreen(
             uiState = AccountSetupState(
-                firstName = TextFieldValue("Dawid")
+                firstName = "Dawid"
             ),
-            screenActions = AccountSetupActions({}, {}, {}, {}, {}, {}, {}, {}, {}, {})
+            screenActions = AccountSetupActions({}, {}, {}, {}, {}, {}, {}, {}, {})
         )
     }
 }

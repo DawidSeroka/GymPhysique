@@ -3,9 +3,11 @@ package com.myproject.gymphysique.feature.settings.ui
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
@@ -16,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,7 +28,6 @@ import com.myproject.gymphysique.core.components.ProfileSetupComponent
 import com.myproject.gymphysique.feature.settings.SettingsState
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsScreenActions
 import com.myproject.gymphysique.feature.settings.viewModel.SettingsViewModel
-import com.myproject.gymphysqiue.core.domain.util.ValidateResult
 import kotlinx.coroutines.launch
 
 @Composable
@@ -44,7 +46,6 @@ internal fun SettingsRoute(
             onSaveSelected = viewModel::onSaveSelected,
             onSaveUserDataResultReset = viewModel::onSaveUserDataResultReset,
             onDropdownSelected = viewModel::onDropdownSelected,
-            onValidateResultReset = viewModel::onValidateResultReset,
             onImageUriSelected = viewModel::onImageUriSelected
         )
     )
@@ -61,7 +62,6 @@ internal fun SettingsScreen(
     val context = LocalContext.current
 
     val saveUserDataResult = uiState.saveUserDataResult
-    val validateResult = uiState.validateResult
 
     LaunchedEffect(key1 = saveUserDataResult) {
         saveUserDataResult?.let {
@@ -72,50 +72,50 @@ internal fun SettingsScreen(
         }
     }
 
-    LaunchedEffect(key1 = validateResult) {
-        if (validateResult is ValidateResult.Error) {
-            coroutineScope.launch {
-                snackbarHostState.showSnackbar(message = validateResult.message)
-                screenActions.onValidateResultReset()
-            }
-        }
-    }
-
     val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri -> screenActions.onImageUriSelected(uri) }
     )
+    val scrollState = rememberScrollState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) { Snackbar(it) } }
     ) { paddingValues ->
-        ProfileSetupComponent(
-            modifier = Modifier.padding(paddingValues),
-            firstname = uiState.firstName,
-            surname = uiState.surname,
-            age = uiState.age,
-            height = uiState.height,
-            gender = uiState.gender,
-            imageUri = uiState.selectedImageUri,
-            firstnameError = uiState.firstnameError,
-            surnameError = uiState.surnameError,
-            ageError = uiState.ageError,
-            heightError = uiState.heightError,
-            expanded = uiState.expanded,
-            onFirstnameChange = screenActions.onFirstNameChange,
-            onSurnameChange = screenActions.onSurnameChange,
-            onAgeChange = screenActions.onAgeChange,
-            onHeightChange = screenActions.onHeightChange,
-            onGenderSelected = screenActions.onGenderSelected,
-            onDropdownSelected = screenActions.onDropdownSelected,
-            onUploadPhotoSelected = {
-                singlePhotoPickerLauncher.launch(
-                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo)
-                )
-            },
-            onSaveSelected = screenActions.onSaveSelected
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .verticalScroll(scrollState),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            ProfileSetupComponent(
+                modifier = Modifier.padding(paddingValues),
+                firstname = uiState.firstName,
+                surname = uiState.surname,
+                age = uiState.age,
+                height = uiState.height,
+                gender = uiState.gender,
+                imageUri = uiState.selectedImageUri,
+                firstnameError = uiState.firstnameError,
+                surnameError = uiState.surnameError,
+                ageError = uiState.ageError,
+                heightError = uiState.heightError,
+                expanded = uiState.expanded,
+                onFirstnameChange = screenActions.onFirstNameChange,
+                onSurnameChange = screenActions.onSurnameChange,
+                onAgeChange = screenActions.onAgeChange,
+                onHeightChange = screenActions.onHeightChange,
+                onGenderSelected = screenActions.onGenderSelected,
+                onDropdownSelected = screenActions.onDropdownSelected,
+                onUploadPhotoSelected = {
+                    singlePhotoPickerLauncher.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageAndVideo)
+                    )
+                },
+                onSaveSelected = screenActions.onSaveSelected
+            )
+        }
     }
 }
 
@@ -124,6 +124,6 @@ internal fun SettingsScreen(
 private fun SettingsScreenPreview() {
     SettingsScreen(
         uiState = SettingsState(),
-        screenActions = SettingsScreenActions({}, {}, {}, {}, {}, {}, {}, {}, {}, {})
+        screenActions = SettingsScreenActions({}, {}, {}, {}, {}, {}, {}, {}, {})
     )
 }
