@@ -82,19 +82,13 @@ internal class MeasureViewModel @Inject constructor(
                 val advertisementsAsync = async {
                     provideAdvertisementsUseCase()
                         .collect { advertisement ->
+                            val currentAdvertisements = state.value.advertisements
+                            val newAdvertisementList = validateCurrentAdvertisementsUseCase(
+                                advertisement,
+                                currentAdvertisements.map { it.advertisement }
+                            ).map { AdvertisementWrapper(ConnectionState.DISCONNECTED, it) }
                             _state.update { currentState ->
-                                val newAdvertisementList = validateCurrentAdvertisementsUseCase(
-                                    advertisement,
-                                    currentState.advertisements.map { it.advertisement }
-                                ).map {
-                                    AdvertisementWrapper(
-                                        ConnectionState.DISCONNECTED,
-                                        advertisement
-                                    )
-                                }
-                                currentState.copy(
-                                    advertisements = newAdvertisementList
-                                )
+                                currentState.copy(advertisements = newAdvertisementList)
                             }
                         }
                 }

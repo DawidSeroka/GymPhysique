@@ -21,7 +21,7 @@ class DeviceScanner @Inject constructor() : AdvertisementProvider {
         filters = scanFilters
         logging {
             engine = SystemLogEngine
-            level = Logging.Level.Warnings
+            level = Logging.Level.Events
             format = Logging.Format.Multiline
         }
     }

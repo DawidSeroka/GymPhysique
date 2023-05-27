@@ -99,7 +99,7 @@ internal class SettingsViewModel @Inject constructor(
                     height = _state.value.height.toInt(),
                     age = _state.value.age.toInt(),
                     gender = _state.value.gender,
-                    imageUri = _state.value.selectedImageUri.toString() ?: ""
+                    imageUri = _state.value.selectedImageUri.toString()
                 ).onSuccess { userData ->
                     _state.update {
                         it.copy(
