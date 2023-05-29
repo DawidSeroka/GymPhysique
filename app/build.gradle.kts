@@ -6,13 +6,15 @@ plugins {
     id("android.application.compose")
     id("android.hilt")
     alias(libs.plugins.junit5)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.androidx.baselineprofile)
 }
 
 android {
     defaultConfig {
         applicationId = "com.myproject.gymphysique"
-        versionCode = getVersionCode()
-        versionName = getVersionName()
+        versionCode = 1
+        versionName = "0.0.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -37,6 +39,8 @@ android {
     packagingOptions {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+            excludes.add("META-INF/LICENSE.md")
+            excludes.add("META-INF/LICENSE-notice.md")
         }
     }
     namespace = "com.myproject.gymphysique"
@@ -60,6 +64,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.profileinstaller)
+    "baselineProfile"(project(mapOf("path" to ":baselineprofile")))
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     debugImplementation(libs.androidx.compose.ui.testManifest)
@@ -91,8 +97,8 @@ val checkReleaseVersion by tasks.registering {
         if (versionName?.matches("\\d+(\\.\\d+)+".toRegex()) == false) {
             throw GradleException(
                 "Version name for release builds can only be numeric (like 1.0.0), but was $versionName\n" +
-                        "Please use git tag to set version name on the current commit and try again\n" +
-                        "For example: git tag -a 1.0.0 -m 'tag message'"
+                    "Please use git tag to set version name on the current commit and try again\n" +
+                    "For example: git tag -a 1.0.0 -m 'tag message'"
             )
         }
     }

@@ -19,12 +19,12 @@ import kotlinx.coroutines.launch
 fun <T> MutableStateFlow<T>.stateInMerge(
     scope: CoroutineScope,
     launched: Launched,
-    vararg flow: StateInMergeContext<T>.() -> Flow<*>,
+    vararg flow: StateInMergeContext<T>.() -> Flow<*>
 ): MutableStateFlow<T> = StateFlowWithStateInMerge(
     scope = scope,
     state = this,
     launched = launched,
-    flow = flow,
+    flow = flow
 )
 
 interface StateInMergeContext<T> {
@@ -42,7 +42,7 @@ private class StateFlowWithStateInMerge<T>(
     scope: CoroutineScope,
     launched: Launched,
     private val state: MutableStateFlow<T>,
-    vararg flow: StateInMergeContext<T>.() -> Flow<*>,
+    vararg flow: StateInMergeContext<T>.() -> Flow<*>
 ) : MutableStateFlow<T> by state {
 
     private val context: StateInMergeContext<T> = object : StateInMergeContext<T> {

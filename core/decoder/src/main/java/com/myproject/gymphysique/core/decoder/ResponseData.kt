@@ -1,11 +1,11 @@
 package com.myproject.gymphysique.core.decoder
 
-sealed interface ResponseData{
+sealed interface ResponseData {
     data class BodyCompositionResponseData(
-        val weight: Double?,
+        val weight: Double? = null,
         val unit: String = "kg",
         val bodyFatPercentage: Double? = null,
-        val timestamp: Long,
+        val date: String,
         val basalMetabolism: Double? = null,
         val musclePercentage: Double? = null,
         val muscleMass: Double? = null,

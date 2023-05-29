@@ -1,6 +1,7 @@
 package com.myproject.gymphysique
 
 import android.app.Application
+import com.myproject.gymphysique.core.common.initReminderChannel
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
@@ -12,5 +13,6 @@ class GymPhysiqueApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        initReminderChannel(this)
     }
 }

@@ -13,11 +13,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import com.myproject.gymphysique.core.common.animations.Constants.animationValueStandard
+import com.myproject.gymphysique.core.common.animations.Constants.animationValueToggle
 
-enum class ButtonState { Pressed, Idle }
 fun Modifier.bounceClick() = composed {
     var buttonState by remember { mutableStateOf(ButtonState.Idle) }
-    val scale by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0.70f else 1f)
+    val scale by animateFloatAsState(
+        if (buttonState == ButtonState.Pressed) {
+            animationValueToggle
+        } else {
+            animationValueStandard
+        }
+    )
 
     this
         .graphicsLayer {
@@ -27,7 +34,7 @@ fun Modifier.bounceClick() = composed {
         .clickable(
             interactionSource = remember { MutableInteractionSource() },
             indication = null,
-            onClick = {  }
+            onClick = { }
         )
         .pointerInput(buttonState) {
             awaitPointerEventScope {
@@ -40,4 +47,11 @@ fun Modifier.bounceClick() = composed {
                 }
             }
         }
+}
+
+enum class ButtonState { Pressed, Idle }
+
+private object Constants {
+    const val animationValueToggle = 0.7f
+    const val animationValueStandard = 1f
 }

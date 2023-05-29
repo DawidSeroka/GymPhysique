@@ -1,25 +1,26 @@
 package com.myproject.gymphysique
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.provider.Settings.Global.getString
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.myproject.gymphysique.accountsetup.navigation.accountSetupNavigationRoute
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
-import com.myproject.gymphysique.feature.measure.measureNavigationRoute
-import com.myproject.gymphysique.navigation.nestedNavigation.GymPhysiqueNavHost
-import com.myproject.gymphysique.ui.GPApp
-import com.myproject.gymphysique.ui.gpAppNavigationRoute
+import com.myproject.gymphysique.navigation.GymPhysiqueNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -36,7 +37,6 @@ internal class MainActivity : ComponentActivity() {
 
         var uiState: MainActivityUiState by mutableStateOf(MainActivityUiState())
 
-
         //Update uiState
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -49,14 +49,16 @@ internal class MainActivity : ComponentActivity() {
         // Keep the splash screen on-screen until the UI state is loaded. This condition is
         // evaluated each time the app needs to be redrawn so it should be fast to avoid blocking
         // the UI.
-        splashScreen.setKeepOnScreenCondition {
-            when (uiState.downloadState) {
-                DownloadState.Loading -> true
-                DownloadState.Success -> false
+        if (!BuildConfig.BUILD_TYPE.contains("benchmark")){
+            splashScreen.setKeepOnScreenCondition {
+                when (uiState.downloadState) {
+                    DownloadState.Loading -> true
+                    DownloadState.Success -> false
+                }
             }
         }
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        //WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             uiState.startDestination?.let { startDestination ->
                 GymPhysiqueTheme() {
@@ -70,3 +72,5 @@ internal class MainActivity : ComponentActivity() {
 
     }
 }
+
+

@@ -5,8 +5,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.unit.dp
 
+@Suppress("MagicNumber")
 fun Modifier.adaptiveHeight(items: Int) = composed {
-    when(items){
+    when (items) {
         0 -> this
         in 1..3 -> {
             val height = items * 58

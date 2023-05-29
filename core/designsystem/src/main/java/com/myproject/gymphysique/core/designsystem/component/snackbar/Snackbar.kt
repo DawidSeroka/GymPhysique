@@ -6,11 +6,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDefaults
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,7 +20,7 @@ import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 @Composable
 fun SnackbarRounded(
     message: String,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -32,9 +29,9 @@ fun SnackbarRounded(
         colors = CardDefaults.cardColors(
             containerColor = SnackbarDefaults.color
         ),
-        shape = RoundedCornerShape(Dimens.margin),
+        shape = RoundedCornerShape(Dimens.margin)
 
-        ) {
+    ) {
         Text(
             modifier = Modifier
                 .fillMaxWidth()
@@ -45,11 +42,10 @@ fun SnackbarRounded(
             text = message,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }
-
 
 @Preview(name = "Light mode")
 @Preview(name = "Dark mode")

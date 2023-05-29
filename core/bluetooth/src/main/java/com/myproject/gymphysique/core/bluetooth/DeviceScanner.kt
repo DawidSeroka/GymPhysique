@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.catch
 import timber.log.Timber
 import javax.inject.Inject
 
-class DeviceScanner @Inject constructor(): AdvertisementProvider {
+class DeviceScanner @Inject constructor() : AdvertisementProvider {
     private val scanFilters = SupportedService.values().map {
         Filter.Service(it.uuid.toUUID())
     }
@@ -21,7 +21,7 @@ class DeviceScanner @Inject constructor(): AdvertisementProvider {
         filters = scanFilters
         logging {
             engine = SystemLogEngine
-            level = Logging.Level.Warnings
+            level = Logging.Level.Events
             format = Logging.Format.Multiline
         }
     }
@@ -29,9 +29,12 @@ class DeviceScanner @Inject constructor(): AdvertisementProvider {
     override fun provideAdvertisements(): Flow<Advertisement> {
         return scanner
             .advertisements
-            .throttleLatest(100)
+            .throttleLatest(throttleValue)
             .catch { exception ->
                 Timber.d("stopped exception: " + exception.message)
             }
     }
 }
+
+@Suppress("TopLevelPropertyNaming")
+private const val throttleValue = 100L

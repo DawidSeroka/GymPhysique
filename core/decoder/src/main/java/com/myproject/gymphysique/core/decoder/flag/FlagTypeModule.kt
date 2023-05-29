@@ -5,9 +5,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 
+@Suppress("UnnecessaryAbstractClass")
 @Module
 @InstallIn(SingletonComponent::class)
-interface FlagTypeModule {
+abstract class FlagTypeModule {
     @Binds
     abstract fun bindBodyCompositionFlagTypeCheck(
         flagTypeCheckImpl: BodyCompositionFlagTypeCheckImpl

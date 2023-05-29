@@ -18,7 +18,7 @@ fun RowScope.GpNavigationBarItem(
     enabled: Boolean = true,
     label: @Composable (() -> Unit)? = null,
     alwaysShowLabel: Boolean = true
-){
+) {
     NavigationBarItem(
         selected = selected,
         onClick = onClick,
@@ -32,25 +32,23 @@ fun RowScope.GpNavigationBarItem(
             unselectedIconColor = GPNavigationDefaults.navigationContentColor(),
             selectedTextColor = GPNavigationDefaults.navigationSelectedItemColor(),
             unselectedTextColor = GPNavigationDefaults.navigationContentColor(),
-            indicatorColor = GPNavigationDefaults.navigationIndicatorColor(),
+            indicatorColor = GPNavigationDefaults.navigationIndicatorColor()
         )
     )
 }
 
 @Composable
 fun GPNavigationBar(
-    modifier: Modifier = Modifier,
     content: @Composable RowScope.() -> Unit
-){
+) {
     NavigationBar(
-        modifier = modifier,
         contentColor = GPNavigationDefaults.navigationContentColor(),
         tonalElevation = 0.dp,
         content = content
     )
 }
 
-object GPNavigationDefaults{
+object GPNavigationDefaults {
     @Composable
     fun navigationContentColor() = MaterialTheme.colorScheme.onSurfaceVariant
 

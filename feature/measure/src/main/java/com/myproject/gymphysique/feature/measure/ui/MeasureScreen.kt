@@ -2,7 +2,6 @@ package com.myproject.gymphysique.feature.measure.ui
 
 import android.bluetooth.BluetoothManager
 import android.content.Context
-import android.content.res.Configuration
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.launch
 import androidx.compose.foundation.layout.Column
@@ -11,10 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,15 +36,14 @@ import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 import com.myproject.gymphysique.feature.measure.AdvertisingStatus
 import com.myproject.gymphysique.feature.measure.MeasureState
-import com.myproject.gymphysique.feature.measure.components.Devices
-import com.myproject.gymphysique.feature.measure.components.Measurement
+import com.myproject.gymphysique.feature.measure.components.DevicesComponent
+import com.myproject.gymphysique.feature.measure.components.MeasurementComponent
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureScreenActions
 import com.myproject.gymphysique.feature.measure.viewmodel.MeasureViewModel
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun MeasureRoute(
-    modifier: Modifier = Modifier,
     viewModel: MeasureViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -57,7 +55,9 @@ internal fun MeasureRoute(
             onConnectDeviceClick = viewModel::onConnectDeviceClick,
             onSaveMeasurementsClick = viewModel::onSaveMeasurementClick,
             onSearchMeasurementsClick = viewModel::onSearchMeasurementsClick,
-            onStopMeasureClick = viewModel::onStopMeasureClick
+            onStopMeasureClick = viewModel::onStopMeasureClick,
+            onDisconnectClick = viewModel::onDisconnectClick,
+            onSaveMeasurementResultReset = viewModel::onSaveMeasurementResultReset
         )
     )
 }
@@ -66,7 +66,7 @@ internal fun MeasureRoute(
 @Composable
 private fun MeasureScreen(
     uiState: MeasureState,
-    screenActions: MeasureScreenActions,
+    screenActions: MeasureScreenActions
 ) {
     val permissionHandlerHostState =
         PermissionHandlerHostState(permissionList = bluetoothPermissionList)
@@ -89,6 +89,17 @@ private fun MeasureScreen(
         }
     }
 
+    val saveMeasurementResult = uiState.saveMeasurementResult
+
+    LaunchedEffect(key1 = saveMeasurementResult) {
+        saveMeasurementResult?.let {
+            coroutineScope.launch {
+                snackbarHostState.showSnackbar(saveMeasurementResult.message.asString(context))
+                screenActions.onSaveMeasurementResultReset()
+            }
+        }
+    }
+
     Scaffold(
         snackbarHost = {
             SnackbarHost(hostState = snackbarHostState) { snackbarData ->
@@ -103,11 +114,12 @@ private fun MeasureScreen(
                 .padding(Dimens.screenPadding),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Devices(
-                advertisingStatus = uiState.advertisingStatus,
+            DevicesComponent(
+                modifier = Modifier.weight(1f),
                 advertisements = uiState.advertisements,
                 scanTime = uiState.scanTime,
-                onSearchDeviceClick = {
+                onDisconnectClicked = { screenActions.onDisconnectClick() },
+                onScanClicked = {
                     coroutineScope.launch {
                         snackbarHostState.currentSnackbarData?.dismiss()
                         when (permissionHandlerHostState.handlePermissions()) {
@@ -121,6 +133,7 @@ private fun MeasureScreen(
                                     launcher.launch()
                                 }
                             }
+
                             PermissionHandlerResult.DENIED -> {
                                 snackbarHostState.showAppSettingsSnackbar(
                                     message = "App permission denied",
@@ -128,22 +141,25 @@ private fun MeasureScreen(
                                     context = context
                                 )
                             }
+
                             PermissionHandlerResult.DENIED_NEXT_RATIONALE -> {}
                         }
                     }
-
                 },
-                onConnectDeviceClick = {
-                    if (uiState.advertisingStatus == AdvertisingStatus.STOPPED)
+                onConnectDeviceClicked = {
+                    if (uiState.advertisingStatus == AdvertisingStatus.STOPPED) {
                         screenActions.onConnectDeviceClick(it)
-                    else
+                    } else {
                         coroutineScope.launch {
                             snackbarHostState.currentSnackbarData?.dismiss()
                             snackbarHostState.showSnackbar("Wait until device scan is completed")
                         }
-                })
+                    }
+                }
+            )
             Spacer(modifier = Modifier.padding(Dimens.margin))
-            Measurement(
+            MeasurementComponent(
+                modifier = Modifier.weight(1f),
                 measurements = uiState.measurements,
                 measureState = uiState.measureState,
                 onSearchMeasurementsClick = { screenActions.onSearchMeasurementsClick() },
@@ -151,22 +167,23 @@ private fun MeasureScreen(
                 onSaveClick = { screenActions.onSaveMeasurementsClick() }
             )
         }
-
-
     }
-
 }
 
-@Preview(
-    name = "Dark mode"
-)
+@Preview(name = "Dark mode")
 @Composable
 private fun HomePreview() {
     GymPhysiqueTheme() {
         MeasureScreen(
             uiState = MeasureState(),
             screenActions = MeasureScreenActions(
-                {}, {}, {}, {},{}
+                {},
+                {},
+                {},
+                {},
+                {},
+                {},
+                {}
             )
         )
     }

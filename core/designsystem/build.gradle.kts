@@ -13,6 +13,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.coil.kt.compose)
     api(libs.androidx.compose.foundation)

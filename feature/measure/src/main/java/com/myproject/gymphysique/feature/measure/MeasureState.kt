@@ -1,24 +1,30 @@
 package com.myproject.gymphysique.feature.measure
 
 import com.juul.kable.Advertisement
+import com.myproject.gymphysique.core.common.UiText
+import com.myproject.gymphysique.core.model.ConnectionState
 import com.myproject.gymphysique.core.model.Measurement
 
 internal data class MeasureState(
     val scanTime: Int? = null,
     val advertisingStatus: AdvertisingStatus = AdvertisingStatus.STOPPED,
-    val advertisements: List<Pair<PeripheralState, Advertisement>> = mutableListOf(),
+    val advertisements: List<AdvertisementWrapper> = mutableListOf(),
     val measurements: List<Measurement> = mutableListOf(),
-    val measureState: Boolean = false
+    val measureState: Boolean = false,
+    val saveMeasurementResult: SaveOperationResult? = null
 )
 
-internal enum class AdvertisingStatus(val text: String){
+internal data class AdvertisementWrapper(
+    val connectionState: ConnectionState,
+    val advertisement: Advertisement
+)
+
+internal enum class AdvertisingStatus(val text: String) {
     ADVERTISING("Advertising"),
-    STOPPED("Stopped"),
+    STOPPED("Stopped")
 }
 
-internal enum class PeripheralState{
-    CONNECTED,
-    DISCONNECTED,
-    CONNECTING,
-    DISCONNECTING
+internal sealed class SaveOperationResult(val message: UiText) {
+    data class Success(val data: UiText) : SaveOperationResult(message = data)
+    data class Error(val errorMessage: UiText) : SaveOperationResult(message = errorMessage)
 }

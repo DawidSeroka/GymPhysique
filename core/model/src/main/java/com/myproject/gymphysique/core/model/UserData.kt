@@ -5,5 +5,6 @@ data class UserData(
     val surname: String,
     val age: Int,
     val height: Int,
-    val gender: String
+    val gender: String,
+    val uri: String
 )

@@ -13,7 +13,7 @@ enum class MeasurementType(
     BASAL_METABOLISM(
         serializedName = "Basal metabolism",
         fullName = "Basal metabolism",
-        unit = MeasurementUnit.KILOJOULES
+        unit = MeasurementUnit.KCAL
     ),
     MUSCLE_PERCENTAGE(
         serializedName = "Muscle percentage",
@@ -25,16 +25,19 @@ enum class MeasurementType(
         fullName = "Muscle mass",
         unit = MeasurementUnit.KG
     ),
-    FAT_FREE_MASS(
+
+    // TODO() To add
+    /*FAT_FREE_MASS(
         serializedName = "Fat free mass",
         fullName = "Fat free mass",
         unit = MeasurementUnit.KG
-    ),
-    SOFT_LEAN_MASS(
+    ),*/
+    // TODO() To add
+    /*SOFT_LEAN_MASS(
         serializedName = "Soft lean mass",
         fullName = "Soft lean mass",
         unit = MeasurementUnit.KG
-    ),
+    ),*/
     BODY_WATER_MASS(
         serializedName = "Body water mass",
         fullName = "Body water mass",
@@ -45,15 +48,24 @@ enum class MeasurementType(
         fullName = "Weight",
         unit = MeasurementUnit.KG
     ),
-    UNKNOWN(
-        "",
-        "",
+    BONE_MASS(
+        "Bone mass",
+        "Bone Mass",
+        MeasurementUnit.PERCENTAGE
+    ),
+    VISCERAL_FAT(
+        "Visceral fat",
+        "Visceral Fat",
+        MeasurementUnit.PERCENTAGE
+    ),
+    IDEAL_WEIGHT(
+        "Ideal weight",
+        "Ideal weight",
+        MeasurementUnit.KG
+    ),
+    BMI(
+        "Bmi",
+        "Bmi",
         MeasurementUnit.UNKNOWN
     )
-}
-
-fun String?.asMeasurementType() = when(this){
-    null -> MeasurementType.UNKNOWN
-    else -> MeasurementType.values()
-        .firstOrNull { type -> type.serializedName == this  } ?: MeasurementType.UNKNOWN
 }

@@ -9,4 +9,5 @@ message UserPreferences {
   optional int32 age = 3;
   optional int32 height = 4;
   optional string gender = 5;
+  optional string uri = 6;
 }

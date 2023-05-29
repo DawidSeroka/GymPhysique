@@ -2,7 +2,6 @@ package com.myproject.gymphysique.core.datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import com.myproject.gymphysique.core.common.Gender
 import com.myproject.gymphysique.core.model.UserData
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -19,16 +18,16 @@ class UserPreferencesDataSource @Inject constructor(
                 surname = it.surname,
                 age = it.age,
                 height = it.height,
-                gender = it.gender
+                gender = it.gender,
+                uri = it.uri
             )
         }
 
     suspend fun getUser(): UserData =
-        userData.firstOrNull() ?: UserData("", "", 0, 0, "")
+        userData.firstOrNull() ?: UserData("", "", 0, 0, "", "")
 
-
-    suspend fun setUser(userData: UserData) {
-        try {
+    suspend fun setUser(userData: UserData): Result<UserData> {
+        return try {
             userPreferences.updateData {
                 it.copy {
                     firstName = userData.firstName
@@ -36,10 +35,13 @@ class UserPreferencesDataSource @Inject constructor(
                     age = userData.age
                     height = userData.height
                     gender = userData.gender
+                    uri = userData.uri
                 }
             }
+            Result.success(userData)
         } catch (ioException: IOException) {
             Log.e("GymPhysique", "Failed to update user preferences", ioException)
+            Result.failure(ioException)
         }
     }
 
