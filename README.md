@@ -12,7 +12,7 @@ Android app intended for measure body composition measurements with use of BLE, 
 <img src="./gifs/account_setup.gif" width="70%" height="70%">
 
 ### Measure screen
-<img src="./gifs/measure_screen.gif" width="700%" height="70%">
+<img src="./gifs/measure_screen.gif" width="70%" height="70%">
 
 ### Charts screen
 <img src="./gifs/charts_screen.gif" width="70%" height="70%">
