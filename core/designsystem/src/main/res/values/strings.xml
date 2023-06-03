@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Values -->
+    <string name="firstname">Firstname</string>
+    <string name="surname">Surname</string>
+    <string name="height">Height</string>
+    <string name="age">Age</string>
+    <string name="gender">Gender</string>
+    <string name="save">Save</string>
+    <string name="upload_new_photo">Upload New Photo</string>
+    <string name="permission_required">Permission Required!</string>
+    <string name="this_permission_is_required">This permission is required. Please grant the permission on the next screen.</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+
     <!-- Error messages -->
     <string name="firstname_error">Must be longer than 2 chars!</string>
     <string name="surname_error">Must be longer than 2 chars!</string>
     <string name="age_error">Must be between 2 and 100!</string>
     <string name="height_error">Must be between 100 and 200!</string>
+
 </resources>

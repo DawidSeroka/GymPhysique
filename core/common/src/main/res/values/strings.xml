@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Values -->
+    <string name="notification_title">Daily reminder</string>
+</resources>

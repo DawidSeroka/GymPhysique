@@ -13,8 +13,8 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.myproject.gymphysique"
-        versionCode = 1
-        versionName = "0.0.1"
+        versionCode = getVersionCode()
+        versionName = getVersionName()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
