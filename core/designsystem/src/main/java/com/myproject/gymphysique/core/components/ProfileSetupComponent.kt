@@ -134,7 +134,7 @@ private fun UserDataComponent(
                     Icon(imageVector = Icons.Filled.Error, contentDescription = "IconError")
                 }
             },
-            label = { Text(text = "Firstname") },
+            label = { Text(text = stringResource(id = R.string.firstname)) },
             isError = firstnameError,
             maxLines = 1
         )
@@ -157,7 +157,7 @@ private fun UserDataComponent(
                     Icon(imageVector = Icons.Filled.Error, contentDescription = "IconError")
                 }
             },
-            label = { Text(text = "Surname") },
+            label = { Text(text = stringResource(id = R.string.surname)) },
             isError = surnameError,
             maxLines = 1
         )
@@ -166,7 +166,7 @@ private fun UserDataComponent(
             modifier = Modifier.fillMaxWidth(),
             value = height,
             onValueChange = onHeightChange,
-            label = { Text(text = "Height") },
+            label = { Text(text = stringResource(id = R.string.height)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done
@@ -189,7 +189,7 @@ private fun UserDataComponent(
             modifier = Modifier.fillMaxWidth(),
             value = age,
             onValueChange = onAgeChange,
-            label = { Text(text = "Age") },
+            label = { Text(text = stringResource(id = R.string.age)) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Decimal,
                 imeAction = ImeAction.Done
@@ -218,7 +218,7 @@ private fun UserDataComponent(
         )
         Spacer(modifier = Modifier.height(Dimens.margin))
         Button(onClick = onSaveSelected) {
-            Text(text = "Save")
+            Text(text = stringResource(R.string.save))
         }
     }
 }
@@ -257,7 +257,7 @@ private fun UserPhotoComponent(imageUri: Uri?, onUploadPhotoSelected: () -> Unit
             ),
             onClick = onUploadPhotoSelected
         ) {
-            Text(text = "Upload New Photo")
+            Text(text = stringResource(R.string.upload_new_photo))
         }
     }
 }

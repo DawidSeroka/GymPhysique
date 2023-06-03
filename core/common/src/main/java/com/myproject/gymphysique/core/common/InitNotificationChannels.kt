@@ -11,7 +11,7 @@ fun initReminderChannel(
         context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
     val notificationChannel = NotificationChannel(
         NotificationID.REMINDER_NOTIFICATION_CHANNEL_ID,
-        "Title",
+        context.getString(R.string.notification_title),
         NotificationManager.IMPORTANCE_DEFAULT
     )
     notificationManager.createNotificationChannel(notificationChannel)

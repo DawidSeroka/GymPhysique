@@ -30,7 +30,7 @@ fun byteArrayToDate(byteArray: ByteArray): Date {
     val month = byteList[2].toInt()
     val year = signedBytesToInt(byteList.first(), byteList[1])
 
-    val dateFormat = SimpleDateFormat("dd, MM, yyyy, HH:mm:ss")
+    val dateFormat = SimpleDateFormat(FORMAT_PATTERN)
     return dateFormat.parse("$day, $month, $year, $hour:$minute:$second")!!
 }
 
@@ -41,3 +41,5 @@ fun dateToTimestamp(byteArray: ByteArray): Long {
 
 fun Long.toMillis(): Long =
     TimeUnit.SECONDS.toMillis(this)
+
+const val FORMAT_PATTERN = "dd, MM, yyyy, HH:mm:ss"

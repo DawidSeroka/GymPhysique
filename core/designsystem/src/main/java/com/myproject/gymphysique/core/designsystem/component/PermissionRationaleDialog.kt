@@ -7,8 +7,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.myproject.gymphysique.core.designsystem.R
 import com.myproject.gymphysique.core.designsystem.theme.GymPhysiqueTheme
 
 @Composable
@@ -20,19 +22,19 @@ fun PermissionRationaleDialog(
         modifier = Modifier.padding(horizontal = 12.dp),
         onDismissRequest = onDialogClose,
         title = {
-            Text(text = "Permission Required!")
+            Text(text = stringResource(R.string.permission_required))
         },
         text = {
-            Text("This permission is required. Please grant the permission on the next screen.")
+            Text(stringResource(R.string.this_permission_is_required))
         },
         confirmButton = {
             Button(onClick = permissionRequest) {
-                Text(text = "Ok")
+                Text(text = stringResource(R.string.ok))
             }
         },
         dismissButton = {
             Button(onClick = onDialogClose) {
-                Text(text = "Cancel")
+                Text(text = stringResource(R.string.cancel))
             }
         }
     )

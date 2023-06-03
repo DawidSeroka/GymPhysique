@@ -8,7 +8,7 @@ import java.util.Date
 
 class Date {
     fun formatter(): DateTimeFormatter {
-        return DateTimeFormatter.ofPattern("yyyy-MM")
+        return DateTimeFormatter.ofPattern(FORMAT_PATTERN_YEAR_MONTH)
             .withZone(ZoneId.systemDefault())
     }
 }
@@ -24,6 +24,8 @@ fun Date.toMonthAndYear(): String {
 }
 
 fun String.toDate(): Date {
-    val dateFormat = SimpleDateFormat("yyyy-MM")
+    val dateFormat = SimpleDateFormat(FORMAT_PATTERN_YEAR_MONTH)
     return dateFormat.parse(this) ?: Date()
 }
+
+const val FORMAT_PATTERN_YEAR_MONTH = "yyyy-MM"

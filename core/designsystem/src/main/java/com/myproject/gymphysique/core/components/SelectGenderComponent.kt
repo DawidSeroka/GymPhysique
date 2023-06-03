@@ -11,6 +11,8 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.myproject.gymphysique.core.designsystem.R
 import com.myproject.gymphysique.core.designsystem.theme.Dimens
 import com.myproject.gymphysique.core.model.Gender
 
@@ -33,7 +35,7 @@ fun SelectGenderComponent(
             value = selectedGender?.name ?: "",
             onValueChange = {},
             readOnly = true,
-            label = { Text("Gender") },
+            label = { Text(stringResource(id = R.string.gender)) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             modifier = Modifier
                 .fillMaxWidth()
