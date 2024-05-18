@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.myproject.gymphysique.accountsetup.R as AndroidR
 
 @HiltViewModel
 internal class AccountSetupViewModel @Inject constructor(
@@ -34,26 +35,58 @@ internal class AccountSetupViewModel @Inject constructor(
     val state: StateFlow<AccountSetupState> = _state
 
     internal fun onFirstNameChange(firstName: String) {
-        val isError = Constants.FIRSTNAME_MIN_LENGTH > firstName.length || firstName.length > Constants.FIRSTNAME_MAX_LENGTH
-        _state.update { it.copy(firstName = firstName, firstnameError = isError) }
+        _state.update {
+            it.copy(
+                firstName = firstName,
+                firstnameError = validateLength(
+                    firstName,
+                    Constants.FIRSTNAME_MIN_LENGTH,
+                    Constants.FIRSTNAME_MAX_LENGTH
+                )
+            )
+        }
     }
 
     internal fun onSurnameChange(surname: String) {
-        val isError = Constants.SURNAME_MIN_LENGTH > surname.length || surname.length > Constants.SURNAME_MAX_LENGTH
-        _state.update { it.copy(surname = surname, surnameError = isError) }
+        _state.update {
+            it.copy(
+                surname = surname,
+                surnameError = validateLength(
+                    surname,
+                    Constants.SURNAME_MIN_LENGTH,
+                    Constants.SURNAME_MAX_LENGTH
+                )
+            )
+        }
     }
 
     internal fun onHeightChange(height: String) {
         if (height.isNotEmpty()) {
-            val isError = Constants.HEIGHT_MIN > height.toInt() || height.toInt() > Constants.HEIGHT_MAX
-            _state.update { it.copy(height = height, heightError = isError) }
+            _state.update {
+                it.copy(
+                    height = height,
+                    heightError = validateRange(
+                        height.toIntOrNull(),
+                        Constants.HEIGHT_MIN,
+                        Constants.HEIGHT_MAX
+                    )
+                )
+            }
         }
     }
 
     internal fun onAgeChange(age: String) {
         if (age.isNotEmpty()) {
-            val isError = Constants.AGE_MIN > age.toInt() || age.toInt() >= Constants.AGE_MAX
-            _state.update { it.copy(age = age, ageError = isError) }
+            _state.update {
+                it.copy(
+                    age = age,
+                    ageError = validateRange(
+                        age.toIntOrNull(),
+                        Constants.AGE_MIN,
+                        Constants.AGE_MAX
+                    )
+                )
+            }
         }
     }
 
@@ -77,49 +110,59 @@ internal class AccountSetupViewModel @Inject constructor(
         if (!checkIfTextFieldsHasErrors()) {
             remindersManager.startReminder()
             viewModelScope.launch {
-                saveUserDataUseCase(
-                    firstName = _state.value.firstName,
-                    surname = _state.value.surname,
-                    height = _state.value.height.toInt(),
-                    age = _state.value.age.toInt(),
-                    gender = _state.value.gender,
-                    imageUri = _state.value.selectedImageUri.toString() ?: ""
-                ).onSuccess { userData ->
-                    _state.update {
-                        it.copy(
-                            saveUserDataResult = SaveUserDataResult.Success(
-                                UiText.DynamicString(
-                                    "Succesfully updated user: " +
-                                        userData.firstName + " " + userData.surname
+                with(_state.value) {
+                    saveUserDataUseCase(
+                        firstName = firstName,
+                        surname = surname,
+                        height = height.toInt(),
+                        age = age.toInt(),
+                        gender = gender,
+                        imageUri = selectedImageUri.toString() ?: ""
+                    ).onSuccess { userData ->
+                        _state.update {
+                            it.copy(
+                                saveUserDataResult = SaveUserDataResult.Success(
+                                    UiText.StringResource(
+                                        resId = AndroidR.string.account_setup_view_model_user_updated_successfully,
+                                        args = arrayOf(userData.firstName, userData.surname)
+                                    )
                                 )
                             )
-                        )
-                    }
-                }.onFailure { error ->
-                    _state.update {
-                        it.copy(
-                            saveUserDataResult = SaveUserDataResult.Failure(
-                                UiText.DynamicString(
+                        }
+                    }.onFailure { error ->
+                        _state.update {
+                            it.copy(
+                                saveUserDataResult = SaveUserDataResult.Failure(
                                     error.message?.let { errorMessage ->
-                                        "Error: $errorMessage"
-                                    } ?: "Unknown error occurred"
+                                        UiText.StringResource(
+                                            AndroidR.string.account_setup_view_model_user_updated_failure,
+                                            errorMessage
+                                        )
+                                    } ?: UiText.StringResource(
+                                        AndroidR.string.account_setup_view_model_user_updated_failure_unknown_error
+                                    )
                                 )
                             )
-                        )
+                        }
                     }
                 }
             }
         }
     }
 
-    private fun checkIfTextFieldsHasErrors(): Boolean {
-        val firstNameError = _state.value.firstnameError
-        val surnameError = _state.value.surnameError
-        val ageError = _state.value.ageError
-        val heightError = _state.value.heightError
-        return firstNameError || surnameError || ageError || heightError
-    }
     internal fun resetNavigateToGpApp() {
         _state.update { it.copy(navigateToGpApp = false) }
     }
+
+    private fun validateLength(value: String, min: Int, max: Int) =
+        value.length < min || value.length > max
+
+    private fun validateRange(value: Int?, min: Int, max: Int) =
+        value == null || value < min || value > max
+
+    private fun checkIfTextFieldsHasErrors() =
+        with(_state.value) {
+            firstnameError || surnameError || ageError || heightError
+        }
+
 }
