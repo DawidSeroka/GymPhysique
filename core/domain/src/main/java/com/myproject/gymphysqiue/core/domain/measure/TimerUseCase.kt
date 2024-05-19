@@ -1,8 +1,5 @@
 package com.myproject.gymphysqiue.core.domain.measure
 
-import com.myproject.gymphysqiue.core.domain.measure.Constants.delay
-import com.myproject.gymphysqiue.core.domain.measure.Constants.endTime
-import com.myproject.gymphysqiue.core.domain.measure.Constants.reductionValue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -10,20 +7,19 @@ import javax.inject.Inject
 import kotlin.time.Duration.Companion.milliseconds
 
 class TimerUseCase @Inject constructor() : suspend (Int) -> Flow<Int> {
-    override suspend fun invoke(time: Int): Flow<Int> {
-        return flow {
+    override suspend fun invoke(time: Int): Flow<Int> =
+        flow {
             var currentTime = time
-            while (currentTime != endTime) {
+            while (currentTime != EndTime) {
                 emit(currentTime)
-                currentTime -= reductionValue
-                delay(delay)
+                currentTime -= ReductionValue
+                delay(Delay)
             }
         }
-    }
-}
 
-private object Constants {
-    const val endTime = 0
-    const val reductionValue = 1
-    val delay = 1000.milliseconds
+    private companion object {
+        const val EndTime = 0
+        const val ReductionValue = 1
+        val Delay = 1000.milliseconds
+    }
 }
