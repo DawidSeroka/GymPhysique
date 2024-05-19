@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.myproject.gymphysique.core.common.Launched
 import com.myproject.gymphysique.core.common.stateInMerge
 import com.myproject.gymphysique.core.common.toMonthAndYear
-import com.myproject.gymphysique.core.model.Measurement
 import com.myproject.gymphysique.core.model.MeasurementType
 import com.myproject.gymphysique.feature.charts.ChartsState
 import com.myproject.gymphysqiue.core.domain.charts.GetMeasurementsUseCase
@@ -30,9 +29,7 @@ class ChartsViewModel @Inject constructor(
     val state: StateFlow<ChartsState> = _state
 
     init {
-        viewModelScope.launch {
-            _state.update { it.copy(measurements = getMeasurements()) }
-        }
+        updateMeasurements()
     }
 
     internal fun onMeasurementTypeSelected(measurementType: MeasurementType) {
@@ -41,11 +38,8 @@ class ChartsViewModel @Inject constructor(
                 selectedMeasurementType = measurementType,
                 dropdownMeasurementTypeExpanded = false
             )
-        }.also {
-            viewModelScope.launch {
-                _state.update { it.copy(measurements = getMeasurements()) }
-            }
         }
+        updateMeasurements()
     }
 
     internal fun onMeasurementTypeDropdownSelected() {
@@ -58,21 +52,23 @@ class ChartsViewModel @Inject constructor(
                 selectedDate = date.toMonthAndYear(),
                 dropdownDateExpanded = false
             )
-        }.also {
-            viewModelScope.launch {
-                _state.update { it.copy(measurements = getMeasurements()) }
-            }
         }
+        updateMeasurements()
     }
 
     internal fun onDateDropdownSelected() {
         _state.update { it.copy(dropdownDateExpanded = !it.dropdownDateExpanded) }
     }
 
-    private suspend fun getMeasurements(): List<Measurement> {
-        return getMeasurementsUseCase(
-            _state.value.selectedDate,
-            _state.value.selectedMeasurementType
-        )
+    private fun updateMeasurements() {
+        viewModelScope.launch {
+            val measurements = getMeasurementsUseCase(
+                _state.value.selectedDate,
+                _state.value.selectedMeasurementType
+            )
+            _state.update { currentState ->
+                currentState.copy(measurements = measurements)
+            }
+        }
     }
 }

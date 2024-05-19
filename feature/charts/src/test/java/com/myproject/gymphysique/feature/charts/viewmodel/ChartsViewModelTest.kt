@@ -35,12 +35,12 @@ class ChartsViewModelTest {
     @Test
     fun `when onMeasurementTypeSelected, measurements with dateParam exists, then date and measurementType and measurements are updated `() =
         runTest {
-            Constants.measurements.forEach { measurementRepository.saveMeasurement(it) }
+            measurements.forEach { measurementRepository.saveMeasurement(it) }
             val date = "2022-05"
             viewModel.onDateSelected(date = date.toDate())
             viewModel.onMeasurementTypeSelected(measurementType = MeasurementType.WEIGHT)
 
-            val expectedMeasurements = Constants.measurements.filter { it.date.equals(date) }
+            val expectedMeasurements = measurements.filter { it.date.equals(date) }
             val expectedMeasurementType = MeasurementType.WEIGHT
             val expectedDate = date
 
@@ -53,7 +53,7 @@ class ChartsViewModelTest {
     @Test
     fun `when onMeasurementTypeSelected, measurements with dateParam non exists, then date and measurementType are updated and measurements are empty `() =
         runTest {
-            Constants.measurements.forEach { measurementRepository.saveMeasurement(it) }
+            measurements.forEach { measurementRepository.saveMeasurement(it) }
             val date = "2022-09"
             viewModel.onDateSelected(date = date.toDate())
             viewModel.onMeasurementTypeSelected(measurementType = MeasurementType.WEIGHT)
@@ -80,27 +80,27 @@ class ChartsViewModelTest {
 
         assertEquals(true, viewModel.state.value.dropdownDateExpanded)
     }
-}
 
-private object Constants {
-    val measurements = listOf(
-        Measurement(
-            id = 0,
-            measurementResult = 1.0,
-            date = "2022-05",
-            measurementType = MeasurementType.WEIGHT
-        ),
-        Measurement(
-            id = 1,
-            measurementResult = 1.0,
-            date = "2022-06",
-            measurementType = MeasurementType.BMI
-        ),
-        Measurement(
-            id = 2,
-            measurementResult = 1.0,
-            date = "2022-07",
-            measurementType = MeasurementType.BASAL_METABOLISM
+    private companion object{
+        val measurements = listOf(
+            Measurement(
+                id = 0,
+                measurementResult = 1.0,
+                date = "2022-05",
+                measurementType = MeasurementType.WEIGHT
+            ),
+            Measurement(
+                id = 1,
+                measurementResult = 1.0,
+                date = "2022-06",
+                measurementType = MeasurementType.BMI
+            ),
+            Measurement(
+                id = 2,
+                measurementResult = 1.0,
+                date = "2022-07",
+                measurementType = MeasurementType.BASAL_METABOLISM
+            )
         )
-    )
+    }
 }
