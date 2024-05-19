@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings">Settings</string>
+    <string name="user_updated_successfully">Successfully updated user: %1$s %2$s</string>
+    <string name="user_updated_failure">Error: %1$s</string>
+    <string name="user_updated_failure_unknown_error">Successfully updated user: %1$s %2$s</string>
 </resources>
