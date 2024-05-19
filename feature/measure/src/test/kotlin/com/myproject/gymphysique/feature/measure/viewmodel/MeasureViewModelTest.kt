@@ -62,13 +62,13 @@ class MeasureViewModelTest {
     }
 
     @Test
-    fun `when onSearchDevicesClick, appropiate devices exists, then advertisements are added after scanTime`() = runTest {
+    fun `when onSearchDevicesClick, appropriate devices exists, then advertisements are added after scanTime`() = runTest {
         coEvery { provideAdvertisementsUseCase() } coAnswers {
             flow {
                 var counter = 0
                 while (true) {
                     val advertisement: Advertisement = mockk()
-                    every { advertisement.uuids } returns listOf(UUID.fromString(Constants.appropiateServiceUuid))
+                    every { advertisement.uuids } returns listOf(UUID.fromString(appropiateServiceUuid))
                     every { advertisement.address } returns "Address $counter"
                     emit(advertisement)
                     delay(1000)
@@ -85,7 +85,7 @@ class MeasureViewModelTest {
     }
 
     @Test
-    fun `when onSearchDevicesClick, appropiate devices non exists, then advertisements are empty after scanTime`() = runTest {
+    fun `when onSearchDevicesClick, appropriate devices non exists, then advertisements are empty after scanTime`() = runTest {
         coEvery { provideAdvertisementsUseCase() } coAnswers {
             emptyFlow()
         }
@@ -118,8 +118,8 @@ class MeasureViewModelTest {
         assertNull(viewModel.state.value.saveMeasurementResult)
     }
 
-}
+    private companion object{
+        const val appropiateServiceUuid = "0000181b-0000-1000-8000-00805f9b34fb"
+    }
 
-private object Constants{
-    const val appropiateServiceUuid = "0000181b-0000-1000-8000-00805f9b34fb"
 }

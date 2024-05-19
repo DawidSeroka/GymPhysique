@@ -145,14 +145,14 @@ internal class MeasureViewModel @Inject constructor(
                         byteArray.collect {
                             val measurements = decodeDataUseCase(it)
                             if (measurements.size > 1) {
-                                _state.update {
-                                    it.copy(
+                                _state.update { measureState ->
+                                    measureState.copy(
                                         measurements = measurements,
                                         measureState = false
                                     )
                                 }
                             } else {
-                                _state.update { it.copy(measurements = measurements) }
+                                _state.update { measureState -> measureState.copy(measurements = measurements) }
                             }
                         }
                     }
