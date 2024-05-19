@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="measure" translatable="false">Measure</string>
+    <string name="measurement_successfully_added">"Measurement successfully added"</string>
+    <string name="measurement_addding_failure">"Measurement successfully added"</string>
 </resources>

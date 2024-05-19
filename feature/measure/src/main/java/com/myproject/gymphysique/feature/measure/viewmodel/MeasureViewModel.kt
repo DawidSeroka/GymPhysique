@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import timber.log.Timber
 import javax.inject.Inject
+import com.myproject.gymphysique.feature.measurements.R as MeasurementsR
 
 @HiltViewModel
 internal class MeasureViewModel @Inject constructor(
@@ -169,7 +170,7 @@ internal class MeasureViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             saveMeasurementResult = SaveOperationResult.Success(
-                                UiText.DynamicString("Measurement succesfully added")
+                                UiText.StringResource(MeasurementsR.string.measurement_successfully_added)
                             ),
                             measurements = emptyList()
                         )
@@ -178,7 +179,7 @@ internal class MeasureViewModel @Inject constructor(
                     _state.update {
                         it.copy(
                             saveMeasurementResult = SaveOperationResult.Error(
-                                UiText.DynamicString("Error occurred during adding new measurement!")
+                                UiText.StringResource(MeasurementsR.string.measurement_addding_failure)
                             ),
                             measurements = emptyList()
                         )
@@ -216,7 +217,8 @@ internal class MeasureViewModel @Inject constructor(
             }
         }
     }
-}
 
-@Suppress("TopLevelPropertyNaming")
-const val SCAN_TIME = 10L
+    private companion object {
+        const val SCAN_TIME = 10L
+    }
+}
