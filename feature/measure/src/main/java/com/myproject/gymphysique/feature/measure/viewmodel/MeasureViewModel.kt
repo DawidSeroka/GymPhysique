@@ -200,13 +200,11 @@ internal class MeasureViewModel @Inject constructor(
 
     private suspend fun observeConnectState(peripheral: Peripheral, advertisement: Advertisement) {
         peripheral.state.collect { connectState ->
-            val connectionState = observeConnectStateUseCase(connectState).also {
-                if (it == ConnectionState.DISCONNECTED) {
-                    onStopMeasureClick()
-                }
-            }
-            _state.update {
-                it.copy(
+            val connectionState = observeConnectStateUseCase(connectState)
+            if (connectionState == ConnectionState.DISCONNECTED)
+                onStopMeasureClick()
+            _state.update { currentState ->
+                currentState.copy(
                     advertisements = listOf(
                         AdvertisementWrapper(
                             connectionState,
