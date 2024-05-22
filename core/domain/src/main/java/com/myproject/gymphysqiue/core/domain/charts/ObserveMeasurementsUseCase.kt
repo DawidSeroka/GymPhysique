@@ -16,10 +16,14 @@ class ObserveMeasurementsUseCase @Inject constructor(
         dateParam?.let {
             return measurementRepository.observeMeasurements(it, measurementType)
         } ?: kotlin.run {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM")
+            val formatter = DateTimeFormatter.ofPattern(FORMAT_PATTERN)
                 .withZone(ZoneId.systemDefault())
             val currentDate = formatter.format(Instant.now())
             return measurementRepository.observeMeasurements(currentDate, measurementType)
         }
+    }
+
+    private companion object{
+        const val FORMAT_PATTERN = "yyyy-MM"
     }
 }
