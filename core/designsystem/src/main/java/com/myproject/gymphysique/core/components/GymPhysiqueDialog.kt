@@ -34,7 +34,7 @@ fun GymPhysiqueDialog(
 @Preview(name = "Dark mode", uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun PreviewBlueShiftDialog() {
-    GymPhysiqueTheme() {
+    GymPhysiqueTheme {
         GymPhysiqueDialog(
             onDismissRequest = {},
             content = {}
